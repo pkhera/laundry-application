@@ -1,0 +1,83 @@
+<div class="modal fade" id="bagsModal" role="dialog" tabindex="-1">
+    <div class="modal-dialog">
+      	<!-- Modal content-->
+      	<div class="modal-content">
+			<div class="modal-header">
+			  <button type="button" class="close" data-dismiss="modal">&times;</button>
+			  <h4 class="modal-title">Invoice</h4>
+			</div>
+			<!-- Body Content -->
+			<div class="modal-body">
+				<!-- Timeline -->
+				<div class="timeline">
+					<!-- Line component -->
+					<div class="line text-muted"></div>
+					<!-- Panel -->
+					<div  ng-repeat="bag in availableBags">							
+						<article class="panel panel-success panel-outline">
+							<!-- Icon -->
+							<div class="panel-heading icon">
+								<i class="fa fa-user"></i>
+							</div>
+							<!-- /Icon -->
+							<!-- Body -->
+							<div class="panel-body">
+								<a href="" class="text-right highlight" ng-click="assignBag(assignOrder,bag)"><i class="fa"></i><strong>{{bag.bagNumber}}</strong></a>
+							</div>
+							<!-- /Body -->
+						</article>
+					</div>
+					<article class="panel panel-success panel-outline">
+						<!-- Icon -->
+						<div class="panel-heading icon">
+							<i class="fa fa-user"></i>
+						</div>
+						<!-- /Icon -->
+						<!-- Body -->
+						<div class="panel-body">
+							<a href="" class="text-right highlight" ng-click="addBag(assignOrder)" data-toggle="modal" data-target="#addBagModal">
+								<i class="fa"></i><strong>Add New Bag</strong>
+							</a>
+						</div>
+						<!-- /Body -->
+					</article>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="addBagModal" role="dialog" tabindex="-1">
+	<div class="modal-dialog modal-lg">
+	<!-- Modal content-->
+		<div class="modal-content">
+			<form role="form" class="form-horizontal" ng-submit="saveBag();">
+				  <div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Bag Info</h4>
+				  </div>
+				 
+			  <div class="modal-body">       
+
+				<div class="col-md-6">
+				  <label class="col-md-4 control-label">Store :</label>
+				  <div class="col-md-8">
+					<input type="text" placeholder="Enter Store" class="form-control" ng-model="assignOrder.store.name" disabled required>
+				  </div>
+				</div>
+				
+				<div class="col-md-6">
+				  <label class="col-md-4 control-label">Bag Number :</label>
+				  <div class="col-md-8">
+					<input type="text" placeholder="Enter Bag Number" class="form-control" ng-model="editBag.bagNumber" required>
+				  </div>
+				</div>
+
+				<div class="modal-footer">
+					<input type="submit" class="btn btn-success" value="Save"/>
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

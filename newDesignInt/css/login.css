@@ -1,0 +1,19 @@
+.panel{width:310px;box-shadow:0 0px 0px rgba(0,0,0,.05);margin:0 auto;}
+.panel-body{margin-top:20px;}
+.panel,.panel-body,.panel-default, .panel-heading{background:#8dd0c0!important;}
+.panel-default, .panel-heading{border-bottom:none!important;}
+.loginField,.form-control{width:280px;border-radius:50px;}
+.form-control,.btn{border-radius:50px;}
+.googleBtn,.googleBtn:hover,.googleBtn:focus{background:#dc5d68;border:none;outline: 0;}
+.facebookBtn,.facebookBtn:hover,.facebookBtn:focus{background:#2575ad;border:none;outline: 0;}
+.signInBtn,.signInBtn:hover,.signInBtn:focus{background:#00a69c;border:none;outline: 0;}
+.registerBtn,.registerBtn:hover,.registerBtn:focus{background:#2e747f;border:none;outline: 0;}
+.forgotPwd{color: #00a69c;}
+.form-control::-webkit-input-placeholder {color:#8dd0c0;}
+.form-control::-moz-placeholder {color:#8dd0c0;}
+.form-control:-ms-input-placeholder {color:#8dd0c0;}
+.panel-heading{width:100%;}
+.modal-body{background-color: #8dd0c0!important;}
+.modal-header h4{color:#8dd0c0;font-weight:400;}
+.control-label{color: #3C3B3B!important;font-weight:600;}
+body {background:#8dd0c0;}

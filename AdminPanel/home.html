@@ -1,0 +1,722 @@
+	<!-- Start Header -->
+	<nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+	  <div class="row">
+        <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#"><img src="img/logo_header.png"  class="headerLogo"/></a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse" ng-include="'menu.html'">
+        </div><!--/.nav-collapse -->
+      </div>
+	  </div>
+    </nav>
+	<!-- End Header -->
+	
+	<div class="container">
+		<div class="row">
+		<div class="mt80">
+			<!-- New Order Panel -->
+			<div class="panel panel-success">
+			    <div class="panel-heading">
+					<span class="on-left mt5">Orders</span>
+					<a href="#/completedOrders" class="on-right iconWhite btn btn-success">View Completed Orders</a>
+					<!-- <a href="" class="on-right iconWhite btn btn-success" data-target="#addOrderModal" data-toggle="modal" ng-click="addNewOrder()">Add New Order</a>  -->
+					<a href="" class="on-right iconWhite btn btn-success ml5" data-target="#createOrderModal" data-toggle="modal" ng-click="createNewOrder()">Create New Order</a> 
+					<div class="clearfix"></div>
+				</div>
+			    <div class="panel-body">
+					<ul id="ordersTab" class="nav nav-tabs" data-tabs="tabs">
+						<li class="active"><a href="#pendingOrders" data-toggle="tab" >Pending Orders <span class="badge">{{pendingOrders.length}}</span></a></li>
+						<li><a href="#receivedOrders" data-toggle="tab">Received Orders <span class="badge">{{receivedOrders.length}}</span></a></li>
+						<li><a href="#ironedOrders" data-toggle="tab">Ironed Orders <span class="badge">{{ironedOrders.length}}</span></a></li>
+					</ul>
+
+					<div  id="orders-tab-content" class="tab-content">
+						<div class="tab-pane fade in active" id="pendingOrders">
+							<table id="pendingOrders" datatable="ng" class="table table-hover table-striped table-bordered table-responsive" cellspacing="0" width="100%"
+								data-order="[[0],[1]]" data-state-save="true" data-state-duration="-1">
+                                <thead>
+									<tr>
+										<th colspan="9">
+											<button type="button" class="btn btn-default btn-sm btn-success" title="Received Clothes" 
+												ng-click="setBulkOrderStatus(multiSelect, 2)" ng-show="multiSelect.length > 0">Bulk Receive</button>
+											Pending and Approved Orders
+										</th>
+									</tr>
+                                    <tr>
+										<th data-visible="false">Express</th>
+										<th data-visible="false">Urgent</th>
+										<th width="2px"></th>
+										<th>#</th>
+										<th>Name</th>
+										<th>Flat #</th>
+                                        <!-- <th>Order Time</th> -->
+										<th>Pickup Time</th>
+                                        <!-- <th>Items</th>
+                                        <th>Amount</th> -->
+										<th>Special Instructions</th>
+										<!-- <th>Pickup By</th>
+										<th>Status</th> -->
+										<th data-orderable="false">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="order in pendingOrders | orderBy:'orderId'" class="{{order.express ? 'danger' : (order.urgent ? 'info' : '')}}"
+										ng-click="multiSelect.indexOf(order.orderId) >= 0 ? multiSelect.splice(multiSelect.indexOf(order.orderId),1) : multiSelect.push(order.orderId) ">
+										<td>{{order.express}}</td>
+										<td>{{order.urgent}}</td>
+										<td><input type="checkbox" name="multi" ng-checked="multiSelect.indexOf(order.orderId) >= 0"/></td>
+										<td><a href="" ng-click="orderSelect(order)">{{order.orderId}}</a></td>
+										<td>{{order.user.firstName}} {{order.user.lastName}}</td>
+										<td>{{order.address.flatNumber}}</td>
+                                        <!-- <td>{{order.orderTime | asDateTimeString}}</td> -->
+										<td>{{order.pickupTime | asDateTimeString}}</td>
+                                        <!-- <td>
+											<a href="" data-toggle="modal" data-target="#itemsModal" ng-click="viewItems(order)">
+												<span ng-repeat="item in order.orderItems">{{$index > 0 ? ', ' : ''}}{{item.quantity}} {{item.quantity > 1 ? item.category.pluralName : item.category.name}}</span>
+											</a>
+										</td>
+                                        <td>&#8377; {{order.billAmount}}</td> -->
+										<td>{{order.comments}}</td>
+										<!-- <td><a href="" ng-hide="order.pickupPersonId > 0" data-toggle="modal" data-target="#availableDeliveryPersonsModal"
+												ng-click="getAvailableDeliveryPersons(order, true)">Assign</a>
+											<a href="" ng-show="order.pickupPersonId > 0" data-toggle="modal" data-target="#availableDeliveryPersonsModal"
+												ng-click="getAvailableDeliveryPersons(order, true)">{{order.pickupPerson.firstName}} {{order.pickupPerson.lastName}}</a>
+										</td>
+										<td><a href="" data-toggle="modal" data-target="#pandingTimelineModal" ng-click="orderStatusHistory(order.orderStatuses, order.currentStatus)">{{order.currentStatus.status}}</a></td> -->
+										<td>
+											<!-- <i class="fa fa-edit fa-lg" data-toggle="modal" data-target="#editOrderModal"></i> -->
+											<i class="fa fa-trash fa-lg fg-red" ng-click="deleteOrder(order)"></i>
+											<button type="button" class="btn btn-default btn-sm btn-success" title="Received Clothes" ng-disabled="order.currentStatus.statusId == 2" ng-click="setOrderStatus(order, 2)">R</button>
+										</td>
+                                    </tr>
+								</tbody>
+							</table>
+							<div class="clearfix"></div><hr/>
+						</div>
+						<div class="tab-pane fade" id="receivedOrders">
+							<table id="oraderTable" datatable="ng" class="table table-hover table-striped table-bordered table-responsive" cellspacing="0" 
+							width="100%" data-order="[[0],[1]]">
+                                <thead><tr><th colspan="11">Awaiting Ironing</th></tr>
+                                    <tr>
+										<th data-visible="false">Express</th>
+										<th data-visible="false">Urgent</th>
+                                        <th>#</th>
+										<th>Name</th>
+										<th>Flat #</th>
+                                        <!-- <th>Order Time</th>
+										<th>Drop Time</th> -->
+										<!-- <th>Bag</th> -->
+										<th>Special Instructions</th>
+                                        <th>Items</th>
+                                        <!-- <th>Amount</th> -->
+										<!-- <th>Iron By</th>
+										<th>Status</th> -->
+										<th data-orderable="false">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="order in receivedOrders | orderBy:'pickupTime'" class="{{order.express ? 'danger' : (order.urgent ? 'info' : '')}}">
+										<td>{{order.express}}</td>
+										<td>{{order.urgent}}</td>
+										<td><a href="" ng-click="orderSelect(order)">{{order.orderId}}</a></td>
+										<td>{{order.user.firstName}} {{order.user.lastName}}</td>
+										<td>{{order.address.flatNumber}}</td>
+                                        <!-- <td>{{order.orderTime | asDateTimeString}}</td>
+										<td>{{order.dropTime | asDateTimeString}}</td> -->
+										<!-- <td>{{order.bag.bagNumber}}</td> -->
+										<td>{{order.comments}}</td>
+                                        <td><span ng-repeat="item in order.orderItems">{{$index > 0 ? ', ' : ''}}{{item.quantity}} {{item.quantity > 1 ? item.category.pluralName : item.category.name}}</span></td>
+                                        <!-- <td>&#8377; {{order.billAmount}}</td> -->
+										<!-- <td><a href="" data-toggle="modal" data-target="#availableIronPersonsModal"
+												ng-click="getAvailableIronPersons(order)">{{order.ironPerson ? order.ironPerson.firstName + ' ' + order.ironPerson.lastName : 'Assign'}}</a>
+										</td>
+										<td><a href="" data-toggle="modal" data-target="#pandingTimelineModal" ng-click="orderStatusHistory(order.orderStatuses, order.currentStatus)">{{order.currentStatus.status}}</a></td> -->
+										<td>
+											<!-- <i class="fa fa-edit fa-lg" data-toggle="modal" data-target="#editOrderModal"></i> -->
+											<button type="button" class="btn btn-default btn-success center" title="Finish Ironing" ng-click="setOrderStatus(order, 4)">Ironed</button>
+											<i class="fa fa-trash fa-lg fg-red" ng-click="deleteOrder(order)"></i>
+										</td>
+                                    </tr>
+								</tbody>
+							</table>
+							<div class="clearfix"></div><hr/>
+						</div>
+						<div class="tab-pane fade" id="ironedOrders">
+							<table id="oraderTable" datatable="ng" class="table table-hover table-striped table-bordered table-responsive" cellspacing="0" 
+								width="100%" data-order="[[0],[1]]">
+                                <thead><tr><th colspan="11">Ironing Complete</th></tr>
+                                    <tr>
+										<th data-visible="false">Express</th>
+										<th data-visible="false">Urgent</th>
+                                        <th>#</th>
+										<th>Name</th>
+										<th>Flat #</th>
+                                        <!-- <th>Order Time</th> -->
+										<th>Drop Time</th>
+										<!-- <th>Bag</th> -->
+										<th>Special Instructions</th>
+                                        <th>Items</th>
+                                        <th>Amount</th>
+										<!-- <th>Drop By</th>
+										<th>Status</th> -->
+										<th data-orderable="false">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="order in ironedOrders | orderBy:'dropTime'" class="{{order.express ? 'danger' : (order.urgent ? 'info' : '')}}">
+										<td>{{order.express}}</td>
+										<td>{{order.urgent}}</td>
+										<td><a href="" ng-click="orderSelect(order)">{{order.orderId}}</a></td>
+										<td>{{order.user.firstName}} {{order.user.lastName}}</td>
+										<td>{{order.address.flatNumber}}</td>
+                                        <!-- <td>{{order.orderTime | asDateTimeString}}</td> -->
+										<td>{{order.dropTime ? (order.dropTime | asDateTimeString) : ''}}</td>
+										<!-- <td>{{order.bag.bagNumber}}</td> -->
+										<td>{{order.comments}}</td>
+                                        <td><span ng-repeat="item in order.orderItems">{{$index > 0 ? ', ' : ''}}{{item.quantity}} {{item.quantity > 1 ? item.category.pluralName : item.category.name}}</span></td>
+                                        <td>&#8377; {{order.billAmount}} ({{order.modeOfPayment}})</td>
+										<!-- <td><a href="" data-toggle="modal" data-target="#availableDeliveryPersonsModal"
+												ng-click="getAvailableDeliveryPersons(order, false);">{{order.dropPerson ? order.dropPerson.firstName + ' ' + order.dropPerson.lastName : 'Assign'}}</a>
+										</td>
+										<td><a href="" data-toggle="modal" data-target="#pandingTimelineModal" ng-click="orderStatusHistory(order.orderStatuses, order.currentStatus)">{{order.currentStatus.status}}</a></td> -->
+										<td>
+											<!-- <button type="button" class="btn btn-default btn-sm btn-success" title="Dispatch Order" ng-disabled="order.currentStatus.statusId == 5" ng-click="setOrderStatus(order, 5)">D</button> -->
+											<button type="button" class="btn btn-default btn-sm btn-success" title="Order Delivered" ng-disabled="order.currentStatus.statusId == 6" data-target="#addCashPaymentModal" data-toggle="modal" ng-click="showCashPaid(order)">C</button>
+											<i class="fa fa-trash fa-lg fg-red" ng-click="deleteOrder(order)"></i>
+										</td>
+                                    </tr>
+								</tbody>
+							</table>
+						</div>
+					</div>	
+				</div>
+		  </div>
+	   </div>
+   </div>
+  </div>
+	
+<div ng-include ng-if="'true'" src="'./views/orderPopup.html'" onload="orderAddress=selectedOrder.address" />
+<div ng-include ng-if="'true'" src="'./views/bagsPopup.html'" />
+<div ng-include ng-if="'true'" src="'./views/viewItems.html'" />
+
+<!-- Panding Timeline Modal -->
+<div class="modal fade" id="availableDeliveryPersonsModal" role="dialog" tabindex="-1">
+    <div class="modal-dialog">
+      	<!-- Modal content-->
+      	<div class="modal-content">
+		        <div class="modal-header">
+		          <button type="button" class="close" data-dismiss="modal">&times;</button>
+		          <h4 class="modal-title">Available Delivery Persons</h4>
+		        </div>
+		        <!-- Body Content -->
+	        	<div class="modal-body">
+				    <!-- Timeline -->
+				    <div class="timeline">
+				        <!-- Line component -->
+				        <div class="line text-muted"></div>
+				        <!-- Panel -->
+						<div  ng-repeat="deliveryPerson in availableDeliveryPersons">
+							<!-- Separator -->
+							<div class="separator text-muted">
+								<time>{{deliveryPerson.phoneNumber}}</time>
+							</div>
+							<!-- /Separator -->
+							
+							<article class="panel {{deliveryPerson.available ? 'panel-success' : 'panel-success'}} panel-outline">
+								<!-- Icon -->
+								<div class="panel-heading icon">
+									<i class="fa {{deliveryPerson.available ? 'fa-user' : 'fa-user'}}"></i>
+								</div>
+								<!-- /Icon -->
+								<!-- Body -->
+								<div class="panel-body">
+									<strong>{{deliveryPerson.firstName}} {{deliveryPerson.lastName}} </strong>
+									<a href="" class="text-right highlight" ng-click="assignDeliveryPerson(assignOrder,(pickup ? deliveryPerson : null),(pickup ? null : deliveryPerson))"><i class="fa"></i>Assign</a>
+									<br />
+									<strong>Ph. No. {{deliveryPerson.phoneNumber}}</strong>
+								</div>
+								<!-- /Body -->
+								 
+							</article>
+						
+						<div>
+						
+				    </div>
+				    <!-- /Timeline -->
+				</div>
+	        </div>
+	    </div>
+	</div>
+</div>
+</div>
+
+
+<div class="modal fade" id="availableIronPersonsModal" role="dialog" tabindex="-1">
+    <div class="availableIronPersonsPopup modal-dialog">
+      	<!-- Modal content-->
+      	<div class="modal-content">
+		        <div class="modal-header">
+		          <button type="button" class="close" data-dismiss="modal">&times;</button>
+		          <h4 class="modal-title">Available Iron Persons</h4>
+		        </div>
+		        <!-- Body Content -->
+	        	<div class="modal-body">
+				    <!-- Timeline -->
+				    <div class="timeline">
+				        <!-- Line component -->
+				        <div class="line text-muted"></div>
+				        <!-- Panel -->
+						<div  ng-repeat="ironPerson in availableIronPersons">
+							
+							<article class="panel {{ironPerson.available ? 'panel-success' : 'panel-success'}} panel-outline">
+								<!-- Icon -->
+								<div class="panel-heading icon">
+									<i class="fa {{ironPerson.available ? 'fa-user' : 'fa-user'}}"></i>
+								</div>
+								<!-- /Icon -->
+								<!-- Body -->
+								<div class="panel-body">
+									<div class="col-md-12">
+										<div class="col-md-2">
+											<a href="" class="text-right highlight" ng-click="assignIronPerson(assignOrder,ironPerson)"><i class="fa"></i><strong>{{ironPerson.firstName}} {{ironPerson.lastName}} </strong></a>
+										</div>
+										
+										
+			<div class="col-md-2" ng-repeat="queueItem in queues[ironPerson.ironPersonId] | limitTo: 5">
+			<table border="1"><tr><td>
+				<table class="orderTable">
+					<tr>
+						<th>Order</th>
+						<td>{{queueItem.orderId}}</td>
+					</tr>
+					<tr>
+						<th>Bag</th>
+						<td>{{queueItem.bag.bagNumber}}</td>
+					</tr>
+					<tr>
+						<th>Items</th>
+						<td><span ng-repeat="item in queueItem.orderItems">{{$index > 0 ? ', ' : ''}}{{item.quantity}} {{item.quantity > 1 ? item.category.pluralName : item.category.name}}</span></td>
+					</tr>
+				</table>
+				</td></tr></table>
+			</div>
+									</div>
+								</div>
+								<!-- /Body -->
+								 
+							</article>
+						
+						<div>
+						
+				    </div>
+				    <!-- /Timeline -->
+				</div>
+	        </div>
+	    </div>
+	</div>
+</div>
+</div>
+
+<div class="modal fade" id="pandingTimelineModal" role="dialog" tabindex="-1">
+    <div class="modal-dialog">
+      	<!-- Modal content-->
+      	<div class="modal-content">
+		        <div class="modal-header">
+		          <button type="button" class="close" data-dismiss="modal">&times;</button>
+		          <h4 class="modal-title">Order Timeline</h4>
+		        </div>
+		        <!-- Body Content -->
+	        	<div class="modal-body">
+				    <!-- Timeline -->
+				    <div class="timeline">
+				        <!-- Line component -->
+				        <div class="line text-muted"></div>
+				        <!-- Panel -->
+						<div  ng-repeat="orderStatus in orderStatuses">
+							<!-- Separator -->
+							<div class="separator text-muted">
+								<time>{{orderStatus.updatedTime}}</time>
+							</div>
+							<!-- /Separator -->
+							
+							<article class="panel {{orderStatus.status.statusId == currentStatus.statusId ? 'panel-danger' : 'panel-success'}} panel-outline">
+								<!-- Icon -->
+								<div class="panel-heading icon">
+									<i class="fa {{orderStatus.status.statusId == currentStatus.statusId ? 'fa-clock-o' : 'fa-check'}}"></i>
+								</div>
+								<!-- /Icon -->
+								<!-- Body -->
+								<div class="panel-body">
+									<strong>{{orderStatus.status.description}}</strong>
+								</div>
+								<!-- /Body -->
+								 
+							</article>
+						
+						<div>
+						
+				    </div>
+				    <!-- /Timeline -->
+				</div>
+	        </div>
+	    </div>
+	</div>
+</div>
+</div>
+<!-- /Available Delivery Persons Modal -->
+
+<!-- Change Password Modal -->
+	  <div class="modal fade" id="changePwdModal" role="dialog" tabindex="-1">
+	    <div class="modal-dialog">
+	      <!-- Modal content-->
+	      <div class="modal-content">
+			  <form role="form" ng-submit="changePasswordFunc()">
+			        <div class="modal-header">
+			          <button type="button" class="close" data-dismiss="modal">&times;</button>
+			          <h4 class="modal-title">Change Password</h4>
+			        </div>
+			        <div class="modal-body">
+					  	<div class="col-md-12">
+							<div class="col-md-12 mt10">
+		                		<input class="form-control" placeholder="Please Enter Current Password" type="password" ng-model="changePassword.password" required/>
+							</div>
+							<div class="col-md-12 mt10">
+		                		<input class="form-control" placeholder="Please Enter New Password" id="" type="password" ng-model="changePassword.newPassword" required/>
+							</div>
+							<div class="col-md-12 mt10">
+		                		<input class="form-control" placeholder="Please Enter Confirm Password" id="" type="password" ng-model="changePassword.confirmNewPassword" required/>
+							</div>
+						</div>
+					  <div class="clearfix"></div>
+			        </div>
+			        <div class="modal-footer">
+						<input type="submit" class="btn btn-success" value="Change Password"/>
+			          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			        </div>
+			  </form>
+	      </div>
+	    </div>
+	  </div>
+	<!-- End Modal -->
+
+<div class="modal fade" id="addCashPaymentModal" role="dialog" tabindex="-1">
+    <div class="availableIronPersonsPopup modal-dialog">
+      	<!-- Modal content-->
+      	<div class="modal-content">
+			<div class="modal-header">
+			  <button type="button" class="close" data-dismiss="modal">&times;</button>
+			  <h4 class="modal-title">Cash Payment</h4>
+			</div>
+			<!-- Body Content -->
+			<div class="modal-body">
+					<div>
+						<label class="control-label col-md-2 margin-top-5">Order Id </label>
+						<div class="col-md-4" >
+							<input type="text" class="form-control text-center itemText" ng-model="completedOrder.orderId" disabled/>
+						</div>		
+					</div>
+					<div>
+						<label class="control-label col-md-2 margin-top-5">Bill Amount </label>
+						<div class="col-md-4" >
+							<input type="text" class="form-control text-center itemText" ng-model="completedOrder.billAmount" disabled />
+						</div>		
+					</div>
+					<div>
+						<label class="control-label col-md-2 margin-top-5">Mode of Payment </label>
+						<div class="col-md-4" >
+							<input type="text" class="form-control text-center itemText" ng-model="completedOrder.modeOfPayment" disabled />
+						</div>		
+					</div>
+					<div>
+						<label class="control-label col-md-2 margin-top-5">Cash Paid </label>
+						<div class="col-md-4" >
+							<input type="text" class="form-control text-center itemText" ng-model="cashPaid" />
+						</div>		
+					</div>
+					<input type="button" class="btn btn-primary" value="Complete Order" ng-click="completeOrder(completedOrder, cashPaid)"/>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="addOrderModal" role="dialog" tabindex="-1">
+    <div class="availableIronPersonsPopup modal-dialog">
+      	<!-- Modal content-->
+      	<div class="modal-content">
+			<!-- Body Content -->
+			<div class="modal-body">
+				
+				<ul id="categoriesTab" class="nav nav-tabs" data-tabs="tabs">
+					<li class="active"><a id="orderDetailsTab" href="#orderDetails" data-toggle="tab" >Order Details</a></li>
+					<li><a id="selectClothesTab" href="#selectClothes" data-toggle="tab" ng-click="setOrderCategories()">Select Clothes</a></li>
+				</ul>
+				<div  id="orders-tab-content" class="tab-content">
+					<div class="tab-pane fade in active mt10" id="orderDetails">
+						<form ng-submit="setOrderCategories()">
+							<div>
+								<label class="control-label col-md-2 margin-top-5">Society </label>
+								<div class="col-md-4" >
+									<select selectpicker ng-model="orderSociety" id="society" placeholder="Select Society" ng-collection="societies" data-live-search="true"
+										ng-options="society as society.name for society in societies" data-select-on-tab="true" ng-focus="show($event)">
+									</select>
+								</div>		
+							</div>
+							<div>
+								<label class="control-label col-md-2 margin-top-5">Flat # </label>
+								<div class="col-md-4" >
+									<select selectpicker ng-model="orderFlatNumber" id="flatNumber" placeholder="Select Flat Number" ng-collection="flatNumbers" data-live-search="true"
+										ng-options="flatNumber for flatNumber in flatNumbers" ng-change="usersForFlatNumber()" data-select-on-tab="true" ng-focus="show($event)">
+									</select>
+								</div>		
+							</div>
+							<div>
+								<label class="control-label col-md-2 margin-top-5">User </label>
+								<div class="col-md-4" >
+									<select selectpicker ng-model="pickup.user" id="user" placeholder="Select User" ng-collection="flatUsers" data-live-search="true" 
+										data-select-on-tab="true" ng-focus="show($event)"
+										ng-options="user as (user.firstName + ' ' + user.lastName + ' (Ph No. ' + user.phoneNumber + ')' + user.addresses['Home'].flatNumber + ', ' + user.addresses['Office'].flatNumber + ', ' + + user.addresses['Other'].flatNumber) for user in flatUsers">
+									</select>
+								</div>		
+							</div>
+							<div>
+								<label class="control-label col-md-2 margin-top-5">Address Label </label>
+								<div class="col-md-4" >
+									<select selectpicker ng-model="pickup.address" id="address" placeholder="Select Address Label" ng-collection="pickup.user.addresses" 
+										data-select-on-tab="true" ng-focus="show($event)"
+										data-live-search="true" ng-options="address as (address.label + ' - ' + address.flatNumber + ', ' + address.society.name ) for (key, address) in pickup.user.addresses">
+									</select>
+								</div>		
+							</div>
+							<div class="clearfix"></div>
+
+							<div>
+								<label class="control-label col-md-2 col-sm-12 col-lg-2 col-xs-12 margin-top-5">Pickup</label>
+								
+								<div class="col-md-3 col-sm-8" >
+									<input type="text" class="form-control leftRadius" placeholder="Pickup Date" id="pickupDate" ng-model="pickupDate"  required/>
+								</div>				
+								
+								<div class="col-md-3 col-sm-8">
+									<select class="contacts pickupTime rightRadius" id="pickupTime2" ng-model="pickupTime" data-select-on-tab="true">
+									</select>
+								</div>				
+							</div>
+							<div class="clearfix"></div>
+							
+							<div>
+								<label class="control-label col-md-2 col-sm-12 col-lg-2 col-xs-12 margin-top-5">Drop Off</label>
+								<div class="col-md-3 col-sm-8">
+									<input type="text" id="dropDate" class="form-control leftRadius" placeholder="Drop Date" ng-model="dropDate" required/>
+								</div>				
+								<div class="col-md-3 col-sm-8">
+									<select class="contacts rightRadius" id="dropTime" ng-model="dropTime" data-select-on-tab="true">
+									</select>
+								</div>				
+							</div>
+							<div class="clearfix"></div>
+
+							<div>
+								<label class="control-label col-xs-12 col-sm-12 col-md-2 col-lg-2 margin-top-5"># of items </label>
+								<div class="col-md-2 col-sm-2 col-sm-offset-1 col-xs-2 col-xs-offset-0 col-lg-2 text-right">
+									<input type="text" class="form-control text-center itemText" ng-model="pickup.numberOfItems" title="{{true ? 'Max. 5 clothes allowed per order for Express Delivery' : ''}}"/>
+								</div>			
+							</div>
+							<div class="clearfix"></div>
+							
+							<div>
+								<label class="control-label col-xs-12 col-sm-12 col-md-2 col-lg-2 margin-top-5">Mode of Payment : </label>
+								<div class="col-md-3 col-sm-3 col-xs-3 col-xs-offset-0 col-lg-3 text-right btn-group">
+									<input type="radio" name="modeOfPayment" group="modeOfPayment" ng-model="pickup.modeOfPayment" value="COD" >  Cash On Delivery</input>
+									<input type="radio" name="modeOfPayment" group="modeOfPayment" ng-model="pickup.modeOfPayment" value="PAYTM" >  Online Payment</input>
+								</div>
+								<div class="col-lg-6 col-md-7 col-sm-9 col-xs-12 foldedNHangerBlock">
+
+									<div class="btn-group">
+										<label class="foldedNHanger">
+											Hanger
+										</label>
+										<input type="checkbox" class="" ng-model="pickup.hanger" value="true"/> 
+									</div>
+								</div>	
+							</div>
+							<div class="clearfix"></div>
+							<div>
+								<label class="col-md-2 control-label margin-top-5">Comments </label>
+								<div class="col-md-10 col-lg-8">
+									<input type="text" placeholder="Any special instructions here" class="form-control" ng-model="pickup.comments">
+								</div>				
+							</div>
+							<div class="clearfix"></div>
+							<input type="submit" class="btn btn-primary" value="Next" />
+						</form>
+					</div>
+				
+					<div class="tab-pane fade in orderPopup" id="selectClothes">
+					<form role="form" ng-submit="placeOrder()">
+							<div class="col-md-12">
+								<input class="btn btn-primary col-md-6 col-md-offset-1 mt10" type="submit" class="btn btn-primary" value="Place Order!"/>
+								<input class="btn btn-primary col-md-2 col-md-offset-1 mt10"  type="button" ng-click="goBack()" class="btn btn-primary" value="Go Back"/>
+							</div>
+							
+							<div class="clearfix"></div>
+							<div class="col-md-12">
+								<div class="col-md-3 mt10 itemCnt" ng-repeat="category in orderCategories | filter: {societyId: orderSociety.societyId}">
+									<div class="col-md-6 imageCnt np">
+										<img src="img/{{category.category.categoryId}}.jpg" class="clothImages2">
+									</div>
+									<div class="col-md-6 np">
+										<div class="col-md-12 text-center highlight">{{category.category.name}}</div>
+										<div class="col-md-12">Rate: <i class="fa fa-rupee"></i>{{category.rate}}</div>
+										<div class="col-md-12">Express: <i class="fa fa-rupee"></i>{{category.expressDeliveryPrice}}</div>
+									</div>
+									<div class="clearfix"></div><hr/>
+									<div class="col-md-12 input-group number-spinner">
+										<input type="text" class="form-control numericInput" value="1" min="0" max="20" ng-model="category.quantity" ng-change="countItems()" />
+									</div>
+									
+								</div>
+							</div>
+							
+							</form>
+					</div>
+				</div>				
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="createOrderModal" role="dialog" tabindex="-1">
+    <div class="createOrderPopup modal-dialog">
+      	<!-- Modal content-->
+      	<div class="modal-content">
+		
+			<div class="modal-header">
+			  <button type="button" class="close" data-dismiss="modal">&times;</button>
+			  <h4 class="modal-title text-center">Create New Order</h4>
+			</div>
+			<!-- Body Content -->
+			<div class="modal-body">
+				<form ng-submit="placeOrder()">
+					<div>
+						<label class="control-label col-md-2 mt10">Flat # </label>
+						<div class="col-md-10 mt5" >
+							<!-- <select selectpicker ng-model="orderFlatNumber" id="flatNumber" placeholder="Select Flat Number" ng-collection="flatNumbers" data-live-search="true"
+								ng-options="flatNumber for flatNumber in flatNumbers" ng-change="usersForFlatNumber()" data-select-on-tab="true" 
+								ng-focus="show($event)" >
+							</select> -->
+							<input list="flatNumberList" ng-model="orderFlatNumber" type="text" placeholder="Enter Flat Number" ng-change="usersForFlatNumber()"
+								class="form-control"/>
+							<datalist id="flatNumberList">
+							  <option ng-repeat="item in flatNumbers" value="{{ item }}"></option>
+							</datalist>
+						</div>		
+					</div>
+					<div class="clearfix"></div>
+					
+					<div>
+						<label class="control-label col-md-2 mt10">User </label>
+						<div class="col-md-10 mt5" ng-hide="flatUsers.length <= 0">
+							<select selectpicker ng-model="pickup.user" id="user" placeholder="Enter User" ng-collection="flatUsers" data-live-search="true" 
+								data-select-on-tab="true" ng-focus="show($event)" 
+								ng-options="user as (user.firstName + ' ' + user.lastName + ' (Ph No. ' + user.phoneNumber + ')') for user in flatUsers">
+							</select>
+						</div>	
+						<div class="col-md-10 mt5" ng-show="flatUsers.length <= 0">
+						
+							<input ng-model="userName" type="text" placeholder="Enter User Name" class="form-control"/>
+						</div>	
+					</div>					
+					<div class="clearfix"></div>
+
+					<div>
+						<label class="control-label col-md-2 col-sm-12 col-lg-2 col-xs-12 mt10">Pickup</label>
+						
+						<div class="col-md-5 col-sm-8 mt5" >
+							<input type="text" class="form-control leftRadius" placeholder="Pickup Date" id="pickupDate" ng-model="pickupDate"  required/>
+						</div>				
+						
+						<div class="col-md-5 col-sm-8 mt5">
+							<select class="contacts pickupTime rightRadius" id="pickupTime" ng-model="pickupTime" data-select-on-tab="true">
+							</select>
+						</div>				
+					</div>
+					<div class="clearfix"></div>
+					
+					<div>
+						<label class="control-label col-md-2 col-sm-12 col-lg-2 col-xs-12 "></label>
+						
+						<div class="col-md-6">
+							<div class="col-md-6">
+								<div class="checkbox abc-checkbox">
+									<input type="checkbox" id="expressCheckbox" ng-model="pickup.express">
+									<label for="expressCheckbox">Express</label>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="checkbox abc-checkbox">
+									<input type="checkbox" id="urgentCheckbox" ng-model="pickup.urgent">
+									<label for="urgentCheckbox">Urgent</label>
+								</div>
+							</div>
+						</div>	
+					</div>
+					
+					<div class="clearfix"></div>
+					<div>
+						<label class="col-md-2 control-label mt10">Special Instruction </label>
+						<div class="col-md-10 mt5">
+							<input type="text" placeholder="Any special instructions here" class="form-control" ng-model="pickup.comments">
+						</div>				
+					</div>
+					<div class="clearfix"></div>
+					
+					<div>
+						<div class="col-md-8 col-md-offset-2 mt5">
+							<input type="submit" class="btn btn-primary navHeaderCollapse" value="Create Order" />
+						</div>
+					</div>
+					<div class="clearfix"></div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+		$('#pickupDate').datepicker({
+			language:  'en',
+	        weekStart: 1,
+	        todayBtn:  "linked",
+			autoclose: 1,
+			todayHighlight: true,
+			format: "dd M yyyy",
+			startDate: "0d",
+			disableTouchKeyboard: true,
+			
+		});
+		$('#dropDate').datepicker({
+			language:  'en',
+	        weekStart: 1,
+	        todayBtn:  "linked",
+			autoclose: 1,
+			todayHighlight: true,
+			format: "dd M yyyy",
+			startDate: "0d",
+			disableTouchKeyboard: true
+		});
+		$('#ordersTab a').click(function (e) {
+		  e.preventDefault();
+		  $(this).tab('show');
+		});
+		$('#categoriesTab a').click(function (e) {
+		  e.preventDefault();
+		  $(this).tab('show');
+		});
+</script>

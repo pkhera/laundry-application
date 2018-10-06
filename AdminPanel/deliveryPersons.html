@@ -1,0 +1,150 @@
+	<!-- Start Header -->
+	<nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+	  <div class="row">
+        <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#"><img src="img/logo_header.png"  class="headerLogo"/></a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse" ng-include="'menu.html'">
+        </div><!--/.nav-collapse -->
+      </div>
+	  </div>
+    </nav>
+	<!-- End Header -->
+	
+	<div class="container">
+		<div class="row">
+		<div class="mt80">
+			<!-- New Order Panel -->
+			<div class="panel panel-success">
+			    <div class="panel-heading">Delivery Persons
+          <button class="btn btn-default btn-sm addBtn on-right" data-toggle="modal" data-target="#basicInfoModal" ng-click="new = true;">Add Delivery Person</button>
+          </div>
+					<div class="panel-body">
+						
+						<br />
+					<!-- Data Grid -->
+						<table id="oraderTable" datatable="ng" class="table table-hover table-striped table-bordered table-responsive" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>Id</th>
+										<th>Name</th>
+                                        <th>Email</th>
+										<th>Phone Number</th>
+										<th data-orderable="false">Edit & Delete</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="dp in deliveryPersons">
+										<td ng-order>{{dp.deliveryPersonId}}</td>
+										<td>{{dp.firstName}} {{dp.lastName}}</td>
+                                        <td>{{dp.email}}</td>
+										<td>{{dp.phoneNumber}}</td>
+										<td>
+											<i class="fa fa-edit fa-lg" data-toggle="modal" data-target="#basicInfoModal" ng-click="editDeliveryPerson(dp)"></i>
+											<i class="fa fa-trash fa-lg fg-red" ng-click="deleteDeliveryPerson(dp)"></i>
+										</td>
+                                    </tr>
+								</tbody>
+							</table>
+					<!-- End Data Grid -->
+					
+				</div>
+		  </div>
+	   </div>
+   </div>
+  </div>
+	
+<!-- for Basic Info Edit  Modal -->
+    <div class="modal fade" id="basicInfoModal" role="dialog" tabindex="-1">
+      <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+        <form role="form" class="form-horizontal" ng-submit="saveDeliveryPerson();">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Basic Info</h4>
+              </div>
+             
+          <div class="modal-body">            
+            <div class="col-md-12">
+              <label class="col-md-4 control-label">First Name :</label>
+              <div class="col-md-8">
+                <input type="text" placeholder="Enter First Name" class="form-control" ng-model="deliveryPerson.firstName" required>
+              </div>
+            </div>
+
+            <div class="col-md-12 mt5">
+              <label class="col-md-4 control-label">Last Name :</label>
+              <div class="col-md-8">
+                <input type="text" placeholder="Enter Last Name" ng-model="deliveryPerson.lastName" class="form-control" required>
+              </div>
+            </div>
+
+            <div class="col-md-12 mt5">
+              <label class="col-md-4 control-label">Email Id :</label>
+              <div class="col-md-8">
+              <input type="text" placeholder="Enter Email Id" class="form-control" ng-model="deliveryPerson.email" disabled="true" ng-show="!new">
+      			  <input type="text" placeholder="Enter Email Id" class="form-control" ng-model="deliveryPerson.email" ng-show="new">
+              </div>
+            </div>
+
+            <div class="col-md-12 mt5">
+              <label class="col-md-4 control-label">Phone Number :</label>
+              <div class="col-md-8">
+              <input type="text" placeholder="Enter Phone Number" class="form-control" ng-model="deliveryPerson.phoneNumber" required>
+              </div>
+            </div>
+            <div class="clearfix"></div>
+			     </div>
+           <div class="clearfix"></div>
+
+            <div class="modal-footer">
+          <input type="submit" class="btn btn-success" value="Save"/>
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </form>
+        </div>
+      </div>
+    </div>
+  <!-- End Modal -->
+
+<!-- Change Password Modal -->
+	  <div class="modal fade" id="changePwdModal" role="dialog" tabindex="-1">
+	    <div class="modal-dialog">
+	      <!-- Modal content-->
+	      <div class="modal-content">
+			  <form role="form" ng-submit="changePasswordFunc()">
+			        <div class="modal-header">
+			          <button type="button" class="close" data-dismiss="modal">&times;</button>
+			          <h4 class="modal-title">Change Password</h4>
+			        </div>
+			        <div class="modal-body">
+					  	<div class="col-md-12">
+							<div class="col-md-12 mt10">
+		                		<input class="form-control" placeholder="Please Enter Current Password" type="password" ng-model="changePassword.password" required/>
+							</div>
+							<div class="col-md-12 mt10">
+		                		<input class="form-control" placeholder="Please Enter New Password" id="" type="password" ng-model="changePassword.newPassword" required/>
+							</div>
+							<div class="col-md-12 mt10">
+		                		<input class="form-control" placeholder="Please Enter Confirm Password" id="" type="password" ng-model="changePassword.confirmNewPassword" required/>
+							</div>
+						</div>
+					  <div class="clearfix"></div>
+			        </div>
+			        <div class="modal-footer">
+						<input type="submit" class="btn btn-success" value="Change Password"/>
+			          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			        </div>
+			  </form>
+	      </div>
+	    </div>
+	  </div>
+	<!-- End Modal -->

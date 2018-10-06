@@ -1,0 +1,163 @@
+<div ng-if="showMenu" class="col-md-12">
+	<i class="fa fa-close fa-lg" id="closeMenu"></i>
+	<i class="fa fa-navicon fa-2x" id="openMenu"></i>
+</div>
+<div ng-if="showMenu" id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
+	<div class="form-group margin-top-10">
+		<a href="index.html#/landing"><img src="img/logo.png" width="200px"/></a>
+	</div>
+	<ul class="nav menu margin-top-45">
+		<li ng-class="getClass('/home')" class="whiteBorder"><a href="#home">
+			<img src="img/placeOrder.png" class="menuIcons placeOrderIcon"/> Place Order</a>
+		</li>
+		<li ng-class="getClass('/orderHistory')"><a href="#orderHistory">
+			<img src="img/orderHistory.png" class="menuIcons"/> Order History</a>
+		</li>
+		<!-- <li><a href="">
+			<img src="img/trackMyOrder.png" class="menuIcons trackMyOrderIcon"/> Track my Order</a>
+		</li> -->
+		<li ng-class="getClass('/prices')"><a href="#prices">
+			<img src="img/prices.png" class="menuIcons"/> Prices</a>
+		</li>
+
+		<li ng-class="getClass('/faq') + getClass('/support')" class="dropdown whiteBorderBottom">
+			<a id="helpMenu" href="" data-toggle="dropdown" class="dropdown-toggle helpMenu">
+				<img src="img/hrlp.png" class="menuIcons"/> Help
+				<b class="caret"></b></a>
+			<ul class="dropdown-menu dropDownMenu">
+				<li><a href="#faq" class="text-center">
+					 FAQs</a>
+				</li>        
+				<li><a href="#support" class="text-center">
+					Support</a>
+				</li>
+			</ul>
+		</li>
+	</ul>
+	
+</div>
+<ul class="nav navbar-nav navbar-right" >
+	<li class="dropdown headerMenu" >
+		<a href="" class="dropdown-toggle accountMenu" data-target="#rechargeModal" data-toggle="modal">
+			<img src="img/wallet.png" class="walletImg"/>
+			<div class="userName on-left">Balance <i class="fa fa-rupee"></i>{{walletBalance}}</div> <i class="caret"></i>
+		</a>
+	</li>
+	<li class="dropdown headerMenu">
+		<a href="" class="dropdown-toggle accountMenu" data-toggle="dropdown">
+			<img src="{{user.profilePicURL}}" class="profileImg" ng-show="user.profilePicURL != null"/>
+			<div class="userName on-left">{{user.firstName}} {{user.lastName}}</div> <i class="caret"></i>
+		</a>
+		<ul class="dropdown-menu">
+			<li>
+				<a href="#profile/accountDetail" class="scroll-link" data-id="accountDetails">
+					<img src="img/accountDetails.png" class="menuIcons"/> Account Details
+				</a>
+			</li>
+			<li><a href="#profile/addresses" class="scroll-link" data-id="addresses">
+				<img src="img/addresses.png" class="menuIcons"/> Addresses</a>
+			</li>
+			<li><a href="#profile/payment" class="scroll-link" data-id="payment">
+				<img src="img/payment.png" class="menuIcons"/> Payment</a>
+			</li>
+			<!-- <li><a href=""  data-toggle="modal" data-target="#changePwdModal">Change Password</a></li> -->
+			<li><a href="#/login">
+				<img src="img/logout.png" class="menuIcons"/> Log Out</a>
+			</li>
+		</ul>
+	</li>
+</ul>
+
+<div class="modal fade customModal rechargeModal" id="rechargeModal" role="dialog" tabindex="-1">
+	<div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+        <div class="modal-content">
+			<form role="form" class="form-horizontal" ng-submit="rechargeWallet(rechargeAmount)" id="rechargeWalletForm" onsubmit="return false;">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Current Balance : <i class="fa fa-rupee"></i> {{walletBalance}}</h4>
+				</div>
+				 
+				<div class="modal-body text-center">   
+					<div class="col-md-12 margin-top-10">
+						<div class="col-md-6 col-md-offset-3 text-center">
+							<div class="input-group">
+								<span class="input-group-addon" id="basic-addon1"><i class="fa fa-rupee" /></span>
+								<input name="rechargeAmount" placeholder="Amount" id="rechargeAmount" class="form-control text-center" 
+									ng-model="rechargeAmount" required>
+							</div>
+						</div>
+					</div>
+				
+					<div class="col-md-4 margin-top-10">
+						<a href="" class="btn btn-primary active" ng-click="rechargeAmount = rechargeAmount + 100">+ <i class="fa fa-rupee" /> 100</a>
+					</div>
+					
+					<div class="col-md-4 margin-top-10">
+						<a href="" class="btn btn-primary active" ng-click="rechargeAmount = rechargeAmount + 500">+ <i class="fa fa-rupee" /> 500</a>
+					</div>
+					
+					<div class="col-md-4 margin-top-10">
+						<a href="" class="btn btn-primary active" ng-click="rechargeAmount = rechargeAmount + 1000">+ <i class="fa fa-rupee" /> 1000</a>
+					</div>
+							  
+					<div class="col-md-12 margin-top-20">
+						<a href="" ng-click="paymentPromo.hasPromoCode = true" ng-hide="paymentPromo.hasPromoCode">Have a promo code?</a>
+						<input type="text" class="col-md-9 form-control text-center" placeholder="ENTER PROMO CODE" ng-model="paymentPromo.promoCode" ng-show="paymentPromo.hasPromoCode && !paymentPromo.applied" 
+							style="text-transform: uppercase;" />
+						<a href="" class="" ng-click="validatePromoCode(rechargeAmount, paymentPromo)" ng-show="paymentPromo.hasPromoCode && !paymentPromo.applied">Apply</a>
+						<label class="col-md-10" ng-show="paymentPromo.applied" style="text-transform: uppercase;">{{paymentPromo.promoCode}}</label>
+						<a href="" class="col-md-2 text-right" ng-click="paymentPromo.applied = false" ng-show="paymentPromo.applied"> <i class="fa fa-remove"></i></a>
+					</div>
+					<div class="clearfix"></div>
+					
+					
+					<div class="col-md-12 margin-top-20">
+						<div ng-show="paymentPromo.promoCodeMessage && paymentPromo.applied">{{paymentPromo.promoCodeMessage}}</div>
+						<div ng-show="paymentPromo.promoCodeErrorMessage">{{paymentPromo.promoCodeErrorMessage}}</div>
+					</div>
+					<div class="clearfix"></div>
+				</div>
+				<div class="modal-footer">
+					<input type="submit" class="btn btn-primary on-right" value="Add Money"/>
+				</div>
+	
+			</form>
+        </div>
+	</div>
+</div>
+
+
+<script type="text/javascript">
+$(document).ready(function() {
+	// navigation click actions	
+	$('.scroll-link').on('click', function(event){
+		var sectionID = $(this).attr("data-id");
+		if($('#'+sectionID).offset()){
+			event.preventDefault();
+			scrollToID('#' + sectionID, 750);
+		}
+	});
+	// scroll to top action
+	$('.scroll-top').on('click', function(event) {
+		event.preventDefault();
+		$('html, body').animate({scrollTop:0}, 'slow'); 		
+	});
+	// mobile nav toggle
+	$('#nav-toggle').on('click', function (event) {
+		event.preventDefault();
+		$('#main-nav').toggleClass("open");
+	});
+});
+// scroll function
+function scrollToID(id, speed){
+	var offSet = 50;
+	var targetOffset = $(id).offset().top - offSet;
+	var mainNav = $('#main-nav');
+	$('html,body').animate({scrollTop:targetOffset}, speed);
+	if (mainNav.hasClass("open")) {
+		mainNav.css("height", "1px").removeClass("in").addClass("collapse");
+		mainNav.removeClass("open");
+	}
+}
+</script>

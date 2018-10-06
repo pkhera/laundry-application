@@ -1,0 +1,218 @@
+<style type="text/css">
+		body {background: #8DD0C0;}
+	</style>
+<div class="loginBox loginBody">
+	<div class="col-xs-12">
+		<div class="login-panel panel panel-default">
+			<div class="panel-heading loginField text-center"><a href="index.html"><img class="text-center" src="img/logo.png" width="240"/></a></div>
+			<div class="panel-body">
+				<form role="form" id="loginForm"  onsubmit="return false;" ng-submit="loginUser()">
+					<fieldset>
+						<div class="form-group">
+							<input class="btn btn-danger loginField googleBtn" value="SIGN IN WITH GOOGLE+" type="button" ng-click="googleLogin()">
+						</div>
+						<div class="form-group">
+							<input class="btn btn-primary loginField facebookBtn" value="SIGN IN WITH FACEBOOK" type="button" ng-click="fbLogin()">
+						</div>
+						<hr/>
+						<div class="form-group">
+							<input class="form-control loginField" placeholder="email:" name="email" type="email" autofocus="" ng-model="login.email" required/>
+						</div>
+						<div class="form-group">
+							<input class="form-control loginField" placeholder="password:" name="password" type="password" value="" ng-model="login.password" required/>
+						</div>
+						<div class="form-group text-right">
+							<a data-target="#forgotPassowordModal" data-toggle="modal" class="forgotPwd">forgot password?</a>
+						</div>
+						<div class="form-group">
+							<input class="btn btn-danger loginField signInBtn" value="SIGN IN" type="submit">
+						</div>
+						<div class="form-group">
+							<input class="btn btn-primary loginField registerBtn" data-toggle="modal" data-target="#registerModal" value="REGISTER" type="button" ng-click="getSocieties()">
+						</div>
+					</fieldset>
+				</form>
+			</div>
+		</div>
+	</div><!-- /.col-->
+</div><!-- /.row -->	
+	
+<!-- Signup modal -->	
+<div class="modal fade" id="registerModal" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<form onsubmit="return false;"  ng-submit="sendPost()">
+				<div class="modal-header">
+					<button class="close" data-dismiss="modal"><i class="fa fa-remove"></i></button>
+					<h4 class="modal-title">Register</h4>
+				</div>
+
+				<div class="modal-body">
+					<div class="col-md-6">
+						<label class="control-label">First Name :</label>
+						<input type="text" class="form-control" placeholder="Enter First Name" required ng-model="user.firstName" autocomplete="on" name="firstName" id="firstName" />
+					</div>
+
+					<div class="col-md-6">
+						<label class="control-label">Last Name :</label>
+						<input type="text" class="form-control" placeholder="Enter Last Name" required ng-model="user.lastName" autocomplete="on" name="lastName" id="lastName" />
+					</div>
+					<div class="clearfix"></div>
+
+					<div class="col-md-6 margin-top-10">
+						<label class="control-label">Password :</label>
+						<input type="password" class="form-control" placeholder="Enter Password" required ng-model="user.password"/>
+					</div>
+
+					<div class="col-md-6 margin-top-10">
+						<label class="control-label">Confirm Password :</label>
+						<input type="password" class="form-control" placeholder="Enter Confirm Password" required ng-model="user.confirmPassword"/>
+					</div>
+					<div class="clearfix"></div>
+
+					<div class="col-md-6 margin-top-10">
+						<label class="control-label">Email Id :</label>
+						<input type="email" class="form-control" placeholder="Enter Email Id" required ng-model="user.email" autocomplete="on" name="email" id="email" />
+					</div>
+
+					<div class="col-md-6 margin-top-10">
+						<label class="control-label">Phone Number :</label>
+						<div class="input-group">
+						  	<span class="input-group-addon" id="basic-addon1">+91</span>
+							<input type="text" class="form-control" placeholder="Enter Phone Number" required ng-model="user.phoneNumber" autocomplete="on" name="phoneNumber" id="phoneNumber" />
+						</div>
+						
+						
+					</div>
+					<div class="clearfix"></div>
+
+					<div class="col-md-6 margin-top-10">
+						<label class="control-label">Address Label :</label>
+						<!-- <input type="text" class="form-control" placeholder="Enter Address Label" required ng-model="user.defaultAddress.label"/> -->
+						<select id="addressLabel" class="" ng-model="user.defaultAddress.label">
+							<option value="">Select label</option>
+							<option value="Home">Home</option>
+							<option value="Office">Office</option>
+							<option value="Other">Other</option>
+						 </select>
+					</div>
+					
+					<div class="col-md-6 margin-top-10">
+						<label class="control-label">Flat Number :</label>
+						<input type="text" class="form-control" placeholder="Enter Flat Number" required ng-model="user.defaultAddress.flatNumber" name="flatNumber" id="flatNumber" />
+					</div>
+					<div class="clearfix"></div>
+
+					<div class="col-md-6 margin-top-10">
+						<label class="control-label">Society Name :</label>
+						<select id="society" placeholder="Enter your society name" class="contacts" ng-model="user.defaultAddress.society.societyId">
+						</select>
+					</div>
+					<div class="clearfix"></div>
+				</div>
+
+				<div class="modal-footer">
+					<input type="submit" value="Register" class="btn btn-primary registerBtn"/>
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+	<!-- Signup modal -->	
+<div class="modal fade" id="forgotPassowordModal" tabindex="-1" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<form ng-submit="forgotPassword()" onsubmit="return false;">
+				<div class="modal-header">
+					<button class="close" data-dismiss="modal"><i class="fa fa-remove"></i></button>
+					<h4 class="modal-title">Forgot Password</h4>
+				</div>
+
+				<div class="modal-body">
+					<div class="col-md-12">
+						<label class="control-label">Email Id :</label>
+						<input type="text" class="form-control" placeholder="Enter registered email address" required ng-model="forgotPasswordEmail"/>
+					</div>
+					<div class="clearfix"></div>
+				</div>
+
+				<div class="modal-footer">
+					<input type="submit" value="Recover Password" class="btn btn-primary registerBtn"/>
+					<button class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="resetPassowordModal" tabindex="-1" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<form ng-submit="resetPasswordFunction()" onsubmit="return false;">
+				<div class="modal-header">
+					<button class="close" data-dismiss="modal"><i class="fa fa-remove"></i></button>
+					<h4 class="modal-title">Reset Password</h4>
+				</div>
+
+				<div class="modal-body">
+					<div class="col-md-12">
+						<label class="control-label">Email Id :</label>
+						<input type="text" class="form-control" placeholder="Enter registered email address" required disabled ng-model="resetEmail"/>
+					</div>
+					<div class="clearfix"></div>
+					<div class="col-md-12">
+						<label class="control-label">New Password :</label>
+						<input type="password" class="form-control" placeholder="Enter new password" required ng-model="resetPassword"/>
+					</div>
+					<div class="clearfix"></div>
+					<div class="col-md-12">
+						<label class="control-label">Confirm New Password :</label>
+						<input type="password" class="form-control" placeholder="Confirm new password" required ng-model="resetConfirmPassword"/>
+					</div>
+					<div class="clearfix"></div>
+				</div>
+
+				<div class="modal-footer">
+					<input type="submit" value="Reset" class="btn btn-primary registerBtn"/>
+					<button class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+
+<script>
+	!function ($) {
+		$(document).on("click","ul.nav li.parent > a > span.icon", function(){		  
+			$(this).find('em:first').toggleClass("glyphicon-minus");	  
+		}); 
+		$(".sidebar span.icon").find('em:first').addClass("glyphicon-plus");
+	}(window.jQuery);
+
+	$(window).on('resize', function () {
+	  if ($(window).width() > 768) $('#sidebar-collapse').collapse('show')
+	})
+	$(window).on('resize', function () {
+	  if ($(window).width() <= 767) $('#sidebar-collapse').collapse('hide')
+	})
+	
+	function showForgotPassword(){
+		$('#registerModal').modal('hide');
+		$('#errorModal').modal('hide');
+		$('#forgotPassowordModal').modal('show');
+	}
+	function showResetPassword(){
+		$('#registerModal').modal('hide');
+		$('#errorModal').modal('hide');
+		$('#resetPassowordModal').modal('show');
+	}
+	
+	function showRegister(){
+		$('#forgotPassowordModal').modal('hide');
+		$('#errorModal').modal('hide');
+		$('#registerModal').modal('show');
+	}
+</script>	

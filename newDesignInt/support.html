@@ -1,0 +1,38 @@
+<div ng-include="'menu.html'" />
+
+<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main" id="supportContent">			
+	<h3>Support</h3>
+	<div class="col-sm-12 margin-top-10 supportContent">
+		<div class="col-md-4 contactsBlock">
+		<div class="contactDetails">
+			<a href="tel:{{support.call}}">
+				<img src="img/phone.png" class="supportIcons">
+				<div class="header">Call</div>
+				<div><strong>{{support.call}}</strong></div>
+			</a>
+			</div>
+		</div>
+
+		<div class="col-md-4 contactsBlock">
+		<div class="contactDetails">
+		<!-- href="whatsapp://send?abid=username&text=The text to share!" -->
+			<a href="intent://send/{{support.whatsappId}}#Intent;scheme=smsto;package=com.whatsapp;action=android.intent.action.SENDTO;end" data-action="share/whatsapp/share" class="">
+				<img src="img/whatsApp.png" class="supportIcons">
+				<div class="header">What's app</div>
+				<div><strong>{{support.whatsapp}}</strong></div>
+			</a>
+			</div>
+		</div>
+
+		<div class="col-md-4 contactsBlock">
+		<div class="contactDetails">
+			<a href="mailto:{{support.email}}" class="">
+				<img src="img/email.png" class="supportIcons">
+				<div class="header">Email</div>
+				<div><strong>{{support.email}}</strong></div>
+			</a>
+		</div>
+		</div>
+		<div class="clearfix"></div>
+	</div>
+</div>

@@ -1,0 +1,52 @@
+allprojects {
+}
+
+subprojects {
+	apply plugin: 'java'
+	apply plugin: 'eclipse'
+	apply plugin: 'maven-publish'
+	
+	repositories {
+		// Use 'jcenter' for resolving your dependencies.
+		// You can declare any Maven/Ivy/file repository here.
+		jcenter()
+		flatDir {
+		   dirs 'lib'
+	   }
+	}
+	
+	dependencies {
+		compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.4.1'
+		compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.4.1'
+		compile group: 'org.apache.logging.log4j', name: 'log4j-web', version: '2.4.1'
+			
+		// Declare the dependency for your favourite test framework you want to use in your tests.
+		// TestNG is also supported by the Gradle Test task. Just change the
+		// testCompile dependency to testCompile 'org.testng:testng:6.8.1' and add
+		// 'test.useTestNG()' to your build script.
+		testCompile 'junit:junit:4.12'
+	}
+
+	publishing {
+	  repositories {
+		maven {
+		  url "s3://laundry-code-deploy/release"
+		  credentials(AwsCredentials) {
+			accessKey "<AWS ACCESS KEY>"
+			secretKey "<AWS SECRET KEY"
+		  }
+		}
+	  }
+
+	  publications {
+		mavenJava(MavenPublication) {
+		  groupId 'in.laundry'
+		  artifactId 'Engine'
+		  version '1.1'
+		  //from components.web
+		  artifact(file('build/libs/Engine.war'))
+		}
+	  }
+	}
+}
+

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7"><![endif]-->
+<!--[if IE 7]><html class="no-js lt-ie9 lt-ie8"><![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie9"><![endif]-->
+<!--[if gt IE 8]><!--><html class="no-js"><!--<![endif]-->
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<title>Selectize.js Demo</title>
+		<meta name="description" content="">
+		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+		<link rel="stylesheet" href="css/normalize.css">
+		<link rel="stylesheet" href="css/stylesheet.css">
+		<link rel="stylesheet" href="css/selectize.css">
+		<!--[if IE 8]><script src="js/es5.js"></script><![endif]-->
+		<script src="js/jquery.js"></script>
+		<script src="js/selectize.js"></script>
+		<script src="js/index.js"></script>
+		<style type="text/css">
+		
+		.selectize-control.contacts .selectize-input > div .email {
+			opacity: 0.8;
+		}
+		
+		.selectize-control.contacts .selectize-input > div .email:before {
+			content: '<';
+		}
+		.selectize-control.contacts .selectize-input > div .email:after {
+			content: '>';
+		}
+		.selectize-control.contacts .selectize-dropdown .caption {
+			font-size: 12px;
+			display: block;
+			color: #a0a0a0;
+		}
+		</style>
+	</head>
+    <body>
+		<div id="wrapper">
+			<h1>Selectize.js</h1>
+			<div class="demo">
+				<h2>Email Contacts</h2>
+				<p>An example showing how you might go about creating contact selector like those used in Email apps.</p>
+				<div class="control-group">
+					<label for="select-to">To:</label>
+					<select id="select-to" class="contacts" placeholder="Pick some people..."></select>
+				</div>
+				<script>
+				// <select id="select-to"></select>
+
+				var REGEX_EMAIL = '([a-z0-9!#$%&\'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&\'*+/=?^_`{|}~-]+)*@' +
+				                  '(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)';
+
+				var formatName = function(item) {
+					return $.trim((item.first_name || '') + ' ' + (item.last_name || ''));
+				};
+
+				$('#select-to').selectize({
+					persist: false,
+					maxItems: 1,
+					valueField: 'society_id',
+					labelField: 'name',
+					searchField: ['name', 'landmark', 'city', 'state', 'country'],
+					sortField: [
+						{field: 'name', direction: 'asc'},
+						{field: 'city', direction: 'asc'}
+					],
+					options: [
+						{society_id: '1', name: 'Pushar', landmark: 'Paldi', city: "Ahm", state: "Guj", country: "India"},
+						{society_id: '2', name: 'Vishwakunj', landmark: 'Paldi', city: "Ahm", state: "Guj", country: "India"},
+						{society_id: '3', name: 'Tulsi', landmark: 'ORR', city: "Rajkot", state: "Guj", country: "India"},
+						{society_id: '4', name: 'Society 1', landmark: 'Whitefield', city: "Bangalore", state: "Karnataka", country: "India"},
+					],
+					render: {
+						item: function(item, escape) {
+							var name = formatName(item);
+							return '<div>' +
+								(name ? '<span class="name">' + escape(name) + '</span>' : '') +
+								(item.landmark ? '<span class="email">' + escape(item.landmark) + '</span>' : '') +
+							'</div>';
+						},
+						option: function(item, escape) {
+							var name = item.name;
+							var label = name;
+							var caption = item.landmark + ", " + item.city + ", " + item.state + ", " + item.country;
+							return '<div>' +
+								'<span class="label">' + escape(item.name) + '</span>' +
+								(caption ? '<span class="caption">' + escape(caption) + '</span>' : '') +
+							'</div>';
+						}
+					}
+				});
+				</script>
+			</div>
+		</div>
+	</body>
+</html>

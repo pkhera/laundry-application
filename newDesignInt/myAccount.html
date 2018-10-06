@@ -1,0 +1,185 @@
+<div ng-include="'menu.html'" />
+<style type="text/css">
+	.form-control{
+		width:280px;
+		border-radius:50px;
+		background-color:#c7e7de;
+		font-size:12px;
+		color: #114c54;
+	}
+	.form-control,.btn{border-radius:50px;}
+	.control-label{color: #3C3B3B!important;font-weight:400;}
+	.btn,.btn:hover{
+		background-color:#c7e7de;
+		border:none;
+		color:#114c54;
+	}
+	.defaultBtn,.defaultBtn:hover{
+		background-color:#114c54;
+		border: none;outline:0;
+		color:#fff;
+	}
+	.btn{
+		font-size: 12px;
+		font-weight: 400;
+		padding: 8px 20px;
+	}
+	.form-control::-webkit-input-placeholder {color:#114c54;}
+	.form-control::-moz-placeholder {color:#114c54;}
+	.form-control:-ms-input-placeholder {color:#114c54;}
+	.heading{
+		color: #66c5af!important;
+		font-weight: 200;
+		font-size: 15px;
+	}
+</style>
+
+<div class="col-sm-12 col-sm-offset-0 col-md-offset-3 col-lg-10 col-lg-offset-2 main myAccount">			
+	<h3>My Account</h3>
+	<div class="col-lg-8 margin-top-20 col-md-9 accountDetailsContents">
+		<form>
+			<div class="col-md-12 margin-top-10" id="accountDetails" class="page-section">
+				<label class="control-label heading">Account Details</label>
+			</div>
+			<div class="clearfix"></div>
+
+			<div class="col-md-12 margin-top-20">
+				<label class="control-label col-lg-2 col-sm-2 text-left no-padding margin-top-5">First Name</label>
+				<div class="col-sm-8">
+					<input id="firstName" type="text" class="form-control" placeholder="Enter First Name" ng-model="user.firstName" ng-readonly="!editAccount">
+				</div>
+			</div>
+			<div class="clearfix"></div>
+
+			<div class="col-md-12 margin-top-20">
+				<label class="control-label col-lg-2 col-sm-2 text-left no-padding margin-top-5">Last Name</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" placeholder="Enter Last Name" ng-model="user.lastName" ng-readonly="!editAccount">
+				</div>
+			</div>
+			<div class="clearfix"></div>
+
+			<div class="col-md-12 margin-top-20">
+				<label class="control-label col-lg-2 col-sm-2 text-left no-padding margin-top-5">Email</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" placeholder="Enter Email Address" ng-model="user.email" readonly>
+				</div>
+			</div>
+			<div class="clearfix"></div>
+
+			<div class="col-md-12 margin-top-20">
+				<label class="control-label col-lg-2 col-sm-2 text-left no-padding margin-top-5">Mobile</label>
+				<div class="col-sm-7">
+					<div class="" style="position:relative;">
+						<div class="input-group">
+							<span class="input-group-addon input-group-addon1" id="basic-addon1">+91</span>
+							<input type="text" class="form-control accountPhoneNumber" placeholder="Enter Mobile Number" ng-model="user.phoneNumber" ng-readonly="!editAccount">
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- <div class="col-md-12 margin-top-10">
+				<label class="control-label">Phone Number :</label>
+				<div class="input-group">
+				  	<span class="input-group-addon" id="basic-addon1">+91</span>
+					<input type="text" class="form-control" placeholder="Enter Mobile Number" ng-model="user.phoneNumber" ng-readonly="!editAccount">
+				</div>
+			</div>-->
+			<div class="clearfix"></div>
+
+			<div class="col-md-12 margin-top-20">
+				<div class="col-md-8 col-sm-offset-2 col-xs-offset-0 col-xs-12">
+					<input type="submit" class="btn btn-primary defaultBtn" value="{{editAccount ? 'Save' : 'Edit'}}" ng-click="editUserInfo(editAccount); editAccount = !editAccount;"/>
+					<input type="submit" class="btn btn-primary" value="Cancel" ng-click="cancelUserEdit();" ng-if="editAccount"/>
+				</div>
+				<div class="clearfix"></div>
+			</div>
+			<div class="clearfix"></div>
+		</form>
+	</div>
+
+	<div class="col-lg-8 col-md-9 addressContent margin-top-30">
+		<div class="col-md-12 margin-top-10" id="addresses" class="page-section">
+			<label class="control-label heading">Addresses</label>
+		</div>
+		<div class="clearfix"></div>
+
+		<div class="col-md-12 addressLabel">
+			<label class="btn btn-primary {{user.addresses.Home.addressId == user.defaultAddress.addressId ? 'defaultBtn' : ''}}" ng-click="setDefaultAddress(user.addresses.Home)" title="{{user.addresses.Home.addressId == user.defaultAddress.addressId ? 'This is your default address' : 'Click to set Home address as default.'}}" ng-show="user.addresses.Home">Home | {{user.addresses.Home.flatNumber}} {{user.addresses.Home.society.name}}</label>
+			<label class="btn btn-primary {{user.addresses.Office.addressId == user.defaultAddress.addressId ? 'defaultBtn' : ''}}" ng-click="setDefaultAddress(user.addresses.Office)" title="{{user.addresses.Office.addressId == user.defaultAddress.addressId ? 'This is your default address' : 'Click to set Office address as default.'}}" ng-show="user.addresses.Office">Office | {{user.addresses.Office.flatNumber}} {{user.addresses.Office.society.name}}</label>
+			<label class="btn btn-primary {{user.addresses.Other.addressId == user.defaultAddress.addressId ? 'defaultBtn' : ''}}" ng-click="setDefaultAddress(user.addresses.Other)" title="{{user.addresses.Other.addressId == user.defaultAddress.addressId ? 'This is your default address' : 'Click to set Other address as default.'}}" ng-show="user.addresses.Other">Other | {{user.addresses.Other.flatNumber}} {{user.addresses.Other.society.name}}</label>
+			<a data-target="#editAddressModal" data-toggle="modal" ng-click="getSocieties(); editLabel='Home'; editAddress=user.addresses['Home']; selectSociety(user.addresses['Home'].society.societyId)">edit</a>
+		</div>
+	</div>
+	<div class="col-lg-8 col-md-9 addressContent margin-top-30">
+		<div class="col-md-12 margin-top-30" id="payment" class="page-section">
+			<label class="control-label heading">Payment</label>
+		</div>
+		<div class="clearfix"></div>
+		<div class="col-md-12 addressLabel">
+			<table class="table table-hover " datatable="ng" ng-show="paymentHistory" data-order="[[3]]">
+				<thead>
+					<tr>
+						<th class="col-md-2">Transaction Id</th>
+						<th class="col-md-3">Payment Mode</th>
+						<th class="col-md-3">Amount</th>
+						<th class="col-md-4">Date and Time</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="payment in paymentHistory">
+						<td>{{payment.paymentTransactionId}}</td>
+						<td>{{payment.gatewayName}}</td>
+						<td><i class="fa fa-rupee">{{payment.transactionAmount}}</td>
+						<td>{{payment.transactionDateTime}}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade customModal" id="editAddressModal" tabindex="-1">
+	<div class="modal-dialog">
+		<form ng-submit="saveAddress()">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button class="close" data-dismiss="modal"><i class="fa fa-remove"></i></button>
+					<h4 class="modal-title">Edit Addresses</h4>
+				</div>
+
+				<div class="modal-body">
+					<div class="col-md-10 col-md-offset-1">
+						 <label class="control-label">Address Label</label>
+						 <select id="editLabel" class="" ng-model="editLabel" ng-change="edit()">
+							<option value="Home">Home</option>
+							<option value="Office">Office</option>
+							<option value="Other">Other</option>
+						 </select>
+					</div>
+
+					<div class="col-md-10 col-md-offset-1 margin-top-10">
+						 <label class="control-label">Flat No.</label>
+						 <input type="text" class="form-control" placeholder="Enter Flat Number" ng-model="editAddress.flatNumber"/>
+					</div>
+
+					<div class="col-md-10 col-md-offset-1 margin-top-10">
+						 <label class="control-label">Society Name</label>
+						 <select id="society" name="society" class="contacts" ng-model="editAddress.society.societyId">
+						 </select>
+					</div>
+					
+					<div class="clearfix"></div>
+					<div class="col-md-10 col-md-offset-1 margin-top-20">
+						<input type="submit" class="btn btn-primary btn-block" value="SAVE"/>		
+					</div>
+					<div class="clearfix"></div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<script type="text/javascript">
+		$('#editLabel').selectize();
+</script>

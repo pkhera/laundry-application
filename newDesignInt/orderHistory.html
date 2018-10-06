@@ -1,0 +1,418 @@
+<div ng-include="'menu.html'" />
+<style type="text/css">
+	.blockLabel{
+		color: #114c54;
+	}
+</style>		
+<div class="col-sm-9 col-sm-offset-3 col-md-9 col-lg-9 col-lg-offset-2 main">			
+	<h3>Order History</h3>
+	<div class="col-md-12 no-padding orderHistory">
+		<div class="col-md-3 col-lg-1 col-sm-5 no-padding margin-top-10">
+			<select id="pastDays" class="pastDaysSelect" ng-model="sinceDays" ng-change="getOrderStatistics()">
+				<option value="7">Past 7 days</option>
+				<option value="30">Past 1 month</option>
+				<option value="-1">Life time</option>
+			</select>
+		</div>
+		<div class="clearfix"></div>
+
+		<div class="col-lg-12 col-md-12 padding10">
+			<div class="col-lg-4 col-md-6 padding5">
+				<div class="orderBlocks">
+					<label class="control-label text-left">Total Orders</label>
+					<label class="on-right">{{orderStatistics.totalOrders}}</label>
+				</div>
+			</div>
+
+			<div class="col-lg-4 col-md-6 padding5">
+				<div class="orderBlocks oddColor">
+					<label class="control-label text-left">Clothes Ironed</label>
+					<label class="on-right">{{orderStatistics.clothesIroned}}</label>
+				</div>
+			</div>
+
+			<div class="col-lg-4 col-md-6 padding5">
+				<div class="orderBlocks">
+					<label class="control-label text-left">Average Rating</label>
+					<label class="on-right">{{orderStatistics.averageRating}}</label>
+				</div>
+			</div>
+
+			<div class="col-lg-4 col-md-6 padding5">
+				<div class="orderBlocks oddColor">
+					<label class="control-label text-left">Basket Size</label>
+					<label class="on-right">{{orderStatistics.basketSize}}</label>
+				</div>
+			</div>
+
+			<div class="col-lg-4 col-md-6 padding5">
+				<div class="orderBlocks">
+					<label class="control-label text-left">Miss Rate</label>
+					<label class="on-right">{{orderStatistics.missRate}}</label>
+				</div>
+			</div>
+
+			<div class="col-lg-4 col-md-6 padding5">
+				<div class="orderBlocks oddColor">
+					<label class="control-label text-left">Total Amount</label>
+					<label class="on-right"><i class="fa fa-rupee"></i> {{orderStatistics.totalAmount}}</label>
+				</div>
+			</div>
+		</div>
+		<div class="clearfix"></div>
+	</div>
+
+
+	<div class="col-md-12 orderStatistics no-padding margin-top-30">
+		<div class="col-lg-12 col-md-12 margin-top-10">
+			<label class="control-label blockLabel">Order Statistics</label>
+		</div>
+		
+		<div class="col-lg-12 col-md-12 margin-top-20">
+			<div class="yLabel col-md-1 col-lg-1 col-sm-1 col-xs-1"># of items</div>
+			<div class="col-md-11  col-lg-11 col-sm-11 col-xs-11">
+				<canvas id="line" height="100"	class="chart chart-bar" chart-data="data" chart-labels="labels" chart-colours="colors" chart-options="options" 
+					chart-legend="false" chart-series="series" chart-click="onClick"></canvas> 
+				<div class="xLabel col-md-12 col-lg-12">Orders</div>
+			</div>
+		</div>
+		<div class="clearfix"></div>
+	</div>
+
+
+	<div class="col-md-12 orderStatistics no-padding margin-top-30">
+		<div class="col-md-12 margin-top-10">
+			<label class="control-label blockLabel">My Orders</label>
+		</div>
+
+		<div class="col-lg-112 col-md-12 orderHistoryTable margin-top-20">
+			<div class="margin-top-5"></div>
+			<table class="table table-hover table-responsive" id="orderHistoryTable" datatable="ng" data-order="[[1]]" >
+				<thead>
+					<tr>
+						<th>Pickup Time</th>
+						<th>Drop Time</th>
+						<th>#Items</th>
+						<th>Amount</th>
+						<th>Status</th>
+						<th>Feedback</th>
+					</tr>
+				</thead>
+				<tbody class="orderHistoryBody">
+					<tr ng-repeat="order in orders">
+						<td>{{order.pickupTime | asDateString}}</td>
+						<td>{{order.dropTime | asDateString}}</td>
+						<td>
+							<a href="" data-toggle="modal" data-target="#itemsModal" ng-if="order.orderItems.length > 0" ng-click="setOrderItems(order)">{{order.numberOfItems}} {{order.numberOfItems > 1 ? 'items' : 'item'}}</a>
+							{{order.orderItems.length > 0 ? '' : order.numberOfItems + (order.numberOfItems > 1 ? ' items' : ' item')}}
+						</td>
+						
+						<td><i class="fa fa-rupee" ng-if="order.billAmount > 0" ></i> {{order.billAmount > 0 ? order.billAmount : ''}}</td>
+						<td>
+							<a href="" data-toggle="modal" data-target="#trackMyOrderModal" ng-click="setTrackOrder(order)" 
+							ng-if="order.currentStatus.statusId >= 0 && order.currentStatus.statusId < 7">{{order.currentStatus.status}}</a>
+							<p ng-if="order.currentStatus.statusId < 0 || order.currentStatus.statusId > 6">{{order.currentStatus.status}}</p>
+						</td>
+						<td>
+							<rating title="Submit Feedback" ng-show="[6,10].indexOf(order.currentStatus.statusId) !== -1" ng-model="order.feedback" max="max" 
+								readonly="'true'" state-on="'laundrySmall'" state-off="'launrdyOutlineSmall'" ng-click="setFeedbackOrder(order)" data-toggle="modal"
+								data-target="#feedbackModal" titles="['Provide feedback','Provide feedback','Provide feedback','Provide feedback','Provide feedback']"></rating>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="clearfix"></div>
+	</div>
+	<div class="clearfix"></div>
+
+	<div class="col-md-12 margin-top-50"></div>
+</div>
+
+<div class="modal fade itemsModal" id="itemsModal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button class="close" data-dismiss="modal"><i class="fa fa-remove"></i></button>
+				<h4>ORDER <a href="">#{{itemsOrder.orderId}}</a></h4>
+			</div>
+			<div class="modal-body">
+				<table class="table table-hover orderHistoryTbl">
+					<thead>
+						<tr>
+							<th>Item</th>
+							<th>Quantity</th>
+							<th>Total</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="item in itemsOrder.orderItems">
+							<td>{{item.category.name}}</td>
+							<td>{{item.quantity}}</td>
+							<td><i class="fa fa-rupee"></i> {{item.quantity * item.rate}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<script type="text/javascript">
+	$('#orderHistoryTable').dataTable();
+	
+</script>
+
+
+<div class="modal fade customModal" id="feedbackModal" tabindex="-1">
+	<div class="modal-dialog">
+		<form ng-submit="submitFeedback()">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">THANK YOU! YOUR ORDER #{{feedbackOrder.orderId}} HAS BEEN DELIVERED</h4>
+				</div>
+
+				<div class="modal-body">
+					<div class="col-md-10 col-md-offset-1">
+						 <label class="control-label">RATE YOUR EXPERIENCE</label>
+						 <div class="col-md-12 no-padding">
+							<rating title="Submit Feedback" ng-model="feedbackOrder.feedback" max="max" state-on="'pr5 laundryIconLarge laundryLarge'"
+								state-off="'pr5 laundryOutlineLarge'" titles="['Sad','Poor','OK','Good','Awesome']" ></rating>
+						 </div>
+					</div>
+
+					<div class="col-md-10 col-md-offset-1 margin-top-20">
+						<textarea class="form-control" placeholder="Comments Here" rows="5" ng-model="feedbackOrder.feedbackComments"></textarea>
+					</div>
+					<div class="clearfix"></div>
+					<div class="col-md-10 col-md-offset-1 margin-top-20">
+						<input type="submit" class="btn btn-primary btn-block" value="SUBMIT FEEDBACK"/>		
+					</div>
+					<div class="clearfix"></div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+<div class="modal fade customModal" id="trackMyOrderModal" tabindex="-1">
+	<div class="modal-dialog">
+		<form>
+			<div class="modal-content">
+				
+				<div class="modal-body no-padding trackMyOrderBlock">
+					<div class="col-lg-7 col-md-7 col-sm-8 col-xs-5 orderSummaryBlock">
+						<h5 class="orderSummary">ORDER SUMMARY</h5>
+						<div>Number of clothes :  <span class="common">{{trackOrder.numberOfItems}}</span></div>
+						<div>Total Amount :  <span class="common" ng-show="trackOrder.billAmount > 0"><i class="fa fa-rupee"></i> {{trackOrder.billAmount}} </span><span class="common" ng-show="trackOrder.billAmount == 0">To be calculated</span></div>
+						<div>Mode of Payment: <span class="common">{{trackOrder.modeOfPayment}}</span></div>
+						<div>Pickup Time: <span class="common">{{trackOrder.pickupTime | asShortDateTimeString}} - {{trackOrder.pickupTime | asTimePlusOneHour}}</span></div>
+						<div>Drop Time: <span class="common">{{trackOrder.dropTime | asShortDateTimeString}} - {{trackOrder.dropTime | asTimePlusOneHour}}</span></div>
+					</div>
+					
+					<button class="close padding10" data-dismiss="modal" ng-click="stopPing()"><i class="fa fa-remove"></i></button>
+					<div class="clearfix"></div>
+
+					<div class="col-md-12 no-padding margin-top-20">
+						<div class="col-md-12 no-padding text-center no-padding" ng-show="trackOrder.currentStatus.statusId > -1 ">
+							<div class="timeLineBlock">
+								<div class="{{trackOrder.currentStatus.statusId > -1 ? '' : 'disable'}} {{trackOrder.currentStatus.statusId == 0 ? 'timeLineTrue' : ''}}">
+									{{trackOrder.orderStatuses['0'] ? (trackOrder.orderStatuses['0'].updatedTime | asTimeString) : ':'}}
+								</div>
+								<img src="img/timeLine.png" class="timeLineLogo" width="40" ng-if="trackOrder.currentStatus.statusId == 0">
+								<div class="point {{trackOrder.currentStatus.statusId > -1 ? '' : 'disable'}}"><i class="fa fa-circle fa-lg"></i></div>
+								<div class="border-left {{trackOrder.currentStatus.statusId > -1 ? '' : 'disable'}}"></div>
+								<div class="timeLineDescription {{trackOrder.currentStatus.statusId > -1 ? '' : 'disabled'}}">
+									{{trackOrder.orderStatuses['0'].status.description}}
+								</div>
+							</div>
+							<div class="timeLineBlock">
+								<div class="{{trackOrder.currentStatus.statusId > 0 ? '' : 'disable'}} {{trackOrder.currentStatus.statusId == 1 ? 'timeLineTrue' : ''}}">
+									{{trackOrder.orderStatuses['1'] ? (trackOrder.orderStatuses['1'].updatedTime | asTimeString) : ':'}}
+								</div>
+								<img src="img/timeLine.png" class="timeLineLogo" width="40" ng-if="trackOrder.currentStatus.statusId == 1">
+								<div class="point {{trackOrder.currentStatus.statusId > 0 ? '' : 'disable'}}"><i class="fa fa-circle fa-lg"></i></div>
+								<div class="border-left {{trackOrder.currentStatus.statusId > 0 ? '' : 'disable'}}"></div>
+								<div class="timeLineDescription {{trackOrder.currentStatus.statusId > 0 ? 'border-bottom' : 'disabled'}}">
+									{{trackOrder.orderStatuses['1'].status.status}}
+								</div>
+								<div class="timeLineDescription {{trackOrder.currentStatus.statusId > 0 ? '' : 'disable'}}">
+									{{trackOrder.orderStatuses['1'].status.description}}
+								</div>
+							</div>
+							<div class="timeLineBlock">
+								<div class="{{trackOrder.currentStatus.statusId > 1 ? '' : 'disable'}} {{trackOrder.currentStatus.statusId == 2 ? 'timeLineTrue' : ''}}">
+									{{trackOrder.orderStatuses['2'] ? (trackOrder.orderStatuses['2'].updatedTime | asTimeString) : ':'}}
+								</div>
+								<img src="img/timeLine.png" class="timeLineLogo" width="40" ng-if="trackOrder.currentStatus.statusId == 2">
+								<div class="point {{trackOrder.currentStatus.statusId > 1 ? '' : 'disable'}}"><i class="fa fa-circle fa-lg"></i></div>
+								<div class="border-left {{trackOrder.currentStatus.statusId > 1 ? '' : 'disable'}}"></div>
+								<div class="timeLineDescription{{trackOrder.currentStatus.statusId > 1 ? '' : 'disable'}}">
+									{{trackOrder.orderStatuses['2'].status.description}}
+								</div>
+								<!-- <div class="timeLineDescription {{trackOrder.currentStatus.statusId > 1 ? '' : 'disable'}}">
+									{{trackOrder.orderStatuses['2'].status.description}}
+								</div> -->
+							</div>
+							<div class="timeLineBlock">
+								<div class="{{trackOrder.currentStatus.statusId > 2 ? '' : 'disable'}} {{trackOrder.currentStatus.statusId == 3 || trackOrder.currentStatus.statusId == 4? 'timeLineTrue' : ''}}">
+									{{trackOrder.orderStatuses['3'] ? (trackOrder.orderStatuses['3'].updatedTime | asTimeString) : ':'}}
+								</div>
+								<img src="img/timeLine.png" class="timeLineLogo" width="40" ng-if="trackOrder.currentStatus.statusId == 3 || trackOrder.currentStatus.statusId == 4">
+								<div class="point {{trackOrder.currentStatus.statusId > 2 ? '' : 'disable'}}"><i class="fa fa-circle fa-lg"></i></div>
+								<div class="border-left {{trackOrder.currentStatus.statusId > 2 ? '' : 'disable'}}"></div>
+								<div class="timeLineDescription {{trackOrder.currentStatus.statusId > 2 ? '' : 'disable'}}">
+									{{trackOrder.orderStatuses['3'].status.description}}
+								</div>
+								<!-- <div class="timeLineDescription {{trackOrder.currentStatus.statusId > 2 ? '' : 'disable'}}">
+									{{trackOrder.orderStatuses['3'].status.description}}
+								</div> -->
+							</div>
+							<div class="timeLineBlock">
+								<div class="{{trackOrder.currentStatus.statusId > 4 ? '' : 'disable'}} {{trackOrder.currentStatus.statusId == 5 ? 'timeLineTrue' : ''}}">
+									{{trackOrder.orderStatuses['5'] ? (trackOrder.orderStatuses['5'].updatedTime | asTimeString) : ':'}}
+								</div>
+								<img src="img/timeLine.png" class="timeLineLogo" width="40" ng-if="trackOrder.currentStatus.statusId == 5">
+								<div class="point {{trackOrder.currentStatus.statusId > 4 ? '' : 'disable'}}"><i class="fa fa-circle fa-lg"></i></div>
+								<div class="border-left {{trackOrder.currentStatus.statusId > 4 ? '' : 'disable'}}"></div>
+								<div class="timeLineDescription {{trackOrder.currentStatus.statusId > 4 ? '' : 'disable'}}">
+									{{trackOrder.orderStatuses['5'].status.status}}
+								</div>
+								<!-- <div class="timeLineDescription {{trackOrder.currentStatus.statusId > 4 ? '' : 'disable'}}">
+									{{trackOrder.orderStatuses['5'].status.description}}
+								</div> -->
+							</div>
+							<div class="timeLineBlock">
+								<div class="{{trackOrder.currentStatus.statusId > 5 ? '' : 'disable'}} {{trackOrder.currentStatus.statusId == 6 ? 'timeLineTrue' : ''}}">
+									{{trackOrder.orderStatuses['6'] ? (trackOrder.orderStatuses['6'].updatedTime | asTimeString) : ':'}}
+								</div>
+								<img src="img/timeLine.png" class="timeLineLogo" width="40" ng-if="trackOrder.currentStatus.statusId == 6">
+								<div class="point {{trackOrder.currentStatus.statusId > 5 ? '' : 'disable'}}"><i class="fa fa-circle fa-lg"></i></div>
+								<div class="border-left {{trackOrder.currentStatus.statusId > 5 ? '' : 'disable'}}"></div>
+								<div class="timeLineDescription {{trackOrder.currentStatus.statusId > 5 ? '' : 'disable'}}">
+									{{trackOrder.orderStatuses['6'].status.status}}
+								</div>
+								<!-- <div class="timeLineDescription {{trackOrder.currentStatus.statusId > 5 ? '' : 'disable'}}">
+									{{trackOrder.orderStatuses['6'].status.description}}
+								</div> -->
+							</div>
+						</div>
+						<div class="clearfix"></div>
+
+						<div class="col-md-12 margin-top-30 padding15" ng-if="trackOrder.currentStatus.statusId <= 1">
+							<button class="btn btn-primary on-left" data-toggle="modal" data-target="#cancellationReasonsModal">CANCEL ORDER</button>
+							<button class="btn btn-primary on-right" data-toggle="modal" data-target="#rescheduleModal" >RESCHEDULE</button>
+						</div>
+						<div class="clearfix"></div>
+					</div>
+					<div class="clearfix"></div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+<script type="text/javascript">
+	
+</script>
+
+<!-- Cancellation Reasons Popup -->
+<div class="modal fade customModal" id="cancellationReasonsModal" tabindex="-1">
+	<div class="modal-dialog">
+		<form ng-submit="cancelOrder(trackOrder.orderId)">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button class="close" data-dismiss="modal"><i class="fa fa-remove"></i></button>
+					<h4 class="modal-title">Reason for cancellation</h4>
+				</div>
+
+				<div class="modal-body">
+					<div class="col-md-10 col-md-offset-1" ng-repeat="cancellationReason in cancellationReasons">
+						<input id="{{cancellationReason.id}}" type="radio" name="cancellationReasons" value="{{cancellationReason.id}}" ng-model="orderCancellationReason.id" />
+						<label for="{{cancellationReason.id}}" class="control-label">{{cancellationReason.description}}</label>
+					</div>
+					<div class="clearfix"></div>
+					<div class="col-md-10 col-md-offset-1 margin-top-20">
+						<input type="submit" class="btn btn-primary btn-block" value="CANCEL ORDER"/>		
+					</div>
+					<div class="clearfix"></div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+<!-- Cancellation Reasons Popup -->
+<div class="modal fade customModal" id="rescheduleModal" tabindex="-1">
+	<div class="modal-dialog">
+		<form ng-submit="rescheduleOrder()">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button class="close" data-dismiss="modal"><i class="fa fa-remove"></i></button>
+					<h4 class="modal-title">Reschedule Order</h4>
+				</div>
+
+				<div class="modal-body">
+					<div class="col-md-12 no-padding margin-top-20">
+						<label class="control-label col-md-12 col-lg-12 margin-top-5">Pickup </label>
+						<label class="control-label col-md-2 col-lg-1 margin-top-5">Date </label>
+						<div class="col-md-4">
+							<input type="text" class="form-control" placeholder="Pickup Date" id="pickupDate" ng-model="pickupDate"  required/>
+						</div>				
+						<label class="control-label col-md-2 col-lg-1 margin-top-5">Time </label>
+						<div class="col-md-4">
+							<select class="contacts pickupTime" id="pickupTime" ng-model="pickupTime">
+							</select>
+						</div>				
+					</div>
+					<div class="clearfix"></div>
+					
+					<div class="col-md-12 no-padding margin-top-20">
+						<label class="control-label col-md-12 col-lg-12 margin-top-5">Drop Off </label>
+						<label class="control-label col-md-2 col-lg-1 margin-top-5">Date </label>
+						<div class="col-md-4">
+							<input type="text" id="dropDate" class="form-control" placeholder="Drop Date" ng-model="dropDate" required/>
+						</div>				
+						<label class="control-label col-md-2 col-lg-1 margin-top-5">Time </label>
+						<div class="col-md-4">
+							<select class="contacts" id="dropTime" ng-model="dropTime">
+							</select>
+						</div>				
+					</div>
+					<div class="clearfix"></div>
+					<div class="col-md-10 col-md-offset-1 margin-top-20">
+						<input type="submit" class="btn btn-primary btn-block" value="RESCHEDULE"/>		
+					</div>
+					<div class="clearfix"></div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<script type="text/javascript">
+		$('#pickupDate').datepicker({
+			language:  'en',
+	        weekStart: 1,
+	        todayBtn:  "linked",
+			autoclose: 1,
+			todayHighlight: true,
+			format: "dd M yyyy",
+			startDate: "0d",
+			disableTouchKeyboard: true,
+			
+		});
+		$('#dropDate').datepicker({
+			language:  'en',
+	        weekStart: 1,
+	        todayBtn:  "linked",
+			autoclose: 1,
+			todayHighlight: true,
+			format: "dd M yyyy",
+			startDate: "0d",
+			disableTouchKeyboard: true
+		});
+		$('.displayCloths').niceScroll();
+		$('#pastDays').selectize();
+		
+</script>

@@ -1,0 +1,232 @@
+<style type="text/css">
+	.panelTitle,.fntSize28{font-size:28px;}
+	.panel-success {margin-bottom: 12px;}
+	.fntSize20{font-size:20px!important;}
+	.fntSize16{font-size:16px!important;}
+	.nowrap{white-space: nowrap !important};
+</style>
+
+	<!-- Start Header -->
+	<nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+	  <div class="row">
+        <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#"><img src="img/logo_header.png"  class="headerLogo"/></a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse" ng-include="'menu.html'">
+        </div><!--/.nav-collapse -->
+      </div>
+	  </div>
+    </nav>
+	<!-- End Header -->
+	
+	<div class="container">
+		<div class="row">
+		<div class="mt80">
+			<!-- New Order Panel -->
+			<div class="panel panel-success">
+			    <div class="panel-heading">Promotions
+			    	<button class="btn btn-default btn-sm pull-right" data-toggle="modal" data-target="#basicInfoModal" ng-click="new = true;" style="margin-top:-4px;">Add Promotion</button>
+			    </div>
+					<div class="panel-body">
+					<!-- Data Grid -->
+						<table id="promotionTable" datatable="ng" class="table table-hover table-striped table-bordered table-responsive" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>Promotion Code</th>
+										<th>Percentage Credit</th>
+                                        <th>Maximum Credit</th>
+										<th>Fixed Credit</th>
+										<th>Minimum Amount</th>
+										<th>Maximum Usage</th>
+										<th>Valid From</th>
+										<th>Valid To</th>
+										<th>Active</th>
+										<th data-orderable="false">Edit & Delete</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="p in promotions">
+										<td>{{p.promotionCode}}</td>
+										<td>{{p.percentageCredit}} %</td>
+                                        <td>Rs. {{p.maxCredit}}</td>
+										<td>Rs. {{p.fixedCredit}}</td>
+										<td>Rs. {{p.minAmount}}</td>
+										<td>{{p.maxUsage}}</td>
+										<td>{{p.validFrom ? (p.validFrom | asDateTimeString) : ''}}</td>
+										<td>{{p.validTo ? (p.validTo | asDateTimeString) : ''}}</td>
+										<td ng-order>{{p.active}}</td>
+										<td>
+											<i class="fa fa-edit fa-lg" data-toggle="modal" data-target="#basicInfoModal" ng-click="updatePromotion(p)"></i>
+											<i class="fa fa-trash fa-lg fg-red" ng-click="deletePromotion(p)"></i>
+										</td>
+                                    </tr>
+								</tbody>
+							</table>
+							<div class="clearfix"></div><hr/>
+					<!-- End Data Grid -->
+				</div>
+		  </div>
+	   </div>
+   </div>
+  </div>
+	
+<!-- for Basic Info Edit  Modal -->
+    <div class="modal fade" id="basicInfoModal" role="dialog" tabindex="-1">
+      <div class="modal-dialog ">
+        <!-- Modal content-->
+        <div class="modal-content">
+        	<form role="form" class="form-horizontal" ng-submit="savePromotion();">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Add Promotion</h4>
+              </div>
+             
+          <div class="modal-body">            
+            <div class="col-md-6">
+              <label class="col-md-4 control-label">Promotion Code :</label>
+              <div class="col-md-8">
+                <input type="text" placeholder="Enter Promotion Code" class="form-control" ng-model="editPromotion.promotionCode" required>
+              </div>
+            </div>
+
+            <div class="col-md-6 mt5">
+              <label class="col-md-4 control-label">Percentage Credit  :</label>
+              <div class="col-md-8">
+                <input type="text" placeholder="Enter Percentage Credit" ng-model="editPromotion.percentageCredit" class="form-control" >
+              </div>
+            </div>
+
+            <div class="col-md-6 mt5">
+              <label class="col-md-4 control-label">Maximum Credit :</label>
+              <div class="col-md-8">
+				<input type="text" placeholder="Enter Maximum Credit" class="form-control" ng-model="editPromotion.maxCredit">
+              </div>
+            </div>
+
+            <div class="col-md-6 mt5">
+              <label class="col-md-4 control-label">Fixed Credit :</label>
+              <div class="col-md-8">
+              <input type="text" placeholder="Enter Fixed Credit" class="form-control" ng-model="editPromotion.fixedCredit" >
+              </div>
+            </div>
+            <div class="clearfix"></div>
+
+			
+            <div class="col-md-6 mt5">
+              <label class="col-md-4 control-label">Minimum Amount :</label>
+              <div class="col-md-8">
+              <input type="text" placeholder="Enter Minimum Amount" class="form-control" ng-model="editPromotion.minAmount" >
+              </div>
+            </div>
+			
+            <div class="col-md-6 mt5">
+              <label class="col-md-4 control-label">Maximum Usage:</label>
+              <div class="col-md-8">
+              <input type="text" placeholder="Enter Maximum Usage" class="form-control" ng-model="editPromotion.maxUsage" >
+              </div>
+            </div>
+            <div class="clearfix"></div>
+
+			
+            <div class="col-md-6 mt5">
+              <label class="col-md-4 control-label">Valid From :</label>
+              <div class="col-md-8">
+              <input type="text" placeholder="Enter Valid From" class="form-control" id="validFrom" ng-model="editPromotion.validFrom" required>
+              </div>
+            </div>
+			
+            <div class="col-md-6 mt5">
+              <label class="col-md-4 control-label">Fixed Credit :</label>
+              <div class="col-md-8">
+              <input type="text" placeholder="Enter Valid To" class="form-control" id="validTo" ng-model="editPromotion.validTo" required>
+              </div>
+            </div>
+            <div class="clearfix"></div>
+
+			
+            <div class="col-md-6 mt5">
+              <label class="col-md-4 control-label">Active :</label>
+              <div class="col-md-8">
+              <input type="checkbox" class="form-control" ng-model="editPromotion.active">
+              </div>
+            </div>
+            </div>
+			<div class="clearfix"></div>
+			
+            <div class="modal-footer">
+          		<input type="submit" class="btn btn-success" value="Save"/>
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </form>
+        </div>
+      </div>
+    </div>
+  <!-- End Modal -->
+
+<!-- Change Password Modal -->
+	  <div class="modal fade" id="changePwdModal" role="dialog" tabindex="-1">
+	    <div class="modal-dialog">
+	      <!-- Modal content-->
+	      <div class="modal-content">
+			  <form role="form" ng-submit="changePasswordFunc()">
+			        <div class="modal-header">
+				          <button type="button" class="close" data-dismiss="modal">&times;</button>
+				          <h4 class="modal-title">Change Password</h4>
+			        </div>
+			        <div class="modal-body">
+					  	<div class="col-md-12">
+							<div class="col-md-12 mt10">
+		                		<input class="form-control" placeholder="Please Enter Current Password" type="password" ng-model="changePassword.password" required/>
+							</div>
+							<div class="col-md-12 mt10">
+		                		<input class="form-control" placeholder="Please Enter New Password" id="" type="password" ng-model="changePassword.newPassword" required/>
+							</div>
+							<div class="col-md-12 mt10">
+		                		<input class="form-control" placeholder="Please Enter Confirm Password" id="" type="password" ng-model="changePassword.confirmNewPassword" required/>
+							</div>
+						</div>
+						<div class="clearfix"></div>
+			        </div>
+			        <div class="clearfix"></div>
+
+			        <div class="modal-footer">
+						<input type="submit" class="btn btn-success" value="Change Password"/>
+			          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			        </div>
+			  </form>
+	      </div>
+	    </div>
+	  </div>
+	<!-- End Modal -->
+
+<script type="text/javascript">
+		$('#validFrom').datepicker({
+			language:  'en',
+	        weekStart: 1,
+	        todayBtn:  "linked",
+			autoclose: 1,
+			todayHighlight: true,
+			format: "dd M yyyy",
+			startDate: "0d",
+			disableTouchKeyboard: true,
+			
+		});
+		$('#validTo').datepicker({
+			language:  'en',
+	        weekStart: 1,
+	        todayBtn:  "linked",
+			autoclose: 1,
+			todayHighlight: true,
+			format: "dd M yyyy",
+			startDate: "0d",
+			disableTouchKeyboard: true
+		});
+
+</script>

@@ -1,0 +1,88 @@
+<style type="text/css">
+	.panelTitle,.fntSize28{font-size:28px;}
+	.panel-success {margin-bottom: 12px;}
+	.fntSize20{font-size:20px!important;}
+	.fntSize16{font-size:16px!important;}
+	.nowrap{white-space: nowrap !important};
+</style>
+
+	<!-- Start Header -->
+	<nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+	  <div class="row">
+        <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#"><img src="img/logo_header.png"  class="headerLogo"/></a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse" ng-include="'menu.html'">
+        </div><!--/.nav-collapse -->
+      </div>
+	  </div>
+    </nav>
+	<!-- End Header -->
+	
+<div class="container">
+	<div class="row">
+		<div class="mt80">
+			<!-- New Order Panel -->
+			<div class="panel panel-success">
+			    <div class="panel-heading">Payments
+			    	<!-- <button class="btn btn-default btn-sm pull-right" data-toggle="modal" data-target="#basicInfoModal" ng-click="new = true;" style="margin-top:-4px;">Add Promotion</button> -->
+			    </div>
+				<div class="panel-body">
+				<!-- Data Grid -->
+					<table id="paymentTable" datatable="ng" class="table table-hover table-striped table-bordered table-responsive" cellspacing="0" width="100%"
+						data-order="[[-0]]">
+							<thead>
+								<tr>
+									<th>Id</th>
+									<th>Order Id</th>
+									<th>User</th>
+									<th>Mode</th>
+									<th>Resp Msg</th>
+									<th>Code</th>
+									<th>Txn Id</th>
+									<th>Amt</th>
+									<th>Type</th>
+									<th>Time</th>
+									<th>Status</th>
+									<th>Bank Txn Id</th>
+									<th>Refund Amt</th>
+									<th>Promo Id</th>
+									<th data-orderable="false">Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="p in payments">
+									<td>{{p.paymentTransactionId}}</td>
+									<td>{{p.orderId}}</td>
+									<td>{{p.userId}}</td>
+									<td>{{p.gatewayName}}</td>
+									<td>{{p.responseMessage}}</td>
+									<td>{{p.responseCode}}</td>
+									<td>{{p.transactionId}}</td>
+									<td>{{p.transactionAmount}}</td>
+									<td>{{p.transactionType}}</td>
+									<td>{{p.transactionDateTime}}</td>
+									<td>{{p.status}}</td>
+									<td>{{p.bankTransactionId}}</td>
+									<td>{{p.refundAmount}}</td>
+									<td>{{p.promotionId}}</td>
+									<td>
+										<a class="btn btn-danger" ng-click="completePaymentTransaction(p)" href="" ng-hide="p.status">Get Status</a>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					<div class="clearfix"></div><hr/>
+				<!-- End Data Grid -->
+				</div>
+			</div>
+	   </div>
+   </div>
+</div>

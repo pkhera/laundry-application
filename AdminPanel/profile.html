@@ -1,0 +1,155 @@
+	<!-- Start Header -->
+	<nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+	  <div class="row">
+        <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#"><img src="img/logo_header.png"  class="headerLogo"/></a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse" ng-include="'menu.html'">
+          
+        </div><!--/.nav-collapse -->
+      </div>
+	  </div>
+    </nav>
+	<!-- End Header -->
+	
+	<div class="container">
+		<div class="row">
+		<div class="mt80">
+			<!-- New Order Panel -->
+			<div class="panel panel-success">
+			    <div class="panel-heading">Profile</div>
+			    <div class="panel-body">
+          	<!-- Basic Info -->
+            <div class="col-md-12">
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                    <h4><span class="on-left">Basic Info</span> 
+                    <button class="on-right btn btn-success"  data-toggle="modal" data-target="#basicInfoModal" ng-click="adminCopy()"><i class="fa fa-edit"></i> Edit</button></h4>
+                  <div class="clearfix"></div>
+                </div>
+                    <div class="panel-body">
+						<!-- <div class="col-md-2">
+                        	<img src="img/logo.png" class="img-thumbnail" alt="Thumbnail Image">
+                      	</div> -->
+                      	<div class="col-md-6">
+                      		<div><h4>{{admin.firstName}} {{admin.lastName}}</h4></div>
+                      		<div class="mt10"><i class="fa fa-envelope"></i> {{admin.email}}</div>
+                      		<div class="mt10"><i class="fa fa-phone"></i> {{admin.phoneNumber}}</div>
+						</div>
+                    </div>
+                  </div>
+            </div>
+
+            <!-- Address Panel -->
+          	<div class="col-md-12 np">
+              
+            </div>
+                    	
+				</div>
+		  </div>
+	   </div>
+   </div>
+  </div>
+</div>
+
+<!-- for Basic Info Edit  Modal -->
+    <div class="modal fade" id="basicInfoModal" role="dialog" tabindex="-1">
+      <div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+        <div class="modal-content">
+        <form role="form" class="form-horizontal" ng-submit="editAdminInfo();">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Basic Info</h4>
+              </div>
+             
+          <div class="modal-body">            
+            <div class="col-md-6">
+              <label class="col-md-4 control-label">First Name :</label>
+              <div class="col-md-8">
+                <input type="text" placeholder="Enter First Name" class="form-control" ng-model="editAdmin.firstName" required>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <label class="col-md-4 control-label">Last Name :</label>
+              <div class="col-md-8">
+                <input type="text" placeholder="Enter Last Name" ng-model="editAdmin.lastName" class="form-control" required>
+              </div>
+            </div>
+
+            <div class="col-md-6 mt5">
+              <label class="col-md-4 control-label">Email Id :</label>
+              <div class="col-md-8">
+              <input type="text" placeholder="Enter Email Id" class="form-control" ng-model="editAdmin.email" disabled="true">
+              </div>
+            </div>
+
+            <div class="col-md-6 mt5">
+              <label class="col-md-4 control-label">Phone Number :</label>
+              <div class="col-md-8">
+              <input type="text" placeholder="Enter Phone Number" class="form-control" ng-model="editAdmin.phoneNumber" required>
+              </div>
+            </div>
+            <div class="clearfix"></div>
+          </div>
+           
+            <div class="modal-footer">
+          <input type="submit" class="btn btn-success" value="Save"/>
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </form>
+        </div>
+      </div>
+    </div>
+  <!-- End Modal -->
+
+<!-- Start Footer -->
+  <footer class="navbar navbar-default" style="background:black;margin-bottom:0px">
+    <div class="text-center mt5" style="color:#fff;font-size:14px;">
+    <div><small>Copyright 2015 @ </small><a href="#"> {{BrandName}}</a></div>
+    <div><small>Powered by @</small> <a href="http://www.laundr.in" target="_blank">iCloud Info Solutions</a></div>
+    </div>
+  </footer>
+<!--End  Footer -->
+
+<!-- Change Password Modal -->
+	  <div class="modal fade" id="changePwdModal" role="dialog" tabindex="-1">
+	    <div class="modal-dialog">
+	      <!-- Modal content-->
+	      <div class="modal-content">
+			  <form role="form" ng-submit="changePasswordFunc()">
+			        <div class="modal-header">
+			          <button type="button" class="close" data-dismiss="modal">&times;</button>
+			          <h4 class="modal-title">Change Password</h4>
+			        </div>
+			        <div class="modal-body">
+					  	<div class="col-md-12">
+							<div class="col-md-12 mt10">
+		                		<input class="form-control" placeholder="Please Enter Current Password" type="password" ng-model="changePassword.password" required/>
+							</div>
+							<div class="col-md-12 mt10">
+		                		<input class="form-control" placeholder="Please Enter New Password" id="" type="password" ng-model="changePassword.newPassword" required/>
+							</div>
+							<div class="col-md-12 mt10">
+		                		<input class="form-control" placeholder="Please Enter Confirm Password" id="" type="password" ng-model="changePassword.confirmNewPassword" required/>
+							</div>
+						</div>
+					  <div class="clearfix"></div>
+			        </div>
+			        <div class="modal-footer">
+						<input type="submit" class="btn btn-success" value="Change Password"/>
+			          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			        </div>
+			  </form>
+	      </div>
+	    </div>
+	  </div>
+	<!-- End Modal -->

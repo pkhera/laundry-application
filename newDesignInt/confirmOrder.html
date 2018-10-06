@@ -1,0 +1,28 @@
+<div ng-include="'menu.html'" />
+<div class="col-sm-9 col-sm-offset-3 col-md-9 col-lg-9 col-lg-offset-2 main">			
+	<h3>Payment Confirmation</h3>
+	<div class="col-md-12 no-padding orderHistory">
+		<div class="clearfix"></div>
+		<div class="col-md-12">
+			<h2 ng-show="output.STATUS == 'TXN_SUCCESS'">Thank you! Your payment has been successfully recieved.</h2>
+			<h2 ng-hide="output.STATUS == 'TXN_SUCCESS'">Your payment transaction has FAILED.</h2>
+		</div>
+		<h3>Please quote your transaction reference number for any queries regarding this.</h3>
+		<div class="col-md-6">
+			<table class="table table-hover orderHistoryTbl" >
+				<tr>
+					<td>Transaction Status</td>
+					<td>{{output.RESPMSG ? output.RESPMSG : 'Failed'}}</td>
+				</tr>
+				<tr>
+					<td>Transaction Reference No.</td>
+					<td>{{output.ORDERID}}</td>
+				</tr>
+				<tr>
+					<td>Payment Amount</td>
+					<td><i class="fa fa-rupee"> {{output.TXNAMOUNT}}</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</div>

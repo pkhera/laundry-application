@@ -1,0 +1,425 @@
+<div ng-include="'menu.html'" />
+<div class="col-sm-9 col-sm-offset-3 col-lg-7 col-lg-offset-2 main placeOrder">			
+	<h3>Place Order</h3>
+	<div class="placeOrderForm">
+		<div class="col-lg-9 col-md-12">
+			<div class="col-md-12 no-padding">
+				<label class="control-label col-md-2 col-sm-3 col-lg-3 margin-top-5">Location </label>
+				<div class="col-md-8 col-lg-8 col-sm-8 no-padding">
+					<select id="pickupAddressLabel" class="" ng-model="pickupAddressLabel" placeholder="Select pickup location" ng-change="init()" >
+						<option ng-repeat="(key, address) in user.addresses" ng-if="['Home','Office','Other'].indexOf(address.label) !== -1" value="{{address.label}}">{{address.label}}</option>
+					</select>
+				</div>				
+			</div>
+			<div class="clearfix"></div>
+
+			<div class="col-md-12 no-padding margin-top-20 col-sm-12 col-xs-12">
+				<label class="control-label col-md-2 col-sm-12 col-lg-3 col-xs-12 margin-top-5">Pickup</label>
+				
+				<div class="col-md-4 col-sm-5 col-xs-6 pickupDateTime no-padding" >
+					<input type="text" class="form-control leftRadius" placeholder="Pickup Date" id="pickupDate" ng-model="pickupDate"  required/>
+				</div>				
+				
+				<div class="col-md-4 col-sm-5 col-xs-6 pickupDateTime no-padding">
+					<select class="contacts pickupTime rightRadius" id="pickupTime" ng-model="pickupTime">
+					</select>
+				</div>				
+			</div>
+			<div class="clearfix"></div>
+			
+			<div class="col-md-12 no-padding col-sm-12 margin-top-20 col-xs-12">
+				<label class="control-label col-md-2 col-sm-12 col-lg-3 col-xs-12 margin-top-5">Drop Off</label>
+				<div class="col-md-4 col-sm-5 col-xs-6 dropDateTime no-padding">
+					<input type="text" id="dropDate" class="form-control leftRadius" placeholder="Drop Date" ng-model="dropDate" required/>
+				</div>				
+				<div class="col-md-4 col-sm-5 col-xs-6 dropDateTime no-padding">
+					<select class="contacts rightRadius" id="dropTime" ng-model="dropTime">
+					</select>
+				</div>				
+			</div>
+			<div class="clearfix"></div>
+
+			<div class="col-md-12 no-padding col-sm-12 margin-top-20">
+				<label class="control-label col-xs-12 col-sm-12 col-md-2 col-lg-3 margin-top-5"># of items </label>
+				<div class="col-md-2 col-sm-2 col-xs-6 col-sm-offset-0 itemTextDiv no-padding col-xs-2 col-xs-offset-0 col-lg-2">
+					<input id="numberOfItems" type="text" class="form-control text-center itemText" placeholder="# items" ng-model="pickup.numberOfItems" title="{{true ? 'Max. 5 clothes allowed per order for Express Delivery' : ''}}" />
+					<div class="clearfix"></div>
+				</div>
+
+				<div class="col-lg-5 col-md-4 col-sm-7 col-xs-12 text-right foldedNHangerBlock">
+					<div class="btn-group" data-toggle="buttons">
+						<label class="foldedNHanger">
+							
+						</label>
+						<button type="button" class="btn btn-primary no-padding hangerBtn" ng-click="pickup.hanger = !pickup.hanger" style="color:#000;"> <img width="40" src="img/hanger.png" class="foldedNHangerIcons"></button>
+					</div>
+					<div class="clearfix"></div>
+				</div>	
+				<span href="#faq" class="hangerText col-md-4 col-xs-12 no-padding">I want some of my clothes on Hangers. <a href="#faq/hangers">Click here for details</a></span>
+			</div>
+			<div class="clearfix"></div>
+			
+			<div class="col-md-12 no-padding col-sm-12 margin-top-20">
+				<label class="control-label col-xs-12 col-sm-12 col-md-2 col-lg-3 margin-top-5">Mode of Payment </label>
+				<div class="btn-group">
+					<input type="button" name="modeOfPayment" class="btn btn-primary {{pickup.modeOfPayment == 'PAYTM' ? 'active' : ''}}"  
+					value="Online Payment" ng-click="pickup.modeOfPayment = 'PAYTM'"/> 
+				</div>
+				<div class="btn-group">
+					<input type="button" name="modeOfPayment" class="btn btn-primary {{pickup.modeOfPayment == 'COD' ? 'active' : ''}}" ng-click="pickup.modeOfPayment = 'COD'" value="Cash On Delivery"/> 
+				</div>
+			</div>
+			<div class="clearfix"></div>
+			
+			<div class="col-md-12 no-padding col-sm-12 margin-top-20">
+				<label class="control-label col-xs-12 col-sm-12 col-md-2 col-lg-3 margin-top-5">Repeat My Order </label>
+				
+				<div class="btn-group col-xs-12 col-sm-12 col-md-10 col-lg-9 no-padding ">
+					<input type="button" name="schedule" class="weekbutton weekbuttonMon col-md-1 btn btn-primary {{pickup.schedule['Monday'] == true ? 'active' : ''}}"  
+						value="Mo" ng-click="pickup.schedule['Monday'] = !pickup.schedule['Monday']" title="Monday"/>
+					<input type="button" name="schedule" class="weekbutton col-md-1 btn btn-primary {{pickup.schedule['Tueday'] == true ? 'active' : ''}}"  
+						value="Tu" ng-click="pickup.schedule['Tueday'] = !pickup.schedule['Tueday']" title="Tuesday"/>
+					<input type="button" name="schedule" class="weekbutton weekbuttonWed col-md-1 btn btn-primary {{pickup.schedule['Wednesday'] == true ? 'active' : ''}}"  
+						value="We" ng-click="pickup.schedule['Wednesday'] = !pickup.schedule['Wednesday']" title="Wednesday"/>
+					<input type="button" name="schedule" class="weekbutton col-md-1 btn btn-primary {{pickup.schedule['Thursday'] == true ? 'active' : ''}}"  
+						value="Th" ng-click="pickup.schedule['Thursday'] = !pickup.schedule['Thursday']" title="Thursday"/>
+					<input type="button" name="schedule" class="weekbutton col-md-1 btn btn-primary {{pickup.schedule['Friday'] == true ? 'active' : ''}}"  
+						value="Fr" ng-click="pickup.schedule['Friday'] = !pickup.schedule['Friday']" title="Friday"/>
+					<input type="button" name="schedule" class="weekbutton col-md-1 btn btn-primary {{pickup.schedule['Saturday'] == true ? 'active' : ''}}"  
+						value="Sa" ng-click="pickup.schedule['Saturday'] = !pickup.schedule['Saturday']" title="Saturday"/>
+					<input type="button" name="schedule" class="weekbutton col-md-1 btn btn-primary {{pickup.schedule['Sunday'] == true ? 'active' : ''}}"  
+						value="Su" ng-click="pickup.schedule['Sunday'] = !pickup.schedule['Sunday']" title="Sunday"/>
+					
+				</div>
+			</div>
+			<div class="clearfix"></div>
+
+		</div>
+
+		<div class="col-md-3 col-md-offset-2 col-sm-6 col-sm-offset-4 col-xs-offset-2 col-lg-3 col-lg-offset-0 margin-top-50">
+			<div class="col-md-12">
+				<div class="btn-group hvr-pulse expressDileveryBtn">
+					<input type="button" class="btn btn-primary expressDileveryLabel" data-toggle="modal" data-target="#expressDeliveryModal" value="EXPRESS DELIVERY">
+				</div>
+			</div>				
+		</div>
+		<div class="placeOrderBtn">
+				<input type="button" class="btn btn-primary" value="Place Order!" ng-click="placeOrder()"/>
+			</div>
+		<div class="clearfix"></div>
+	</div>
+	<div class="clearfix"></div>
+
+	<div class="placeOrderGrid margin-top-30">
+		<div class="col-md-5 on-right margin-top-20">
+			<div class="col-md-12 col-sm-5 col-xs-7">
+				<input type="text" ng-model="search" class="form-control" placeholder="Search"/>
+			</div>				
+			
+		</div>
+		<div class="clearfix"></div>
+
+		<!-- display cloths -->
+		<div class="col-md-12 margin-top-20 displayCloths">
+			<!-- first row start -->
+			<!-- <div class="col-md-12 no-padding"> -->
+				<div class="col-lg-4 col-md-6 col-sm-6 orderImageCategory" ng-repeat="category in categories | filter: {societyId: pickupAddress.society.societyId, category.name: search} | orderBy: sortBy">
+					<div class="productBlock">
+						<div class="categoryHeader">
+							<span class="on-left categoryName">{{category.category.name}}</span>
+							<span class="on-right categoryPrice"><i class="fa fa-rupee"></i> {{category.rate}}</span>
+						</div>
+						<img src="img/{{category.category.categoryId}}.jpg" class="clothImages">
+						<div class="clearfix"></div><hr/>
+						<div class="countItems col-md-12">
+							<!-- Numeric Spinners -->
+							<div class="col-md-9 col-xs-6 col-offset-2 no-padding">
+								<div class="input-group number-spinner col-md-offset-4">
+									<span class="input-group-btn data-dwn">
+										<button class="btn btn-default btn-plus-minus" data-dir="dwn">
+											<span class="glyphicon glyphicon-minus"></span>
+										</button>
+									</span>
+									<input type="text" class="form-control numericInput" value="1" min="0" max="20" ng-model="category.quantity" ng-change="countItems()" />
+									<span class="input-group-btn data-up">
+										<button class="btn btn-default btn-info btn-plus-minus" data-dir="up">
+											<span class="glyphicon glyphicon-plus"></span>
+										</button>
+									</span>
+								</div>
+							</div>
+							<div class="clearfix"></div>
+						</div>
+					</div>
+				</div>
+			<div class="clearfix"></div>
+		</div>
+	<div class="clearfix"></div>
+	</div>
+	<div class="col-md-12 margin-top-30"></div>
+</div>
+
+	<div class="col-md-5 col-lg-3 col-md-offset-3 col-lg-offset-0 orderSummary" data-spy="affix" data-offset-top="75">
+		<table class="table margin-top-10 " ng-show="amount > 0">
+			<thead>
+				<tr>
+					<th colspan="4">Order Summary</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr ng-repeat="category in categories | filter: {societyId: pickupAddress.society.societyId}" ng-if="category.quantity > 0">
+					<td>{{category.category.name}}</td>
+					<td class="text-right">{{category.quantity}}</td>
+					
+					<td class="text-right"><i class="fa fa-rupee"></i> {{category.rate * category.quantity | number:2}}</td>
+				</tr>
+
+				<tr>
+					<th class="col-md-6">Total</td>
+					<th class="col-md-2 text-right">{{numberOfItems}}</td>
+					<th class="col-md-4 text-right"><i class="fa fa-rupee"></i> {{amount | number:2}}</td>
+				</tr>
+				
+				<tr ng-show="pickup.modeOfPayment == 'PAYTM'"> 
+					<td colspan="3" class="text-right col-md-12">
+						<a href="" ng-click="orderPromo.hasPromoCode = true" ng-hide="orderPromo.hasPromoCode">Have a promo code?</a>
+						<input type="text" class="col-md-9 form-control text-center" placeholder="ENTER PROMO CODE" ng-model="orderPromo.promoCode" ng-show="orderPromo.hasPromoCode && !orderPromo.applied" 
+							style="text-transform: uppercase;" />
+						<a href="" class="" ng-click="validateOrderPromoCode(amount,orderPromo)" ng-show="orderPromo.hasPromoCode && !orderPromo.applied">Apply</a>
+						<label class="col-md-10" ng-show="orderPromo.applied" style="text-transform: uppercase;">{{orderPromo.promoCode}}</label>
+						<a href="" class="col-md-2 text-right" ng-click="orderPromo.applied = false" ng-show="orderPromo.applied"> <i class="fa fa-remove"></i></a>
+					</td>
+						
+				</tr>
+				
+				<tr ng-show="orderPromo.promoCodeMessage && orderPromo.applied && pickup.modeOfPayment =='PAYTM'">
+					<td colspan="3">{{orderPromo.promoCodeMessage}} </td>
+				</tr>
+				<tr ng-show="orderPromo.promoCodeErrorMessage && pickup.modeOfPayment =='PAYTM'">
+					<td colspan="3">{{orderPromo.promoCodeErrorMessage}} </td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="clearfix"></div>
+
+<div class="modal fade customModal" id="expressDeliveryModal" tabindex="-1">
+	<div class="modal-dialog">
+		<form ng-submit="acceptExpressDelivery()">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button class="close" data-dismiss="modal"><i class="fa fa-remove"></i></button>
+					<h4 class="modal-title">Express Delivery</h4>
+				</div>
+
+				<div class="modal-body">
+					<div class="col-md-12">
+						<div class="col-md-12 col-lg-12 col-sm-8">
+							<select id="pickupAddressLabelEx" class="whiteBG col-md-4 col-sm-12 no-padding-left" ng-model="pickupAddressLabel" placeholder="Select pickup location" ng-change="init()" >
+								<option ng-repeat="(key, address) in user.addresses" ng-if="['Home','Office','Other'].indexOf(address.label) !== -1" value="{{address.label}}">{{address.label}}</option>
+							</select>
+							<select id="numberOfItemsEx" class="whiteBG col-md-4 col-sm-12" ng-model="pickup.numberOfItems" placeholder="# of Items" >
+								<option value=""># of Items</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+							</select>
+							<div class="col-md-4 no-padding-right col-sm-12" >
+								<input type="button" class="btn btn-primary {{pickup.hanger ? 'active' : ''}} col-md-12" ng-click="pickup.hanger = !pickup.hanger" value="Hanger"/> 
+							</div>
+						</div>
+						<div class="clearfix"></div>
+						<!-- <div class="col-md-12 pdb6"> 
+							<div class="col-md-6 col-lg-6 col-sm-8 no-padding-left">
+								<input type="text" class="form-control itemText" placeholder="Enter number of items." ng-model="pickup.numberOfItems" title="{{true ? 'Max. 5 clothes allowed per order for Express Delivery' : ''}}" />
+								
+							</div>
+							<div class="col-md-6 col-lg-6 col-sm-8 no-padding-right">
+								
+							</div>
+						</div>
+						<div class="clearfix"></div> -->
+						<div class="col-md-12 pdb6"> 
+							<div class="col-md-4 col-lg-4 col-sm-8 col-md-offset-1 col-lg-offset-1 ">
+								<input type="button" name="modeOfPayment" class="btn btn-primary {{pickup.modeOfPayment == 'PAYTM' ? 'active' : ''}}"  
+									value="Online Payment" ng-click="pickup.modeOfPayment = 'PAYTM'"/> 
+							</div>
+							<div class="col-md-4 col-lg-4 col-sm-8 col-md-offset-1 col-lg-offset-1">
+								<input type="button" name="modeOfPayment" class="btn btn-primary {{pickup.modeOfPayment == 'COD' ? 'active' : ''}}" ng-click="pickup.modeOfPayment = 'COD'" value="Cash On Delivery"/> 
+							</div>
+						</div>
+						<div class="clearfix"></div>
+					</div>
+					<div class="col-md-12 tncContent">
+						<div class="col-md-12 tncContent">
+							<h5>Express Delivery is our special service offering to execute Pickup – Iron – Drop at your doorstep in an hour. Please Note:</h5>
+							<ul>
+								<li>Express delivery is designed for special cases and needs. For these orders tariff is higher than normal orders. Check out full list of normal and express delivery rates <a href="#prices">here</a>.</li>
+								<li>If we fail to deliver in the promised 1 - hour window then you will be charged normal tariff and not the higher tariff</li>
+								<li>Only max 5 items can be given per order for express delivery</li>
+								<li>Checkout <a href="#faq/express">FAQs</a> for more details.</li>
+							</ul>
+						</div>
+					</div>
+					
+					<div class="clearfix"></div>
+					<div class="col-md-12 margin-top-20 text-center">
+						<input type="button" ng-click="expressDelivery()" data-dismiss="modal" class="btn btn-primary active" value="Place Order" style="padding:8px 30px;" />	
+					</div>
+					<div class="clearfix"></div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<div class="modal fade customModal" id="addressModal" role="dialog" tabindex="-1">
+      <div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+        <div class="modal-content">
+			<form role="form" class="form-horizontal" ng-submit="saveAddress()" id="addAddressForm" onsubmit="return false;">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Address</h4>
+				</div>
+				 
+				<div class="modal-body">   
+					<div class="col-md-12 margin-top-10">
+						<label class="col-md-4 control-label">Address Label :</label>
+						<div class="col-md-8">
+							<select name="address" id="addressLabel" class="" ng-model="editAddress.label" required>
+								<option value="">Select label</option>
+								<option value="Home">Home</option>
+								<option value="Office">Office</option>
+								<option value="Other">Other</option>
+							 </select>
+						</div>
+					</div>
+				
+					<div class="col-md-12 margin-top-10">
+						<label class="col-md-4 control-label">Flat No. :</label>
+						<div class="col-md-8">
+							<input type="text" name="flatNo" placeholder="Enter Flat No." class="form-control" ng-model="editAddress.flatNumber" required>
+						</div>
+					</div>
+				
+					<div class="mt5 col-md-12 margin-top-10">
+						<label class="col-md-4 control-label">Society Name :</label>
+						<div class="col-md-8">
+							<select id="society" name="society" class="" placeholder="Select your society" ng-model="editAddress.society.societyId" required>
+							</select>
+						</div>
+					</div>
+					
+					<div class="col-md-12 margin-top-10">
+						<label class="col-md-4 control-label">Phone Number :</label>
+						<div class="col-md-8">
+							<div class="input-group">
+								<span class="input-group-addon" id="basic-addon1">+91</span>
+								<input type="text" name="phoneNumber" placeholder="Enter Phone Number" class="form-control" ng-model="user.phoneNumber" required>
+							</div>
+						</div>
+					</div>
+			  
+					<div class="col-md-12 margin-top-20">
+						<div class="col-md-12">
+							<button type="button" class="btn btn-primary on-right" data-dismiss="modal">Close</button>	
+							<input type="submit" class="btn btn-primary on-right" value="Save"/>
+						</div>
+					</div>
+					<div class="clearfix"></div>
+				</div>
+	
+			</form>
+        </div>
+      </div>
+    </div>
+
+<script type="text/javascript">
+		$('#pickupDate').datepicker({
+			language:  'en',
+	        weekStart: 1,
+	        todayBtn:  "linked",
+			autoclose: 1,
+			todayHighlight: true,
+			format: "dd M yyyy",
+			startDate: "0d",
+			disableTouchKeyboard: true,
+			
+		});
+		$('#dropDate').datepicker({
+			language:  'en',
+	        weekStart: 1,
+	        todayBtn:  "linked",
+			autoclose: 1,
+			todayHighlight: true,
+			format: "dd M yyyy",
+			startDate: "0d",
+			disableTouchKeyboard: true
+		});
+		$('.displayCloths').niceScroll();
+		
+</script>
+
+<style type="text/css">
+	.nicescroll-rails.nicescroll-rails-vr {
+	    background: #FFFFFF;
+	    border-radius: 5px;
+	    cursor: pointer;
+	    border-right: 1px solid #E2E3E5;
+	}
+	.foldedNHanger{
+	    box-shadow: 0px 0px 0px 0px #fff;
+	    float: left;
+	    position: relative;
+	    margin-top: 12px;
+	    margin-left: 30px;
+	    margin-right:10px;
+	}
+	.productBlock{
+	    box-shadow: 0px 0px 3px 0px #8ECFD8;
+	    padding-bottom: 1px;
+	    border-radius: 3px;
+	    background-color:white;
+	    overflow: hidden;
+	    cursor: pointer;
+	    text-align: center;
+	}
+	.productBlock:hover{
+	  box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.12), 0 1px 10px 0 #8dd1c2;
+	}
+	.countItems{
+		padding:5px;
+	}
+
+	/* bootstrap 3 helpers */
+	.orderSummary.affix {
+	    position: fixed;
+	    top:0px;
+	    z-index:10;
+	}
+	.orderSummary.affix-top {
+	    #position: static;
+	    top:386px;
+	}
+	.orderSummary.affix {
+	    position: fixed;
+	    top:0px;
+	}
+</style>
+
+<script type="text/javascript">
+	$('.orderSummary').affix({
+      offset: {
+        top:450
+      }
+	});	
+
+	$('.orderSummary').affix({
+	    offset: {
+	        top:0
+	    }
+	});	
+</script>

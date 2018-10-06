@@ -1,0 +1,65 @@
+<!-- Edit Order Modal -->
+<div class="modal fade" id="itemsModal" role="dialog" tabindex="-1">
+	<div class="modal-dialog modal-lg">
+<!-- Modal content-->
+		<div class="modal-content">
+			<form role="form">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Order # {{selectedOrder.orderId}}  -  &#8377; {{selectedOrder.billAmount}}</h4>
+				</div>
+				<div class="modal-body orderPopup">
+					<div class="col-md-12 displayCloths">
+					
+						<table id="categoriesTable" datatable="ng" data-page-length="50" class="table table-hover table-striped table-bordered table-responsive" cellspacing="0" width="100%"
+							data-order="[[-0, &quot;asc&quot;]]">
+							<thead>
+                                <tr>
+                                    <th>Item</th>
+									<th>Unit Price</th>
+									<th>Express Delivery Price</th>
+									<th>Quantity</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+								
+								<tr ng-repeat="category in orderCategories | filter: {societyId: selectedOrder.address.society.societyId}">
+									<td>{{category.category.name}}</td>
+									<td>{{category.rate}}</td>
+									<td>{{category.expressDeliveryPrice}}</td>
+									<td>
+										<div class="countItems col-md-8">
+											<!-- Numeric Spinners -->
+											<div class="">
+												<div class="input-group number-spinner">
+													<span class="input-group-btn data-dwn">
+														<button class="btn btn-default btn-info btn-plus-minus" data-dir="dwn">
+															<span class="glyphicon glyphicon-minus"></span>
+														</button>
+													</span>
+													<input type="text" class="form-control numericInput" value="1" min="0" max="20" ng-model="category.quantity" ng-change="countItems()" />
+													<span class="input-group-btn data-up">
+														<button class="btn btn-default btn-info btn-plus-minus" data-dir="up">
+															<span class="glyphicon glyphicon-plus"></span>
+														</button>
+													</span>
+												</div>
+											</div>
+											<div class="clearfix"></div>
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>	
+						
+					</div>
+                </div>
+				<div class="modal-footer">
+                    <input ng-click="saveOrderCategories()" class="btn btn-success" value="Update Order"/>
+                    <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> -->
+                </div>
+			</form>
+		</div>
+	</div>
+</div>
+<!-- End Modal -->

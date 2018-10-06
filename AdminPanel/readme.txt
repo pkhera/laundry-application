@@ -1,0 +1,1 @@
+This Folder contains design for laundry project

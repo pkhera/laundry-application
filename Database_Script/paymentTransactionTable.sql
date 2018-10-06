@@ -1,0 +1,17 @@
+CREATE TABLE `laundry`.`payment_transaction` (
+  `id` BIGINT(18) NOT NULL,
+  `orderId` BIGINT(18) NOT NULL,
+  `userId` BIGINT(18) NOT NULL,
+  `gatewayName` VARCHAR(45) NULL,
+  `responseMessage` VARCHAR(200) NULL,
+  `bankName` VARCHAR(45) NULL,
+  `paymentMode` VARCHAR(45) NULL,
+  `responseCode` INT(11) NULL,
+  `transactionId` VARCHAR(45) NULL,
+  `transactionAmount` DECIMAL(10,2) NULL,
+  `transactionType` VARCHAR(45) NULL,
+  `transactionDateTime` DATETIME NULL,
+  `status` VARCHAR(45) NULL,
+  `bankTransactionId` VARCHAR(45) NULL,
+  `refundAmount` DECIMAL(10,2) NULL,
+  PRIMARY KEY (`id`));

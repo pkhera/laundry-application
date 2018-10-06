@@ -1,0 +1,193 @@
+	<!-- Start Header -->
+	<nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+	  <div class="row">
+        <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#"><img src="img/logo_header.png"  class="headerLogo"/></a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse" ng-include="'menu.html'">
+        </div><!--/.nav-collapse -->
+      </div>
+	  </div>
+    </nav>
+	<!-- End Header -->
+	
+	<div class="container">
+		<div class="row">
+		<div class="mt80">
+			<!-- New Order Panel -->
+			<div class="panel panel-success">
+			    <div class="panel-heading">Completed Orders</div>
+			    <div class="panel-body">
+					<!-- Data Grid -->
+						<table id="pendingOrders" datatable="ng" class="table table-hover table-striped table-bordered table-responsive" cellspacing="0" width="100%">
+                                <thead>
+								<tr><th colspan="11">Completed Orders</th></tr>
+                                    <tr>
+                                        <th>#</th>
+										<th>User</th>
+										<th>Flat #</th>
+                                        <th>Order Time</th>
+										<th>Pickup Time</th>
+                                        <th>Items</th>
+                                        <th>Amount</th>
+										<th>Status</th>
+										<th>Feedback</th>
+										<th data-orderable="false">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="order in completedOrders">
+										<td ng-order><a href="" ng-click="orderSelect(order)">{{order.orderId}}</a></td>
+										<td>{{order.user.firstName}} {{order.user.lastName}}</td>
+										<td>{{order.address.flatNumber}}</td>
+                                        <td>{{order.orderTime}}</td>
+										<td>{{order.pickupTime}}</td>
+										<!-- <td>{{order.dropTime}}</td> -->
+                                        <td><span ng-repeat="item in order.orderItems">{{$index > 0 ? ', ' : ''}}{{item.quantity}} {{item.quantity > 1 ? item.category.pluralName : item.category.name}}</span></td>
+                                        <td>&#8377; {{order.billAmount}}</td>
+										<td><a href="" data-toggle="modal" data-target="#pandingTimelineModal" ng-click="orderStatusHistory(order.orderStatuses, order.currentStatus)">{{order.currentStatus.status}}</a></td>
+										<td>
+											<rating ng-model="order.averageFeedbackRating" max="max" readonly="'true'" state-on="'fa fa-star iconGreen'" state-off="'fa fa-star-o iconGreen'" titles="['one','two','three']" 
+												ng-click="setFeedbackOrder(order)" data-toggle="modal" data-target="#feedbackModal"></rating>
+										</td>
+										<td>
+											<i class="fa fa-trash fa-lg" ng-click="deleteOrder(order)"></i>
+										</td>
+                                    </tr>
+								</tbody>
+							</table>
+					<!-- End Data Grid -->
+				</div>
+		  </div>
+	   </div>
+   </div>
+  </div>
+	
+<div ng-include ng-if="'true'" src="'./views/orderPopup.html'" onload="orderAddress=selectedOrder.address" />
+<div ng-include ng-if="'true'" src="'./views/bagsPopup.html'" />
+
+<div class="modal fade" id="pandingTimelineModal" role="dialog" tabindex="-1">
+    <div class="modal-dialog">
+      	<!-- Modal content-->
+      	<div class="modal-content">
+		        <div class="modal-header">
+		          <button type="button" class="close" data-dismiss="modal">&times;</button>
+		          <h4 class="modal-title">Order Timeline</h4>
+		        </div>
+		        <!-- Body Content -->
+	        	<div class="modal-body">
+				    <!-- Timeline -->
+				    <div class="timeline">
+				        <!-- Line component -->
+				        <div class="line text-muted"></div>
+				        <!-- Panel -->
+						<div  ng-repeat="orderStatus in orderStatuses">
+							<!-- Separator -->
+							<div class="separator text-muted">
+								<time>{{orderStatus.updatedTime}}</time>
+							</div>
+							<!-- /Separator -->
+							
+							<article class="panel {{orderStatus.status.statusId == currentStatus.statusId ? 'panel-danger' : 'panel-success'}} panel-outline">
+								<!-- Icon -->
+								<div class="panel-heading icon">
+									<i class="fa {{orderStatus.status.statusId == currentStatus.statusId ? 'fa-clock-o' : 'fa-check'}}"></i>
+								</div>
+								<!-- /Icon -->
+								<!-- Body -->
+								<div class="panel-body">
+									<strong>{{orderStatus.status.description}}</strong>
+								</div>
+								<!-- /Body -->
+								 
+							</article>
+						
+						<div>
+						
+				    </div>
+				    <!-- /Timeline -->
+				</div>
+	        </div>
+	    </div>
+	</div>
+</div>
+</div>
+<!-- /Available Delivery Persons Modal -->
+
+<!-- Change Password Modal -->
+	  <div class="modal fade" id="changePwdModal" role="dialog" tabindex="-1">
+	    <div class="modal-dialog">
+	      <!-- Modal content-->
+	      <div class="modal-content">
+			  <form role="form" ng-submit="changePasswordFunc()">
+			        <div class="modal-header">
+			          <button type="button" class="close" data-dismiss="modal">&times;</button>
+			          <h4 class="modal-title">Change Password</h4>
+			        </div>
+			        <div class="modal-body">
+					  	<div class="col-md-12">
+							<div class="col-md-12 mt10">
+		                		<input class="form-control" placeholder="Please Enter Current Password" type="password" ng-model="changePassword.password" required/>
+							</div>
+							<div class="col-md-12 mt10">
+		                		<input class="form-control" placeholder="Please Enter New Password" id="" type="password" ng-model="changePassword.newPassword" required/>
+							</div>
+							<div class="col-md-12 mt10">
+		                		<input class="form-control" placeholder="Please Enter Confirm Password" id="" type="password" ng-model="changePassword.confirmNewPassword" required/>
+							</div>
+						</div>
+					  <div class="clearfix"></div>
+			        </div>
+			        <div class="modal-footer">
+						<input type="submit" class="btn btn-success" value="Change Password"/>
+			          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			        </div>
+			  </form>
+	      </div>
+	    </div>
+	  </div>
+	<!-- End Modal -->
+
+<div class="modal fade" id="feedbackModal" role="dialog" tabindex="-1">
+    <div class="modal-dialog">
+      	<!-- Modal content-->
+      	<div class="modal-content">
+		  	<form role="form">
+		        <div class="modal-header">
+		          <button type="button" class="close" data-dismiss="modal">&times;</button>
+		          <h4 class="modal-title">Order Feedback</h4>
+		        </div>
+		        <!-- Body Content -->
+	        	<div class="modal-body">
+	        		<div class="col-md-12 mt10" ng-repeat="feedback in feedbackOrder.orderFeedback">
+						<label class="control-label col-xs-5 text-right">{{feedback.feedbackCriteria.name}}:</label>
+						<rating class="col-xs-7" readonly="'true'" ng-model="feedback.rating" max="max" state-on="'fa fa-star fa-2x pr5 iconGreen'" state-off="'fa fa-star-o fa-2x pr5 iconGreen'" titles="['Sad','Poor','OK','Good','Awesome']" 
+											></rating>
+						<div class="clearfix"></div>
+	        		</div>
+	        		
+	        		<div class="col-md-12 mt10">
+				        <label class="control-label col-xs-5 text-right">Comments</label>
+				        <div class="col-xs-7">
+				            <textarea placeholder="Enter Feedback" class="form-control" ng-model="feedbackOrder.feedbackComments" disabled required></textarea>
+				        </div>
+				        <div class="clearfix"></div>
+	        		</div>
+	        		<div class="clearfix"></div>
+	        	</div>
+	        	<div class="clearfix"></div>
+	        	
+	        	<div class="modal-footer">
+			        <input type="button" class="btn btn-default" data-dismiss="modal" value="Close">
+			    </div>
+		    </form>
+		</div>
+	</div>
+</div>

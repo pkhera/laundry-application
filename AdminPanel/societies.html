@@ -1,0 +1,151 @@
+	<!-- Start Header -->
+	<nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+	  <div class="row">
+        <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#"><img src="img/logo_header.png"  class="headerLogo"/></a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse" ng-include="'menu.html'">
+        </div><!--/.nav-collapse -->
+      </div>
+	  </div>
+    </nav>
+	<!-- End Header -->
+	
+	<div class="container">
+		<div class="row">
+		<div class="mt80">
+			<!-- New Order Panel -->
+			<div class="panel panel-success">
+			    <div class="panel-heading">Societies
+          <button class="btn btn-default btn-sm addBtn on-right" data-toggle="modal" data-target="#basicInfoModal" ng-click="new = true;">Add Society</button>
+          </div>
+			    <div class="panel-body">
+					<!-- Data Grid -->
+						<table id="oraderTable" datatable="ng" class="table table-hover table-striped table-bordered table-responsive" cellspacing="0" width="100%">
+            <thead>
+                <tr>
+                    <th>Id</th>
+										<th>Name</th>
+                    <th>Landmark</th>
+										<th>City</th>
+										<th>State</th>
+										<th>Country</th>
+										<th>Pincode</th>
+										<th>Store</th>
+										<th>Active</th>
+										<th data-orderable="false">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="society in societies">
+										<td ng-order>{{society.societyId}}</td>
+										<td>{{society.name}}</td>
+                                        <td>{{society.landmark}}</td>
+										<td>{{society.city}}</td>
+										<td>{{society.state}}</td>
+										<td>{{society.country}}</td>
+										<td>{{society.pincode}}</td>
+										<td>{{society.store.name}}</td>
+										<td>{{society.active}}</td>
+										<td>
+											<i class="fa fa-edit fa-lg" data-toggle="modal" data-target="#basicInfoModal" ng-click="updateSociety(society)"></i>
+											<i class="fa fa-trash fa-lg fg-red" ng-click="deleteSociety(society)"></i>
+										</td>
+                                    </tr>
+								</tbody>
+							</table>
+					<!-- End Data Grid -->
+					
+				</div>
+		  </div>
+	   </div>
+   </div>
+  </div>
+	
+<!-- for Basic Info Edit  Modal -->
+    <div class="modal fade" id="basicInfoModal" role="dialog" tabindex="-1">
+      <div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+        <div class="modal-content">
+        <form role="form" class="form-horizontal" ng-submit="saveSociety();">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Store Info</h4>
+              </div>
+             
+          <div class="modal-body">            
+            <div class="col-md-6">
+              <label class="col-md-4 control-label">Name :</label>
+              <div class="col-md-8">
+                <input type="text" placeholder="Enter Name" class="form-control" ng-model="editSociety.name" required>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <label class="col-md-4 control-label">Landmark :</label>
+              <div class="col-md-8">
+				<input type="text" id="landmark" class="form-control" placeholder="Enter Landmark" ng-model="editSociety.landmark" required/>
+              </div>
+            </div>
+
+            <div class="col-md-6 mt5">
+              <label class="col-md-4 control-label">City :</label>
+              <div class="col-md-8">
+				<input type="text" id="city" class="form-control" placeholder="Enter City" ng-model="editSociety.city" required/>
+              </div>
+            </div>
+			
+			<div class="col-md-6 mt5">
+              <label class="col-md-4 control-label">State :</label>
+              <div class="col-md-8">
+				<input type="text" id="state" class="form-control" placeholder="Enter State" ng-model="editSociety.state" required/>
+              </div>
+            </div>
+			
+			<div class="col-md-6 mt5">
+              <label class="col-md-4 control-label">Country :</label>
+              <div class="col-md-8">
+				<input type="text" id="country" class="form-control" placeholder="Enter Country" ng-model="editSociety.country" required/>
+              </div>
+            </div>
+			
+			<div class="col-md-6 mt5">
+              <label class="col-md-4 control-label">Pincode :</label>
+              <div class="col-md-8">
+				<input type="text" id="city" class="form-control" placeholder="Enter Pincode" ng-model="editSociety.pincode" required/>
+              </div>
+            </div>
+			
+			<div class="col-md-6 mt5">
+              <label class="col-md-4 control-label">Active :</label>
+              <div class="col-md-8">
+				<input type="checkbox" id="active" class="form-control" ng-model="editSociety.active"/>
+              </div>
+            </div>
+
+            <div class="col-md-6 mt5">
+              <label class="col-md-4 control-label">Store :</label>
+              <div class="col-md-8">
+				<select id="store" selectpicker data-hide-disabled="true" data-live-search="true" ng-model="editSociety.store.storeId" ng-collection="stores"
+									ng-options="store.storeId as store.name for store in stores">
+								</select>
+              </div>
+            </div>
+			    
+          <div class="clearfix"></div>
+            <div class="modal-footer">
+          <input type="submit" class="btn btn-success" value="Save"/>
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </form>
+        </div>
+      </div>
+    </div>
+  <!-- End Modal -->

@@ -1,0 +1,95 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <title>Contact Us | {{BrandName}} </title>
+  <meta name="" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" type="image/png" href="img/favicon.png">
+  <!-- Css files Import -->
+  <link rel="stylesheet" href="css/bootstrap.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/iconFont.css">
+  <link rel="stylesheet" href="css/build.css"/>
+  <link rel="stylesheet" href="css/bootstrap-select.css"/>
+  
+  <!-- JavaScript files Import -->
+  <script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
+  <script type="text/javascript" src="js/bootstrap.js"></script>
+  <script type="text/javascript" src="js/bootstrap-select.js"></script>   
+
+</head>
+<body>
+  <!-- Start Header -->
+  <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+    <div class="row">
+        <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="home.html"><img src="img/logo_header.png"  class="headerLogo"/></a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="home.html"><i class="fa fa-home"></i> Home</a></li>
+            <li><a href="orderHistory.html"><i class="fa fa-clock-o"></i> Order History</a></li>
+      <li><a href="price.html"><i class="fa fa-tag"></i> Prices</a></li>
+      <li><a href="credit.html"><i class="fa fa-rupee"></i> Credits</a></li>
+      <li><a href="profile.html"><i class="fa fa-user"></i> Profile</a></li>
+      <li><a href="help.html"><i class="fa fa-question-circle"></i> Help</a></li>
+            
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <img src="img/favicon.png" class="profileImg"/> 
+                <div class="userName on-left">{{username}}</div> <i class="caret"></i>
+              </a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="#"  data-toggle="modal" data-target="#changePwdModal">Change Password</a></li>
+                <li><a href="index.html">Log out</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+    </nav>
+  <!-- End Header -->
+
+  <div class="container">
+    <div class="row">
+        content here
+    </div>
+  </div>
+
+
+<!-- Start Footer -->
+<div class="navbar navbar-inverse navbar-fixed-bottom">
+  <div class="container"> 
+    <button class="navbar-toggle" data-toggle="collapse" data-target=".navHeaderCollapse"></button>
+        <div class="collapse navbar-collapse navHeaderCollapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="help.html">About Us</a></li>
+            <li><a href="privacyPolicy.html">Privacy Policy</a></li>
+            <li><a href="contact-us.html">Contact Us</a></li>
+            <li><a href="termofService.html">Terms of Service</a></li>
+            <li>
+              <ul class="social">
+                <li> <a href="#"><i class=" fa fa-facebook"></i></a> </li>
+                <li> <a href="#"><i class="fa fa-twitter"></i></a> </li>
+                <li> <a href="#"><i class="fa fa-google-plus"></i></a></li>
+                <li> <a href="#"><i class="fa fa-pinterest"></i> </a> </li>
+                <li> <a href="#"><i class="fa fa-youtube"> </i></a></li>
+                </ul>
+              </li>
+          </ul>
+        </div>
+    </div>
+</div>
+<!--End  Footer -->
+</body>
+</html>

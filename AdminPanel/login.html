@@ -1,0 +1,79 @@
+	<div class="container">
+	    <div class="row vertical-offset-100">
+	        <div class="col-md-4 col-md-offset-4">
+	            <div class="panel panel-default">
+	                <div class="panel-heading">                                
+	                    <div class="row-fluid user-row">
+	                        <img src="img/logo.png" class="img-responsive" alt="Conxole Admin"/>
+	                    </div>
+	                </div>
+	                <div class="panel-body">
+	                    <form role="form" class="form-signin" ng-submit="loginUser()">
+	                        <fieldset>
+	                            <label class="panel-login">
+	                                <div class="login_result" ng-show="error">{{ error.message }}</div>
+	                            </label>
+								<div class="col-md-12">
+						      		<input class="form-control" name="login" placeholder="Email Id" id="username" value="test@gmail.com" type="text"  ng-model="login.email" required/>
+								</div>
+								<div class="col-md-12 mt10">
+	                            	<input class="form-control" name="password" placeholder="Password" id="password" type="password" value="test"  ng-model="login.password" required/>
+								</div>
+								
+								<div class="col-md-12 mt10">
+	                            	<div class="checkbox checkbox-success">
+				                        <input id="rememberMe" class="styled" type="checkbox">
+				                        <label for="rememberMe">Remember me</label>
+				                    </div>
+								</div>
+								
+	                            <div class="col-md-12 mt5">
+	                            	<input class="btn btn-success btn-block" type="submit" value="Login">
+								</div>
+								<div class="clearfix"></div>
+								<hr/>
+								
+								<div class="col-md-12 np">
+									<div class="col-xs-5 text-left mt10">
+		                            <!-- 	<a href="" data-toggle="modal" data-target="#signUpModal" ng-click="getSocieties()">Sign Up</a> -->
+									</div>
+									<div class="col-xs-7 text-right mt10">
+		                            	<a href="" data-toggle="modal" data-target="#forgotModal">Forgot Password ?</a>
+									</div>
+								</div>
+	                        </fieldset>
+	                    </form>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	
+	
+	<!-- Forgot Password Modal -->
+	  <div class="modal fade" id="forgotModal" role="dialog" tabindex="-1">
+	    <div class="modal-dialog">
+	      <!-- Modal content-->
+	      <div class="modal-content">
+			  <form role="form" ng-submit="forgotPassword()">
+			        <div class="modal-header">
+			          <button type="button" class="close" data-dismiss="modal">&times;</button>
+			          <h4 class="modal-title">Forgot Password</h4>
+			        </div>
+			        <div class="modal-body">
+					  	<div class="col-md-12">
+		                	<input class="form-control" name="login" placeholder="Email Id" type="text" ng-model="forgotPasswordEmail" required/>
+						</div>
+					  <div class="clearfix"></div>
+			        </div>
+			        <div class="modal-footer">
+						<input type="submit" class="btn btn-success" value="Recover My Password"/>
+			          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			        </div>
+			  </form>
+	      </div>
+	    </div>
+	  </div>
+	<!-- End Modal -->
+	
+	

@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE configuration
+  PUBLIC '-//mybatis.org//DTD Config 3.0//EN'
+  'http://mybatis.org/dtd/mybatis-3-config.dtd'>
+<configuration>
+	<properties resource='com/laundry/config/application.properties' />
+	<typeAliases>
+		<typeAlias type='com.laundry.bean.UserBean' alias='User'></typeAlias>
+		<typeAlias type='com.laundry.bean.AddressBean' alias='Address'></typeAlias>
+		<typeAlias type='com.laundry.bean.SocietyBean' alias='Society'></typeAlias>
+		<typeAlias type='com.laundry.bean.CategoryBean' alias='Category'></typeAlias>
+		<typeAlias type='com.laundry.bean.OrderBean' alias='Order'></typeAlias>
+		<typeAlias type='com.laundry.bean.OrderItemBean' alias='OrderItem'></typeAlias>
+		<typeAlias type='com.laundry.bean.CategoryPriceBean' alias='CategoryPrice'></typeAlias>
+		<typeAlias type='com.laundry.bean.StatusBean' alias='Status'></typeAlias>
+		<typeAlias type='com.laundry.bean.OrderStatusBean' alias='OrderStatus'></typeAlias>
+		<typeAlias type='com.laundry.bean.AdminUserBean' alias='AdminUser'></typeAlias>
+		<typeAlias type='com.laundry.bean.DeliveryPersonBean' alias='DeliveryPerson'></typeAlias>
+		<typeAlias type='com.laundry.bean.IronPersonBean' alias='IronPerson'></typeAlias>
+		<typeAlias type='com.laundry.bean.StoreBean' alias='Store'></typeAlias>
+		<typeAlias type='com.laundry.bean.FeedbackCriteriaBean' alias='FeedbackCriteria'></typeAlias>
+		<typeAlias type='com.laundry.bean.OrderFeedbackBean' alias='OrderFeedback'></typeAlias>
+		<typeAlias type='com.laundry.bean.StoreBagBean' alias='StoreBag'></typeAlias>
+		<typeAlias type='com.laundry.bean.UserDeviceTokenBeanKey' alias='UserDeviceToken'></typeAlias>
+		<typeAlias type='com.laundry.bean.UserProviderXREFBean' alias='UserProviderXREF'></typeAlias>
+		<typeAlias type='com.laundry.bean.OrderCancellationReasonBean' alias='OrderCancellationReason'></typeAlias>
+		<typeAlias type='com.laundry.bean.SupportBean' alias='Support'></typeAlias>
+		<typeAlias type='com.laundry.bean.FAQBean' alias='FAQ'></typeAlias>
+		<typeAlias type='com.laundry.bean.PaymentTransactionBean' alias='PaymentTransaction'></typeAlias>
+		<typeAlias type='com.laundry.bean.TransactionBean' alias='Transaction'></typeAlias>
+	</typeAliases>
+	<environments default='development'>
+		<environment id='development'>
+			<transactionManager type='JDBC' />
+			<dataSource type='POOLED'>
+				<property name='driver' value='${jdbc.driverClassName}' />
+				<property name='url' value='${jdbc.url}' />
+				<property name='username' value='${jdbc.username}' />
+				<property name='password' value='${jdbc.password}' />
+<!-- 				<property name="minPoolSize" value="2" /> -->
+<!-- 				<property name="maxPoolSize" value="20" /> -->
+<!-- 				<property name="acquireIncrement" value="2" />  -->
+<!-- 				<property name="testConnectionOnCheckin" value="true" />  -->
+<!-- 				<property name="idleConnectionTestPeriod" value="3600" /> -->
+<!-- 				<property name="maxIdleTimeExcessConnections" value="300" /> -->
+				<property name="poolPingQuery" value="SELECT 1" />
+              	<property name="poolPingEnabled" value="true" />
+				
+			</dataSource>
+		</environment>
+	</environments>
+	<mappers>
+		<mapper resource='com/laundry/mapping/UserBeanMapper.xml' />
+		<mapper resource='com/laundry/mapping/AddressBeanMapper.xml' />
+		<mapper resource='com/laundry/mapping/SocietyBeanMapper.xml' />
+		<mapper resource='com/laundry/mapping/CategoryBeanMapper.xml' />
+		<mapper resource='com/laundry/mapping/OrderBeanMapper.xml' />
+		<mapper resource='com/laundry/mapping/OrderItemBeanMapper.xml' />
+		<mapper resource='com/laundry/mapping/CategoryPriceBeanMapper.xml' />
+		<mapper resource='com/laundry/mapping/StatusBeanMapper.xml' />
+		<mapper resource='com/laundry/mapping/OrderStatusBeanMapper.xml' />
+		<mapper resource='com/laundry/mapping/AdminUserBeanMapper.xml' />
+		<mapper resource='com/laundry/mapping/DeliveryPersonBeanMapper.xml' />
+		<mapper resource='com/laundry/mapping/IronPersonBeanMapper.xml' />
+		<mapper resource='com/laundry/mapping/StoreBeanMapper.xml' />
+		<mapper resource='com/laundry/mapping/FeedbackCriteriaBeanMapper.xml' />
+		<mapper resource='com/laundry/mapping/OrderFeedbackBeanMapper.xml' />
+		<mapper resource='com/laundry/mapping/StoreBagBeanMapper.xml' />
+		<mapper resource='com/laundry/mapping/UserDeviceTokenBeanMapper.xml' />
+		<mapper resource='com/laundry/mapping/UserProviderXREFBeanMapper.xml' />
+		<mapper resource='com/laundry/mapping/OrderCancellationReasonBeanMapper.xml' />
+		<mapper resource='com/laundry/mapping/SupportBeanMapper.xml' />
+		<mapper resource='com/laundry/mapping/FAQBeanMapper.xml' />
+		<mapper resource='com/laundry/mapping/PaymentTransactionBeanMapper.xml' />
+		<mapper resource='com/laundry/mapping/TransactionBeanMapper.xml' />
+		<mapper resource='com/laundry/mapping/PromotionBeanMapper.xml' />
+		<mapper resource='com/laundry/mapping/UserPromotionXREFBeanMapper.xml' />
+	</mappers>
+</configuration>

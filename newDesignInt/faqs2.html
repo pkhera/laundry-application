@@ -1,0 +1,99 @@
+<style type="text/css">
+body {background: #8DD0C0 !important;}
+	</style>
+<script>
+	$(document).ready(function() {
+		$("#faqs-tab-content").niceScroll();  // The document page (body)
+	});
+	
+	$('#faqsTab a').click(function (e) {
+	  e.preventDefault();
+	  $(this).tab('show');
+	});
+</script>
+	
+<div class="col-sm-12 col-md-9 col-sm-offset-2 col-lg-10 col-md-offset-3 col-lg-offset-2 main">		
+	
+	<div class="col-lg-10 col-md-12 no-padding faqsContent faqBox faq">
+	<div class="loginField text-center faqBody"><a href="index.html"><img class="text-center" src="img/logo.png" width="240"/></a></div>			
+	<h3 class="text-center">Frequently Asked Questions</h3>
+		<!-- <ul id="faqsTab" class="nav nav-tabs" data-tabs="tabs">
+			<li class="active"><a href="#deliveryFAQ" data-toggle="tab" >DELIVERY</a></li>
+			<li><a href="#paymentFAQ" data-toggle="tab">PAYMENT</a></li>
+			<li><a href="#generalFAQ" data-toggle="tab">GENERAL</a></li>
+		</ul> -->
+
+		<div  id="faqs-tab-content" class="tab-content">
+		<div>
+					<h5><strong>Q. WHAT DOES LAUNDRY DO?</strong></h5>
+					<p><strong>A.</strong> With features like, 1-Hour express delivery, multiple avenues to place orders (app/web/phone and even what’s app), anytime pickup and anytime delivery, LAUNDRY is the easiest, most convenient and reliable ironing option in your neighborhood.</p>
+				</div>
+				<div>
+					<h5><strong>Q. IS LAUNDRY AVAILABLE IN MY AREA?</strong></h5>
+					<p><strong>A.</strong> To be able to better serve our customers LAUNDRY is currently available only in certain apartments. To find out if we serve your apartment, just enter your apartment name on our website. If you don’t find your apartment there and your apartment needs LAUNDRY please drop us a mail at <a href="support@laundry.in">support@laundry.in</a></p>
+				</div>
+				<div>
+					<h5><strong>Q. HOW DO I SCHEDULE A PICKUP AND DROP OFF?</strong></h5>
+					<p><strong>A.</strong> Just click on Order Now on our website and choose pick up and drop time from the available 1-hour windows. Additionally, you can choose to tell us if you want some of your ironed clothes to be returned on hangers. You can use our app or call us or what’s app us to place an order as well.
+<br />If you are in a rush, you can choose to use our Express Delivery service. For a premium fee we execute pickup - ironing - drop in under an hour.</p>
+				</div>
+				<div>
+					<h5><strong>Q. WHAT IS EXPRESS DELIVERY?</strong></h5>
+					<p><strong>A.</strong> When you choose express delivery, we promise to complete the pick up from your home, iron the clothes and deliver them back to you in under an hour. Express delivery orders are priced differently.  
+<br />Maximum of 5 items allowed in one express delivery order. Only base price will be charged in case of deliveries exceeding promised time. Any offer listed for regular service does not apply for express delivery.
+ <br />Premium fee for express delivery becomes:
+ <ul>
+<li>Express Price (EP) = (Base Price (BP) + ₹ 10) Rounded down to nearest 5 multiple</li>
+<li>For example: Shirt (BP - ₹ 6, EP - ₹ 15), Designer Kurta (BP - ₹ 12, EP - ₹ 20)</li>
+</ul>
+</p>
+				</div>
+				<div>
+					<h5><strong>Q. CAN I CHANGE MY ORDER TIME?</strong></h5>
+					<p><strong>A.</strong> You can reschedule your pickup or drop at any time prior to 1 hour before actual pick up without any charges. But in case of last minutes changes (less than an hour before pickup or drop time) a rescheduling fee of ₹ 10 is charged</p>
+				</div>
+				<div>
+					<h5><strong>Q. DO YOU PROVIDE DELIVERY ON HANGERS?</strong></h5>
+					<p><strong>A.</strong> Absolutely, we provide deliveries on Hanger as per your need. If users choose to keep hangers with them, a refundable deposit of ₹ 20 per hanger will be charged to the user. This amount will be returned back to the users once the deposited hangers are returned. The deposit amount can also be converted to store credits for future usage</p>
+				</div>
+				<div>
+					<h5><strong>Q. DO I NEED TO COUNT MY CLOTHES?</strong></h5>
+					<p><strong>A.</strong> Yup! We encourage you to count clothes before handing them over to our pick boys. This helps in keeping the transaction transparent. You can even categorize your order before pick up (3 x pants, 2 x sarees) to get a fare estimate.</p>
+				</div>
+				<div>
+					<h5><strong>Q. DO I NEED TO SEPARATE MY CLOTHES?</strong></h5>
+					<p><strong>A.</strong> Only in the case you want some of your clothes on Hangers. Our executive will come with two separate bags, one for the clothes to be on hanger and the other for the clothes to be folded and delivered.</p>
+				</div>
+				<div>
+					<h5><strong>Q. IS THERE AN ORDER MINIMUM?</strong></h5>
+					<p><strong>A.</strong> NOPE!</p>
+				</div>
+				<div>
+					<h5><strong>Q. IS THERE A DELIVERY FEE?</strong></h5>
+					<p><strong>A.</strong> NOPE!</p>
+				</div>
+				<div>
+					<h5><strong>Q. HOW DO I CONTACT SUPPORT?</strong></h5>
+					<p><strong>A.</strong> We are always excited to speak with you. You can reach us at <a href="tel:+919876543210">+91 987 654 3210</a> or drop us a mail at <a href="support@laundry.in">support@laundry.in</a> and we will get back to you within 24 Hours.</p>
+				</div>
+			<!-- <div class="tab-pane fade in active" id="deliveryFAQ">
+				<div ng-repeat="faq in faqs | filter: {type: '1'}" >
+					<h5><strong>Q. {{faq.question}}</strong></h5>
+					<p><strong>A.</strong> {{faq.answer}}</p>
+				</div>
+			</div>
+			<div class="tab-pane fade" id="paymentFAQ">
+				<div ng-repeat="faq in faqs | filter: {type: '2'}" >
+					<h5><strong>Q. {{faq.question}}</strong></h5>
+					<p><strong>A.</strong> {{faq.answer}}</p>
+				</div>
+			</div>
+			<div class="tab-pane fade" id="generalFAQ">
+				<div ng-repeat="faq in faqs | filter: {type: '3'}" >
+					<h5><strong>Q. {{faq.question}}</strong></h5>
+					<p><strong>A.</strong> {{faq.answer}}</p>
+				</div>
+			</div> -->
+		</div>
+	</div>
+</div>

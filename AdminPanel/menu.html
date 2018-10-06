@@ -1,0 +1,49 @@
+<ul class="nav navbar-nav">
+	<li><a href="#/home"><i class="fa fa-clock-o"></i> Orders</a></li>
+	<li><a href="#/deliveryPersons"><i class="fa fa-users"></i> Delivery Persons</a></li>
+	<li><a href="#/ironPersons"><i class="fa fa-users"></i> Iron Persons</a></li>
+	<li ng-show="admin.storeId == -1"><a href="#/stores"><i class="fa fa-home"></i> Stores</a></li>
+	<li ng-show="admin.storeId == -1"><a href="#/societies"><i class="fa fa-home"></i> Societies</a></li>
+	<li ng-show="admin.storeId == -1"><a href="#/admins"><i class="fa fa-users"></i> Admin Users</a></li>
+	<!-- <li><a href="#/prices"><i class="fa fa-tag"></i> Prices</a></li>
+	<li><a href="#/credit"><i class="fa fa-rupee"></i> Credits</a></li> -->
+	<!-- <li><a href="#/profile"><i class="fa fa-user"></i> Profile</a></li> -->
+	<!-- <li><a href="#/help.html"><i class="fa fa-question-circle"></i> Help</a></li> -->
+</ul>
+<ul class="nav navbar-nav navbar-right">
+	<li class="dropdown" ng-show="admin.storeId == -1">
+	  <a href="" class="dropdown-toggle" data-toggle="dropdown">
+		<!-- <img src="img/favicon.pngg" class="profileImg"/>  -->
+		<div class="on-left">Services</div> <i class="caret"></i>
+	  </a>
+	  <ul class="dropdown-menu" role="menu">
+		<li>
+			<input id="smsService" class="margin-top-10" type="checkbox" data-label-text="SMS Service" data-size="mini" ng-model="smsService.enabled"
+				bootstrap-switch ng-change="setSMSService()" />
+		</li>
+		<li>
+			<input id="deliveryManagerSwitch" class="margin-top-10" type="checkbox" data-label-text="Delivery Manager" data-size="mini" ng-model="deliveryManager.enabled"
+				bootstrap-switch ng-change="setDeliveryManager()" />
+		</li>
+		<li>
+			<input id="emailSwitch" class="margin-top-10" type="checkbox" data-label-text="Email Service" data-size="mini" ng-model="emailService.enabled"
+				bootstrap-switch ng-change="setEmailService()" />
+		</li>
+	  </ul>
+	</li>
+	<li class="dropdown">
+	  <a href="" class="dropdown-toggle" data-toggle="dropdown">
+		<!-- <img src="img/favicon.pngg" class="profileImg"/>  -->
+		<div class="on-left">{{defaultStore.name}}</div> <i class="caret"></i>
+	  </a>
+	  <ul class="dropdown-menu" role="menu">
+		<li  ng-show="admin.storeId == -1" ng-repeat="store in defaultStores"><a href="" ng-click="setDefaultStore(store, storeChangeListener)"><i class="fa fa-home"></i>  {{store.name}}</a></li>
+		<li><a href="#/profile" ><i class="fa fa-user"></i> Profile</a></li>
+		<li><a href=""  data-toggle="modal" data-target="#changePwdModal">Change Password</a></li>
+		<li><a href="#/download" >Download</a></li>
+		<li><a href="#/promotion" >Promotions</a></li>
+		<li><a href="#/payment" >Payments</a></li>
+		<li><a href="#/login">Log out</a></li>
+	  </ul>
+	</li>
+</ul>

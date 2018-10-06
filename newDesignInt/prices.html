@@ -1,0 +1,66 @@
+<div ng-include="'menu.html'" />
+<div class="col-sm-9 col-sm-offset-3 col-lg-9 col-lg-offset-2 main placeOrder">			
+	<h3>Prices*</h3>
+	<div class="clearfix"></div>
+
+	<div class="placeOrderGrid margin-top-30">
+		<div class="col-md-5 on-right margin-top-20">
+			<div class="col-md-12 col-sm-5 col-xs-7">
+				<input type="text" ng-model="search" class="form-control" placeholder="Search"/>
+			</div>				
+			
+		</div>
+		<div class="clearfix"></div>
+
+		<!-- display cloths -->
+		<div class="col-md-12 margin-top-20 displayCloths">
+			<!-- first row start -->
+			<!-- <div class="col-md-12 no-padding"> -->
+				<div class="col-lg-3 col-md-6 col-sm-6 orderImageCategory" ng-repeat="category in categories | filter: {societyId: 1, category.name: search} | orderBy: sortBy">
+					<div class="productBlock">
+						<div class="pricesCategoryHeader">
+							<span class="pricesCategoryName">{{category.category.name}}</span>
+						</div>
+						<img src="img/{{category.category.categoryId}}.jpg" class="clothImages">
+						<div class="categoryHeader">
+							<span class="on-left categoryFooter">Base - &#8377; {{category.rate}}</span>
+							<span class="on-right categoryFooter">Express - &#8377; {{category.expressDeliveryPrice}}</span>
+						</div>
+					</div>
+				</div>
+			<div class="clearfix"></div>
+		</div>
+	<div class="clearfix"></div>
+	</div>
+	<div class="col-md-12">* all prices are inclusive of taxes</div>
+		<div class="col-md-12 margin-top-30"></div>
+	</div>
+
+<style type="text/css">
+	.nicescroll-rails.nicescroll-rails-vr {
+	    background: #FFFFFF;
+	    border-radius: 5px;
+	    cursor: pointer;
+	    border-right: 1px solid #E2E3E5;
+	}
+	.productBlock{
+	    box-shadow: 0px 0px 3px 0px #8ECFD8;
+	    padding-bottom: 1px;
+	    border-radius: 3px;
+	    background-color:white;
+	    overflow: hidden;
+	    cursor: pointer;
+	    text-align: center;
+	}
+	.productBlock:hover{
+	  box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.12), 0 1px 10px 0 #8dd1c2;
+	}
+	.countItems{
+		padding:5px;
+	}
+
+</style>
+<script type="text/javascript">
+		$('.displayCloths').niceScroll();
+		
+</script>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		body,html{font-family: Trebuchet MS !important;font-weight:normal !important;}
+	</style>
+	<link href='https://fonts.googleapis.com/css?family=Quicksand' rel='stylesheet' type='text/css'>
+</head>
+<body>
+	<div style="background:#114c54;width:680px;margin:0 auto;height:740px;color:#104c54;">
+		<div style="text-align:center;padding-top:20px;"><img src="http://drive.google.com/uc?export=view&id=0B6STYXJyHuHMb0JVLS1jT2lSdzg" width="200"/></div>
+		<div style="width:80%;background:#8ed1c1;height:74%;margin:0 auto;padding:20px 10px 20px 20px;">
+			<h1>Thank you for your order</h1>
+			<p style="color:#fff;font-size:21px;">We will send the confirmed estimate once our executive picks up the clothes to be ironed.</p>
+			<p style="font-size:19px;">You can always check the status of your order on www.laundry.in </p>
+			
+			<table width="100%" border="0" cellspacing="0" cellpadding="0">
+			  <tr>
+				<td>
+				  <table border="0" cellspacing="0" cellpadding="0">
+					<tr>
+					  <td align="center" style="-webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius: 10px;" bgcolor="#fff"><a href="http://www.laundy.in#/orderHistory/{{orderNumber}}" target="_blank" style="font-size: 16px; color: #104c54; text-decoration: none; -webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius: 10px; padding: 8px; border: 1px solid #104c54; display: inline-block;">TRACK ORDER</a></td>
+					</tr>
+				  </table>
+				</td>
+			  </tr>
+			</table>
+			<hr style="border: none;border-bottom: 1px solid #fff;margin-top:15px;"/>
+
+			<h5 style="font-size:21px;">Details of your Order : <span style="color:#fff;">{{orderNumber}}</span></h5>
+
+			<div>
+				<table style="width:100%;font-weight:bold;border-spacing:5px;">
+					<tr>
+						<td style="color:#fff;font-weight:normal;">Address</td>
+						<td>{{flatNumber}} - {{societyName}}</td>
+					</tr>
+					<tr>
+						<td style="color:#fff;font-weight:normal;">Pick Up</td>
+						<td>{{pickupTime}}</td>
+					</tr>
+					<tr>
+						<td style="color:#fff;font-weight:normal;">Drop</td>
+						<td>{{dropTime}}</td>
+					</tr>
+					<tr>
+						<td style="color:#fff;font-weight:normal;">Items</td>
+						<td>{{numberOfItems}}</td>
+					</tr>
+					<tr>
+						<td style="color:#fff;font-weight:normal;">Amount</td>
+						<td>{{billAmount}}</td>
+					</tr>
+					<tr>
+						<td style="color:#fff;font-weight:normal;">Hanger Needed</td>
+						<td>{{hangerNeeded}}</td>
+					</tr>
+
+					<tr>
+						<td style="color:#fff;font-weight:normal;">Payment Mode</td>
+						<td>{{modeOfPayment}}</td>
+					</tr>
+				</table>
+				<p style="font-weight:bold;">{{deliveryPersonName}} will pick your clothes at your chosen time</p>
+			</div>
+		</div>
+		<div style="padding:20px 10px 20px 50px;color:#fff;">Team Laundry | <a href="http://www.laundry.in" style="color:#fff;text-decoration:none">www.laundry.in</a></div>
+	</div>
+</body>
+</html>

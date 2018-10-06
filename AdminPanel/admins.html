@@ -1,0 +1,321 @@
+
+	<!-- Start Header -->
+	<nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+	  <div class="row">
+        <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#"><img src="img/logo_header.png"  class="headerLogo"/></a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse" ng-include="'menu.html'">
+        </div><!--/.nav-collapse -->
+      </div>
+	  </div>
+    </nav>
+	<!-- End Header -->
+	
+	<div class="container">
+		<div class="row">
+			<div class="mt80">
+				<!-- New Order Panel -->
+				<div class="panel panel-success">
+					<div class="panel-heading">Users
+					<button class="btn btn-default btn-sm pull-right" data-toggle="modal" data-target="#basicInfoModal" ng-click="new = true;" style="margin-top:-4px;">Add Admin</button>
+					<button class="btn btn-default btn-sm pull-right" data-toggle="modal" data-target="#userModal" ng-click="new = true; editUser = {}" style="margin-top:-4px;">Add User</button>
+				</div>
+
+				<div class="panel-body">
+					<ul id="ordersTab" class="nav nav-tabs" data-tabs="tabs">
+						<li class="active"><a href="#users" data-toggle="tab" >User </a></li>
+						<li><a href="#adminUsers" data-toggle="tab">Admin Users</a></li>
+					</ul>
+							
+					<div  id="users-tab-content" class="tab-content">
+						<div class="tab-pane fade in active" id="users">
+							<table id="oraderTable" datatable="ng" class="table table-hover table-striped table-bordered table-responsive" cellspacing="0" width="100%">
+								<thead>
+									<tr>
+										<th>Id</th>
+										<th>First Name</th>
+										<th>Last Name</th>
+										<th>Email</th>
+										<th>Phone Number</th>
+										<th>Flat Number</th>
+										<th>Wallet Balance</th>
+										<th data-orderable="false">Actions</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="user in users" class="{{user.walletBalance < 0 ? 'danger' : ''}}">
+										<td ng-order>{{user.userId}}</td>
+										<td>{{user.firstName}}</td>
+										<td>{{user.lastName}}</td>
+										<td>{{user.email}}</td>
+										<td>{{user.phoneNumber}}</td>
+										<td>{{user.defaultAddress.flatNumber}}</td>
+										<td>{{user.walletBalance}}</td>
+										<td>
+											<i class="fa fa-edit fa-lg" data-toggle="modal" data-target="#userModal" ng-click="updateUser(user)"></i>
+											<i class="fa fa-rupee" data-toggle="modal" data-target="#addCreditModal" ng-click="selectUser(user)"></i>
+											<!-- <i class="fa fa-trash fa-lg fg-red" ng-click="deleteAdmin(admin)"></i> -->
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="tab-pane fade" id="adminUsers">
+							<table id="adminUsersTable" datatable="ng" class="table table-hover table-striped table-bordered table-responsive" cellspacing="0" width="100%">
+								<thead>
+									<tr>
+										<th>Id</th>
+										<th>First Name</th>
+										<th>Last Name</th>
+										<th>Email</th>
+										<th>Phone Number</th>
+										<th>Store</th>
+										<th data-orderable="false">Actions</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="admin in admins">
+										<td ng-order>{{admin.userId}}</td>
+										<td>{{admin.firstName}}</td>
+										<td>{{admin.lastName}}</td>
+										<td>{{admin.email}}</td>
+										<td>{{admin.phoneNumber}}</td>
+										<td>{{admin.store.name}}</td>
+										<td>
+											<i class="fa fa-edit fa-lg" data-toggle="modal" data-target="#basicInfoModal" ng-click="updateAdmin(admin)"></i>
+											<i class="fa fa-trash fa-lg fg-red" ng-click="deleteAdmin(admin)"></i>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					
+				<!-- End Data Grid -->
+						
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+	
+<!-- for Basic Info Edit  Modal -->
+<div class="modal fade" id="basicInfoModal" role="dialog" tabindex="-1">
+	<div class="modal-dialog modal-lg">
+	<!-- Modal content-->
+		<div class="modal-content">
+			<form role="form" class="form-horizontal" ng-submit="saveAdmin();">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Admin User Info</h4>
+				</div>
+             
+				<div class="modal-body">            
+					<div class="col-md-6">
+						<label class="col-md-4 control-label">First Name :</label>
+						<div class="col-md-8">
+							<input type="text" placeholder="Enter First Name" class="form-control" ng-model="editAdmin.firstName" required>
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<label class="col-md-4 control-label">Last Name :</label>
+						<div class="col-md-8">
+							<input type="text" id="lastName" class="form-control" placeholder="Enter Last Name" ng-model="editAdmin.lastName" required/>
+						</div>
+					</div>
+
+					<div class="col-md-6 mt5">
+						<label class="col-md-4 control-label">Email :</label>
+						<div class="col-md-8">
+							<input type="text" id="email" class="form-control" placeholder="Enter Email" ng-model="editAdmin.email" required/>
+						</div>
+					</div>
+			
+					<div class="col-md-6 mt5">
+						<label class="col-md-4 control-label">Phone Number :</label>
+						<div class="col-md-8">
+							<input type="text" id="phoneNumber" class="form-control" placeholder="Enter Phone Number" ng-model="editAdmin.phoneNumber" required/>
+						</div>
+					</div>
+			
+					<div class="col-md-6 mt5" ng-show="new">
+						<label class="col-md-4 control-label">Password :</label>
+						<div class="col-md-8">
+							<input type="password" id="password" class="form-control" placeholder="Enter Password" ng-model="editAdmin.password" required/>
+						</div>
+					</div>
+			
+					<div class="col-md-6 mt5" ng-show="new">
+						<label class="col-md-4 control-label">Confirm Password :</label>
+						<div class="col-md-8">
+							<input type="password" id="confirmPassword" class="form-control" placeholder="Confirm Password" ng-model="editAdmin.confirmPassword" required/>
+						</div>
+					</div>
+			
+					<div class="col-md-6 mt5">
+						<label class="col-md-4 control-label">Store :</label>
+						<div class="col-md-8">
+							<select id="store" selectpicker data-hide-disabled="true" data-live-search="true" ng-model="editAdmin.storeId" ng-collection="stores"
+									ng-options="store.storeId as store.name for store in stores" data-select-on-tab="true">
+							</select>
+						</div>
+						<div class="clearfix"></div>
+					</div>
+					<div class="clearfix"></div>
+            
+					<div class="modal-footer">
+						<input type="submit" class="btn btn-success" value="Save"/>
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+  <!-- End Modal -->
+  
+<div class="modal fade" id="userModal" role="dialog" tabindex="-1">
+	<div class="modal-dialog modal-lg">
+	<!-- Modal content-->
+		<div class="modal-content">
+			<form role="form" class="form-horizontal" ng-submit="saveUser();">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">User Info</h4>
+				</div>
+             
+				<div class="modal-body">            
+					<div class="col-md-6">
+						<label class="col-md-4 control-label">First Name :</label>
+						<div class="col-md-8">
+							<input type="text" placeholder="Enter First Name" class="form-control" ng-model="editUser.firstName" required>
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<label class="col-md-4 control-label">Last Name :</label>
+						<div class="col-md-8">
+							<input type="text" id="lastName" class="form-control" placeholder="Enter Last Name" ng-model="editUser.lastName" required/>
+						</div>
+					</div>
+
+					<div class="col-md-6 mt5">
+						<label class="col-md-4 control-label">Email :</label>
+						<div class="col-md-8">
+							<input type="text" id="email" class="form-control" placeholder="Enter Email" ng-model="editUser.email"/>
+						</div>
+					</div>
+			
+					<div class="col-md-6 mt5">
+						<label class="col-md-4 control-label">Phone Number :</label>
+						<div class="col-md-8">
+							<input type="text" id="phoneNumber" class="form-control" placeholder="Enter Phone Number" ng-model="editUser.phoneNumber"/>
+						</div>
+					</div>
+					
+					<div class="col-md-6 mt5">
+						<label class="col-md-4 control-label">Address Label :</label>
+						<div class="col-md-8">
+							<select selectpicker ng-model="addressLabel" id="label" placeholder="Select Address Label" ng-collection="labels" 
+								data-live-search="true" ng-change="addressLabelChange()"
+								ng-options="l.label as l.label for l in labels" data-select-on-tab="true" data-show-tick="true" ng-focus="show($event)">
+							</select>
+						</div>
+							<div class="clearfix"></div>
+					</div>
+					
+					<div class="col-md-6 mt5">
+						<label class="col-md-4 control-label">Flat Number :</label>
+						<div class="col-md-8">
+							<input type="text" id="flatNumber" class="form-control" placeholder="Enter Flat Number" 
+								ng-model="editUser.addresses[addressLabel].flatNumber" required/>
+						</div>
+					</div>
+
+					<div class="col-md-6 mt5">
+						<label class="col-md-4 control-label">Society :</label>
+						<div class="col-md-8">
+							<select id="society" selectpicker data-hide-disabled="true" data-live-search="true" ng-model="editUser.addresses[addressLabel].society.societyId" ng-collection="societies"
+									ng-options="society.societyId as society.name for society in societies" data-select-on-tab="true">
+							</select>
+						</div>
+							<div class="clearfix"></div>
+					</div>
+					
+					<div class="clearfix"></div>
+            
+					<div class="modal-footer">
+						<input type="submit" class="btn btn-success" value="Save"/>
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade customModal rechargeModal" id="addCreditModal" role="dialog" tabindex="-1">
+	<div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+        <div class="modal-content">
+			<form role="form" class="form-horizontal" ng-submit="addCredit(selectedUser)" id="addCreditForm" onsubmit="return false;">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Current Balance : <i class="fa fa-rupee"></i> {{selectedUser.walletBalance}}</h4>
+				</div>
+				 
+				<div class="modal-body text-center">   
+					<div class="col-md-12 margin-top-10">
+						<div class="col-md-6 col-md-offset-3 text-center">
+							<div class="input-group">
+								<span class="input-group-addon" id="basic-addon1"><i class="fa fa-rupee" /></span>
+								<input name="creditAmount" placeholder="Amount" id="creditAmount" class="form-control text-center" 
+									ng-model="creditAmount" required>
+							</div>
+						</div>
+						<div class="clearfix" />
+						<div class="col-md-6 col-md-offset-3 text-center">
+							<input type="password" name="password" placeholder="Password" id="password" class="form-control text-center" 
+								ng-model="masterPassword" required>
+						</div>
+					</div>
+				
+					<div class="col-md-4 margin-top-10">
+						<a href="" class="btn btn-primary active" ng-click="creditAmount = creditAmount + 100">+ <i class="fa fa-rupee" /> 100</a>
+					</div>
+					
+					<div class="col-md-4 margin-top-10">
+						<a href="" class="btn btn-primary active" ng-click="creditAmount = creditAmount + 500">+ <i class="fa fa-rupee" /> 500</a>
+					</div>
+					
+					<div class="col-md-4 margin-top-10">
+						<a href="" class="btn btn-primary active" ng-click="creditAmount = creditAmount + 1000">+ <i class="fa fa-rupee" /> 1000</a>
+					</div>
+					<div class="clearfix"></div>
+					
+				</div>
+				<div class="modal-footer">
+					<input type="submit" class="btn btn-primary on-right" value="Add Credit"/>
+				</div>
+	
+			</form>
+        </div>
+	</div>
+</div>
+
+
+<script type="text/javascript">
+		$('#ordersTab a').click(function (e) {
+		  e.preventDefault();
+		  $(this).tab('show');
+		});
+</script>

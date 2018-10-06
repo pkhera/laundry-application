@@ -1,0 +1,337 @@
+<div class="container-fluid no-padding landingMain">
+<!-- Header -->
+<div class="col-md-12 landingHeader">
+    <!-- Static navbar -->
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html">
+                <img src="img/logo1.png" class="landingLogo">
+                </a>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav on-right">
+						<li><a href="" class="scroll-link" data-id="howLaundryWorks">HOW LAUNDRY WORKS</a></li>
+			            <li><a href="" class="scroll-link" data-id="aboutUs">ABOUT US</a></li>
+			            <li><a href="#faq2">FAQs</a></li>
+						<li><a href="#tnc/overview">TERMS &amp; CONDITIONS</a></li>
+						<li><a href="#privacyPolicy">PRIVACY POLICY</a></li>
+						<li><a href="#tnc/returns">RETURNS</a></li>
+						<li><a href="#tnc/contact" >CONTACT US</a></li>
+			            <li ng-hide="user"><a href="#login" class="bold">SIGN IN</a></li>
+						<ul class="nav navbar-nav navbar-right" ng-show="user">
+							<li class="dropdown">
+								<a href="" class="dropdown-toggle accountMenu" data-toggle="dropdown">
+									<img src="{{user.profilePicURL}}" class="profileImg" ng-show="user.profilePicURL != null"/>
+									<div class="userName on-left">{{user.firstName}} {{user.lastName}}</div> <i class="caret"></i>
+								</a>
+								<ul class="dropdown-menu">
+									<li>
+										<a href="#/profile/accountDetail">
+											<img src="img/accountDetails.png" class="menuIcons"/> Account Details
+										</a>
+									</li>
+									<li><a href="#/profile/addresses">
+										<img src="img/addresses.png" class="menuIcons"/> Addresses</a>
+									</li>
+									<li><a href="#/profile/payment">
+										<img src="img/payment.png" class="menuIcons"/> Payment</a>
+									</li>
+									<!-- <li><a href=""  data-toggle="modal" data-target="#changePwdModal">Change Password</a></li> -->
+									<li><a href="#/login">
+										<img src="img/logout.png" class="menuIcons"/> Log Out</a>
+									</li>
+								</ul>
+							</li>
+						</ul>
+                    </ul>
+                </div>
+                <!--/.nav-collapse -->
+            </div>
+            <!--/.container-fluid -->
+    </nav>
+    <div class="clearfix"></div>
+    </div>
+    <div class="clearfix"></div>
+    <!-- Banner -->
+    <div class="col-md-12 no-padding bannerImageBlock">
+        <img src="img/landingBanner.jpg">
+        <div class="col-md-3 searchAndOrderBlock">
+            <select id="societySearch" placeholder="Do we serve your apartment?" class="" ng-model="society">
+            </select>
+            <a href="#home" class="btn-group expressDileveryBtn hvr-pulse" data-toggle="buttons">
+                <label class="btn btn-primary active">
+                    <input type="checkbox" value="EXPRESS DILEVERY"/> 
+                    <div class="expressDileveryLabel">
+                        <div>ORDER</div>
+                        <div>NOW!</div>
+                    </div>
+                </label>
+            </a>
+        </div>
+    </div>
+    <!-- How It's Work -->
+    <div class="col-md-12 no-padding howItsWork">
+        <div class="container">
+            <h3 class="ladingheader" id="howLaundryWorks">HOW IT WORKS?</h3>
+            <div class="col-md-12 no-padding">
+                <div class="col-md-4">
+                    <img src="img/work1.png">
+                    <div class="howItWorkContent">
+                        <ul>
+                            <li>You choose the pick-up and delivery time as per your convenience</li>
+                            <li>Order via app/web or call</li>
+                        </ul>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="col-md-4">
+                    <img src="img/work2.png">
+                    <div class="howItWorkContent">
+                        <ul>
+                            <li>Namaste! Is how our courteous staff greets you at the time of delivery and pick-up</li>
+                            <li>Each order is collected in clean, individual and re-usable bags</li>
+                        </ul>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="col-md-4">
+                    <img src="img/work3.png">
+                    <div class="howItWorkContent">
+                        <ul>
+                            <li>High quality vacuum steam ironing to preserve health of your clothes</li>
+                            <li>Ironing executed at satellite stores within your apartment premises</li>
+                        </ul>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="col-md-12 no-padding text-center margin-top-30">
+                <div class="col-md-4 col-md-offset-2">
+                    <img src="img/work4.png">
+                    <div class="howItWorkContent">
+                        <ul>
+                            <li>Plan your day without constraints, we deliver when you want</li>
+                            <li>Clothes delivered in form of your choice: Folded or on Hangers</li>
+                        </ul>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="col-md-4">
+                    <img src="img/work5.png">
+                    <div class="howItWorkContent">
+                        <ul>
+                            <li>Avoid fumbling for change<b>,</b> cashless transaction via wallet/card/net banking</li>
+                            <li>Instant returns if not satisfied<b>,</b> no questions asked</li>
+                        </ul>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <!-- How to work -->
+     <div class="col-md-12 no-padding aboutUs howToWork">
+        <div class="container" id="aboutUs">
+            <h3 class="ladingheader">HOW TO ORDER</h3>
+            <div class="col-md-4 margin-top-10">
+                <div class="contactDetails">
+                    <a href="tel:+919876543210" class="text-center">
+                        <div class="col-md-12"><img src="img/phone1.png" class="supportIcons"></div>
+                        <div class="header col-md-12">CALL</div>
+                        <div class="col-md-12"><strong>+91 987 654 3210</strong></div>
+                    </a>
+                </div>
+            </div>
+            <!-- <div class="col-md-3 margin-top-40">
+				<a href="intent://send/{{support.whatsappId}}#Intent;scheme=smsto;package=com.whatsapp;action=android.intent.action.SENDTO;end" data-action="share/whatsapp/share"  class="text-center">
+                    <div><img src="img/whatsapp1.png" class="supportIcons"></div>
+                    <div class="header margin-top-20">WHATSAPP</div>
+                    <div><strong>+91 987 654 3210</strong></div>
+                </a>
+            </div> -->
+            <div class="col-md-4 margin-top-40">
+                <a class="text-center">
+                    <div><img src="img/intercom.png" class="supportIcons"></div>
+                    <div class="header margin-top-20">INTERCOM</div>
+                    <div><strong>98765</strong></div>
+                </a>
+            </div>
+            <div class="col-md-4 margin-top-40">
+                <a href="#home" class="text-center">
+                    <div><img src="img/website.png" class="supportIcons"></div>
+                    <div class="header margin-top-20">WEBSITE</div>
+                    <div><strong>www.website.in</strong></div>
+                </a>
+            </div>
+            <div class="clearfix"></div>
+
+            <div class="col-md-6 col-md-offset-3 text-center margin-top-20">
+                <img src="img/upcomingapp.png" style="width:300px;text-align:center;">
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <!-- How It's Work -->
+    <div class="col-md-12 no-padding aboutUs aboutUs1 supports">
+        <div class="container" id="aboutUs">
+            <h3 class="ladingheader">ABOUT US</h3>
+            <div class="col-md-6 margin-top-10">
+                <p>Ironing your clothes is one of the most mundane and procrastinated daily task. While you can choose to use nearby street vendor or below-the-building iron waala, their quality and reliability remain a major question mark. A trivial task like ironing does not merit your thought space. Let's give you that freedom back.</p>
+                
+            </div>
+            <div class="col-md-6 margin-top-10">
+				<p>LAUNDRY is an attempt to provide you professional ironing service right at your doorstep. We are always close to you hence are ideally positioned to serve your ironing needs in the least amount of time. Driven by technology and backed by simplified supply chain LAUNDRY is in the best position to wrinkle out your ironing woes.</p>
+                <p>Use web, app or phone to place an order with us. Choose pick up and drop time and DONE! We take care of the rest.</p>
+                
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <!-- Support -->
+    <div class="col-md-12 no-padding supports howToWork supports1">
+        <div class="container" id="support">
+            <h3 class="ladingheader">SUPPORT</h3>
+            <div class="col-sm-12">
+                <div class="margin-top-50 col-md-6" class="contactsBlock">
+                    <div class="contactDetails">
+						<a href="tel:{{support.call}}" class="text-center">
+							<div class="col-md-12"><img src="img/call.png" class="supportIcons text-center"></div>
+							<div class="col-md-12 margin-top-10"><div class="header">Call</div></div>
+							<div><strong>{{support.call}}</strong></div>
+						</a>
+                    </div>
+                </div>
+                <!-- <div class="margin-top-50 col-md-4" class="contactsBlock">
+                    <div class="contactDetails">
+						<a href="intent://send/{{support.whatsappId}}#Intent;scheme=smsto;package=com.whatsapp;action=android.intent.action.SENDTO;end" data-action="share/whatsapp/share"  class="text-center">
+							<div class="col-md-12"><img src="img/whatsApp2.png" class="supportIcons text-center"></div>
+							<div class="col-md-12 margin-top-10"><div class="header">What's app</div></div>
+							<div><strong>{{support.whatsapp}}</strong></div>
+						</a>
+                    </div>
+                </div> -->
+                <div class="margin-top-50 col-md-6" class="contactsBlock">
+                    <div class="contactDetails">
+						<a href="mailto:{{support.email}}"  class="text-center">
+							<div class="col-md-12"><img src="img/mail.png" class="supportIcons text-center"></div>
+							<div class="col-md-12 margin-top-10"><div class="header">Email</div></div>
+							<div><strong>{{support.email}}</strong></div>
+						</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- footer -->
+<!-- <div class="navbar navbar-default footer">
+    <div class="container">
+    	<div id="navbar" class="collapse navbar-collapse">
+           	<ul class="nav navbar-nav col-sm-12">
+              <li class="col-sm-4"><a href="#">SUPPORT</a></li>
+              <li class="col-sm-4"><a href="#">ABOUT US</a></li>
+              <li class="col-sm-4"><a href="#">FAQS</a></li>
+           	</ul>
+         </div>
+    </div>
+    </div>-->
+<style type="text/css">
+    /* Pulse */
+    @-webkit-keyframes hvr-pulse {
+    25% {
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+    }
+    75% {
+    -webkit-transform: scale(0.9);
+    transform: scale(0.9);
+    }
+    }
+    @keyframes hvr-pulse {
+    25% {
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+    }
+    75% {
+    -webkit-transform: scale(0.9);
+    transform: scale(0.9);
+    }
+    }
+    .hvr-pulse {
+    display: inline-block;
+    vertical-align: middle;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -moz-osx-font-smoothing: grayscale;
+    }
+    .hvr-pulse,.hvr-pulse:hover, .hvr-pulse:focus, .hvr-pulse:active {
+    -webkit-animation-name: hvr-pulse;
+    animation-name: hvr-pulse;
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-timing-function: linear;
+    animation-timing-function: linear;
+    -webkit-animation-iteration-count: infinite;
+    animation-iteration-count: infinite;
+    }
+    img.landingLogo{
+    position: absolute;
+    width: 180px;
+    top: 0px;
+    }
+    .bold{font-weight:bold;}
+    .navbar-nav>li>a {
+    top: 10px;
+    }
+    .landingHeader .navbar {
+    	margin-bottom: 0px;
+	}
+    @media (min-width: 1200px){
+	    .container {
+	    	width: 1070px;
+	    }
+    }
+</style>
+<script type="text/javascript">
+$(document).ready(function() {
+	// navigation click actions	
+	$('.scroll-link').on('click', function(event){
+		event.preventDefault();
+		var sectionID = $(this).attr("data-id");
+		scrollToID('#' + sectionID, 750);
+	});
+	// scroll to top action
+	$('.scroll-top').on('click', function(event) {
+		event.preventDefault();
+		$('html, body').animate({scrollTop:0}, 'slow'); 		
+	});
+	// mobile nav toggle
+	$('#nav-toggle').on('click', function (event) {
+		event.preventDefault();
+		$('#main-nav').toggleClass("open");
+	});
+});
+// scroll function
+function scrollToID(id, speed){
+	var offSet = 50;
+	var targetOffset = $(id).offset().top - offSet;
+	var mainNav = $('#main-nav');
+	$('html,body').animate({scrollTop:targetOffset}, speed);
+	if (mainNav.hasClass("open")) {
+		mainNav.css("height", "1px").removeClass("in").addClass("collapse");
+		mainNav.removeClass("open");
+	}
+}
+</script>

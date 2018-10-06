@@ -1,0 +1,147 @@
+<!-- Edit Order Modal -->
+<div class="modal fade" id="editOrderModal" role="dialog" tabindex="-1">
+<div class="modal-dialog modal-lg">
+<!-- Modal content-->
+<div class="modal-content">
+<form role="form">
+    <div class="modal-header alert {{selectedOrder.express ? 'alert-danger' : 'alert-success'}}">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Order # {{selectedOrder.orderId}}  -  &#8377; {{selectedOrder.billAmount}}</h4>
+    </div>
+    <div class="modal-body orderPopup">
+    <div class="col-md-12">
+        <div class="col-md-12 text-center">
+
+            <button type="button" class="btn btn-default btn-success" title="Approve Order" ng-disabled="selectedOrder.currentStatus.statusId == 8" ng-click="setOrderStatus(selectedOrder, 8)">Reject</button>
+
+            <button type="button" class="btn btn-default btn-success" title="Pickup Order" ng-disabled="selectedOrder.currentStatus.statusId == 1" ng-click="setOrderStatus(selectedOrder, 1)">Pickup</button>
+
+            <button type="button" class="btn btn-default btn-success" title="Received Clothes" ng-disabled="selectedOrder.currentStatus.statusId == 2" ng-click="setOrderStatus(selectedOrder, 2)">Received</button>
+
+            <button type="button" class="btn btn-default btn-success" title="Iron Clothes" ng-disabled="selectedOrder.currentStatus.statusId == 3" ng-click="setOrderStatus(selectedOrder, 3)">Iron</button>
+
+            <button type="button" class="btn btn-default btn-success" title="Pack Clothes" ng-disabled="selectedOrder.currentStatus.statusId == 4" ng-click="setOrderStatus(selectedOrder, 4)">Pack</button>
+
+            <button type="button" class="btn btn-default btn-success" title="Dispatch Order" ng-disabled="selectedOrder.currentStatus.statusId == 5" ng-click="setOrderStatus(selectedOrder, 5)">Dispatch</button>
+
+            <button type="button" class="btn btn-default btn-success" title="Dispatch Order" ng-disabled="selectedOrder.currentStatus.statusId == 6" ng-click="setOrderStatus(selectedOrder, 6)">Delivered</button>
+        </div>
+        <div class="clearfix"></div><hr/>
+
+        <div class="col-lg-12">
+        <div class="col-md-6 mt10">
+            <label class="control-label">Order Time</label>
+            <input type="text" disabled class="form-control" placeholder="Pickup Time" ng-model="selectedOrder.orderTime" required/>
+            <div class="clearfix"></div>
+        </div>
+        <div class="col-md-6 mt10">
+            <label class="control-label">Status</label>
+            <input type="text" disabled class="form-control"  ng-model="selectedOrder.currentStatus.status" required/>
+            <div class="clearfix"></div>
+        </div>
+        <div class="col-md-6 mt10">
+            <label class="control-label">User</label>
+            <div ng-include ng-if="selectedOrder.user != null" src="'./views/user.html'" onload="orderUser=selectedOrder.user" />
+                <div class="clearfix"></div>
+            </div>
+            <div class="col-md-6 mt10">
+                <label class="control-label">Address</label>
+                <div ng-include ng-if="selectedOrder.address != null" src="'./views/address.html'" onload="orderAddress = selectedOrder.address" />
+                </div>
+                <div class="clearfix"></div>
+                <!-- Pickup Date -->
+                <div class="col-md-6 mt10">
+                    <label class="control-label">Pickup Time</label>
+                    <input type="text" disabled class="form-control" placeholder="Pickup Time" ng-model="selectedOrder.pickupTime" required/>
+                    <div class="clearfix"></div>
+                </div>
+                <!-- Drop Date -->
+                <div class="col-md-6 mt10">
+                    <label class="control-label">Drop Time</label>
+                    <input type="text" disabled class="form-control" placeholder="Drop Time" ng-model="selectedOrder.dropTime" required/>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="col-md-6 mt10">
+                    <label class="control-label">Pickup Person</label>
+                    <div ng-include ng-if="selectedOrder.pickupPerson != null" src="'./views/deliveryPerson.html'" onload="deliveryPerson=selectedOrder.pickupPerson" />
+                        <button ng-show="selectedOrder.pickupPerson == null" type="button" class="btn btn-default btn-success form-control" title="Assign delivery person for pickup" 
+                            data-toggle="modal" data-target="#availableDeliveryPersonsModal" ng-click="getAvailableDeliveryPersons(selectedOrder, true)">Assign</button>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="col-md-6 mt10">
+                        <label class="control-label">Drop Person</label>
+                        <div ng-include ng-if="selectedOrder.dropPerson != null" src="'./views/deliveryPerson.html'" onload="deliveryPerson=selectedOrder.dropPerson" />
+                            <button ng-show="selectedOrder.dropPerson == null" type="button" class="btn btn-default btn-success form-control" title="Assign delivery person for drop" 
+                                data-toggle="modal" data-target="#availableDeliveryPersonsModal" ng-click="getAvailableDeliveryPersons(selectedOrder, false)">Assign</button>
+                            
+                        </div>
+                        <div class="clearfix"></div>
+                        
+                        <div class="col-md-6 mt10">
+                            <label class="control-label">Iron Person</label>
+                            <div ng-include ng-if="selectedOrder.ironPerson != null" src="'./views/ironPerson.html'" onload="ironPerson=selectedOrder.ironPerson" />
+                                <button ng-if="selectedOrder.ironPerson == null" type="button" class="btn btn-default btn-success form-control" title="Assign iron person" 
+                                    data-toggle="modal" data-target="#availableIronPersonsModal" ng-click="getAvailableIronPersons(selectedOrder)">Assign</button>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="col-md-6 mt10">
+                                <label class="control-label">Store</label>
+                                <input type="text" disabled class="form-control" ng-model="selectedOrder.store.name" required/>
+                                <div class="clearfix"></div>
+                                <label class="control-label">Bag</label>
+                                <input type="text" ng-show="selectedOrder.bag != null" disabled class="form-control" ng-model="selectedOrder.bag.bagNumber" required/>
+                                <button ng-if="selectedOrder.bag == null" type="button" class="btn btn-default btn-success form-control" title="Assign bag" 
+                                    data-toggle="modal" data-target="#bagsModal" ng-click="getBags(selectedOrder)">Assign</button>
+                                <div class="clearfix"></div>
+                            </div>
+							 <div class="col-md-6 mt10">
+                                <label class="control-label"># of Items</label>
+                                <input type="text" disabled class="form-control" ng-model="selectedOrder.numberOfItems" required/>
+                                <div class="clearfix"></div>
+                                <button type="button" class="btn btn-default btn-success form-control" title="View Items" 
+                                    data-toggle="modal" data-target="#itemsModal" ng-click="viewItems(selectedOrder)">View Items</button>
+                                <div class="clearfix"></div>
+                            </div>
+                            <!-- Drop Time -->
+                            <!-- Delivery Express -->
+                            <div class="col-md-12 col-lg-12">
+                                <div class="col-md-3 col-lg-3 np mt10">
+                                    <label class="control-label">Delivery Options</label>
+                                </div>
+                                <div class="col-md-4 col-lg-4 np">
+                                    <div class="checkbox checkbox-success" title="Get delivery within an hour.">
+                                        <input id="deliveryExpress" disabled class="styled" type="checkbox" ng-model="selectedOrder.express">
+                                        <label for="deliveryExpress" class="highlight">
+                                        <i class="fa fa-align-right fg-green"></i> Express Delivery</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-lg-3 np">
+                                    <div class="checkbox checkbox-success">
+                                        <input type="checkbox" disabled class="styled" name="deliveryOptions" id="folded" ng-model="selectedOrder.folded" checked/>
+                                        <label for="folded">Folded</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 col-lg-2 np">
+                                    <div class="checkbox checkbox-success">
+                                        <input type="checkbox" disabled class="styled" name="deliveryOptions" id="hanger" ng-model="selectedOrder.hanger"/>
+                                        <label for="hanger">Hanger</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Shirt Icon -->
+                           
+                            <div class="clearfix"></div>
+                            <hr/>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="modal-footer">
+                    <!-- <input type="submit" class="btn btn-success" value="Update Order"/> -->
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+</form>
+</div>
+</div>
+</div>
+<!-- End Modal -->
